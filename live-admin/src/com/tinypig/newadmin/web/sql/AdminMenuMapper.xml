@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.AdminMenuDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.AdminMenu" >
+    <id column="mid" property="mid" jdbcType="INTEGER" />
+    <result column="menuname" property="menuname" jdbcType="CHAR" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="CHAR" />
+    <result column="show" property="show" jdbcType="CHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="BaseResultMapDto" type="com.tinypig.newadmin.web.entity.AdminMenuDto" >
+    <id column="mid" property="mid" jdbcType="INTEGER" />
+    <result column="menuname" property="menuname" jdbcType="CHAR" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="CHAR" />
+    <result column="show" property="show" jdbcType="CHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="childCount" property="childCount" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    `mid`, `menuname`, `pid`, `url`, `show`, `type`,`sort`
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.admin_menu
+    where mid = #{mid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUrl" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.admin_menu
+    where url = #{url,jdbcType=VARCHAR}
+  </select>
+  <select id="getListById" resultMap="BaseResultMapDto" parameterType="java.lang.Long" >
+    SELECT t.mid,t.menuname,t.pid,t.url,t.show,t.type,t.sort,
+	(SELECT COUNT(am.mid) FROM zhu_admin.admin_menu am WHERE am.pid=t.mid) childCount
+	FROM zhu_admin.admin_menu t WHERE t.pid=#{mid,jdbcType=BIGINT} ORDER BY sort
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zhu_admin.admin_menu
+    where mid = #{mid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.AdminMenu" >
+    insert into zhu_admin.admin_menu (mid, menuname, pid,url, show, type,sort)
+    values (#{mid,jdbcType=INTEGER}, #{menuname,jdbcType=CHAR}, #{pid,jdbcType=INTEGER}, 
+      #{url,jdbcType=CHAR}, #{show,jdbcType=CHAR}, #{type,jdbcType=CHAR}, #{sort,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.AdminMenu" >
+    insert into zhu_admin.admin_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mid != null" >
+        mid,
+      </if>
+      <if test="menuname != null" >
+        menuname,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="show != null" >
+        `show`,
+      </if>
+      <if test="type != null" >
+        `type`,
+      </if>
+      <if test="sort != null" >
+        `sort`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mid != null" >
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="menuname != null" >
+        #{menuname,jdbcType=CHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=CHAR},
+      </if>
+      <if test="show != null" >
+        #{show,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.AdminMenu" >
+    update zhu_admin.admin_menu t
+    <set >
+      <if test="menuname != null" >
+        t.menuname = #{menuname,jdbcType=CHAR},
+      </if>
+      <if test="pid != null" >
+        t.pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        t.url = #{url,jdbcType=CHAR},
+      </if>
+      <if test="show != null" >
+        t.show = #{show,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        t.type = #{type,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        t.sort = #{sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    where t.mid = #{mid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.AdminMenu" >
+    update zhu_admin.admin_menu t
+    set t.menuname = #{menuname,jdbcType=CHAR},
+      t.pid = #{pid,jdbcType=INTEGER},
+      t.url = #{url,jdbcType=CHAR},
+      t.show = #{show,jdbcType=CHAR},
+      t.type = #{type,jdbcType=CHAR},
+      t.sort = #{sort,jdbcType=INTEGER}
+    where t.mid = #{mid,jdbcType=INTEGER}
+  </update>
+</mapper>

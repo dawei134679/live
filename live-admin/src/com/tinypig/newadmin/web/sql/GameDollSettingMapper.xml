@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.GameDollSettingDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.GameDollSetting" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="claw1" property="claw1" jdbcType="INTEGER" />
+    <result column="claw2" property="claw2" jdbcType="INTEGER" />
+    <result column="claw3" property="claw3" jdbcType="INTEGER" />
+    <result column="room_inform_money" property="roomInformMoney" jdbcType="INTEGER" />
+    <result column="platform_inform_money" property="platformInformMoney" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, claw1, claw2, claw3, room_inform_money, platform_inform_money, create_time, create_user_id, 
+    update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_config.game_doll_setting
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="getGameDollSetting" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_config.game_doll_setting
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zhu_config.game_doll_setting
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.GameDollSetting" >
+    insert into zhu_config.game_doll_setting (id, claw1, claw2, 
+      claw3, room_inform_money, platform_inform_money, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
+    values (#{id,jdbcType=INTEGER}, #{claw1,jdbcType=INTEGER}, #{claw2,jdbcType=INTEGER}, 
+      #{claw3,jdbcType=INTEGER}, #{roomInformMoney,jdbcType=INTEGER}, #{platformInformMoney,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=BIGINT}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, 
+      #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.GameDollSetting" >
+    insert into zhu_config.game_doll_setting
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="claw1 != null" >
+        claw1,
+      </if>
+      <if test="claw2 != null" >
+        claw2,
+      </if>
+      <if test="claw3 != null" >
+        claw3,
+      </if>
+      <if test="roomInformMoney != null" >
+        room_inform_money,
+      </if>
+      <if test="platformInformMoney != null" >
+        platform_inform_money,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="claw1 != null" >
+        #{claw1,jdbcType=INTEGER},
+      </if>
+      <if test="claw2 != null" >
+        #{claw2,jdbcType=INTEGER},
+      </if>
+      <if test="claw3 != null" >
+        #{claw3,jdbcType=INTEGER},
+      </if>
+      <if test="roomInformMoney != null" >
+        #{roomInformMoney,jdbcType=INTEGER},
+      </if>
+      <if test="platformInformMoney != null" >
+        #{platformInformMoney,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.GameDollSetting" >
+    update zhu_config.game_doll_setting
+    <set >
+      <if test="claw1 != null" >
+        claw1 = #{claw1,jdbcType=INTEGER},
+      </if>
+      <if test="claw2 != null" >
+        claw2 = #{claw2,jdbcType=INTEGER},
+      </if>
+      <if test="claw3 != null" >
+        claw3 = #{claw3,jdbcType=INTEGER},
+      </if>
+      <if test="roomInformMoney != null" >
+        room_inform_money = #{roomInformMoney,jdbcType=INTEGER},
+      </if>
+      <if test="platformInformMoney != null" >
+        platform_inform_money = #{platformInformMoney,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.GameDollSetting" >
+    update zhu_config.game_doll_setting
+    set claw1 = #{claw1,jdbcType=INTEGER},
+      claw2 = #{claw2,jdbcType=INTEGER},
+      claw3 = #{claw3,jdbcType=INTEGER},
+      room_inform_money = #{roomInformMoney,jdbcType=INTEGER},
+      platform_inform_money = #{platformInformMoney,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Expires" CONTENT="0">
+        <meta http-equiv="Cache-Control" CONTENT="no-cache">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>麦芽直播-用户注册</title>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../common/api.js"></script>
+		<script type="text/javascript" src="../common/md5.js"></script>
+		<script type="text/javascript" src="../common/webToast/alertPopShow.js"></script>
+		<link rel="stylesheet" href="../common/webToast/webToast.css">
+		<script type="text/javascript" src="../common/layer_mobile/layer.js"></script>
+		<link rel="stylesheet" href="../common/layer_mobile/need/layer.css">
+	</head>
+	<style type="text/css">
+		html,body{
+			margin: 0;
+			height: 100%;
+			background: url(img/dabeijing.png);
+			background-size: 100% 100%;
+			width: 100%;
+		}
+		.logo{
+			width: 22%; height:15%; position: relative; margin-left: 50%; left: -11%; background: url(img/logo.png);
+			background-size: 100% 100%;
+		}
+		.was{
+			width: 90%; height: 14%; background:url(img/call.png); position: relative; 
+			margin-left: 50%; left: -45%; top: 10px; background-size: 100% 100%;
+		}
+		.centent{
+			width: 90%; height:380px; background-color:#fff; position: relative; margin-left: 50%;
+			left: -45%; margin-top:12%; border-radius:30px;
+			display:none;
+		}
+		.centent .register{
+		    width: 70%; height:42px; background-color:#fff; position:relative; top: -20px;
+		    margin-left: 50%; left: -35%; border-radius: 80px; border: 1px solid #ffbf30;
+		    box-shadow: 1px 2px 2px 1px #ffbf30; color: #ffe550; font-size:18px; line-height:38px;  text-align: center;
+		} 
+		.centent input{
+			outline:none;
+		}
+		::-webkit-input-placeholder { /* WebKit browsers */
+            color:#fcd854;
+        }
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color:#fcd854;
+        }
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color:#fcd854;
+        }
+:       -ms-input-placeholder { /* Internet Explorer 10+ */
+        color:#fcd854;
+       	}
+       .errorContent{
+			width: 90%; height:380px; background-color:#fff; position: relative; margin-left: 50%;
+			left: -45%; margin-top:12%; border-radius:30px;
+		}
+		.errorContent .errMsg{
+		    width: 70%; height:42px; background-color:#fff; position:relative; top: -20px;
+		    margin-left: 50%; left: -35%;font-size:18px; line-height:38px;  text-align: center;
+		}
+		.layui-m-layerchild h3{
+			height: 15px;
+			line-height: 15px;
+		}
+		.layui-m-layercont{
+			padding-top: 10px;
+		}
+	</style>
+	<body>
+		<div class="logo"></div>
+		<div class="was"></div>
+		<div class="centent">
+			<div class="register">
+				立即注册
+			</div>
+			<input type="number" id="phone" name="phone" placeholder="请输入手机号" style="margin-left: 26px; width: 80%; height:40px; border: 1px solid #ffe65b; color: #fcd854; border-radius: 30px; padding-left: 15px;" />
+			<input type="number" id="code" name="code" placeholder="请输入验证码" style="width: 49%; height:40px; margin-top: 10px; margin-left: 26px; border: 1px solid #ffe65b; color: #fcd854; border-radius: 30px; padding-left: 15px;" />
+			<input type="button" id="btnCode" name="btnCode" value="获取验证码" style="width: 30%; height:46px; background: url(img/yanzhengmaanniu.png); background-size: 100% 100%; border: 0; line-height: 46px; color: #fff;" />
+			<input type="text" id="nickName" name="nickName" placeholder="请创建昵称" style="margin-left: 26px; width: 80%; height:40px; border: 1px solid #ffe65b; color: #fcd854; border-radius: 30px; padding-left: 15px; margin-top: 10px;" />
+			<input type="password" id="pword" name="pword" placeholder="请设置登录密码" style="margin-left: 26px; width: 80%; height:40px; border: 1px solid #ffe65b; color: #fcd854; border-radius: 30px; padding-left: 15px; margin-top: 10px;" />
+			<span style="font-size: 8px; color: #fcd854; line-height: 10px; margin-left: 41px; position: relative; top: 5px;">注：密码只能是含数字和字母的6-16位字符</span>
+			<input type="button" id="bunSubmit" name="btnSubmit" value="确认" style="width: 80%; height:40px ; background: url(img/quedinganniu.png); border: 0; background-size: 100% 100%; color: #fff; margin-top: 12px; margin-left: 28px;" />
+			<span style="font-size: 8px; color: #fcd854; line-height: 10px; margin-left: 41px; position: relative; top: 3px;">本次活动解释权归麦芽直播所有</span>
+		</div>
+		<div class="errorContent">
+			<div class="errMsg"></div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$(function(){
+			var msg = getQueryString("m");//错误提示
+			var codestr = getQueryString("code");
+			if( (msg != '200') || (!codestr) ){
+				if(msg == '202' || msg == '203' || msg == '204'){
+					$(".errMsg").html("二维码已失效");
+				}else{
+					$(".errMsg").html("请扫码进入本页面");
+				}
+				$(".errorContent").show();
+				$(".centent").hide();
+			}else{
+				$(".errorContent").hide();
+				$(".centent").show();
+				init();//初始化
+				initWeChat()
+			}
+		});
+		var init = function(){
+			var lock;
+			var flag = true;
+			$("#btnCode").click(function(){
+				 var phone = $("#phone").val();
+				 if(!validatemobile(phone)){
+					 return;
+				 }
+				 var _html = [];
+				 _html.push('<input id="imageCode" type="text" style="border:1px solid #ddd;width: 90px;height: 37px;float: left;" placeholder="输入右侧图片内容"/>');
+				 _html.push('<img id="imgObj" style="border:1px solid #ddd;float: left;margin-left: 5px;" alt="点击图片更换" src="'+api.imageVerifyCode+'?mobile='+phone+'" onclick="changeImgCode()">');
+				 
+				 layer.open({
+					  title:'安全验证',
+					  shadeClose:true,
+					  content: _html.join(''),
+					  btn: '确认',
+					  end:function(index){
+						  if(flag){
+							  $("#btnCode").removeAttr("disabled");  
+						  }
+					  },
+				 	  yes:function(index){
+				 		 if($("#imageCode").val().length==0){
+							 webToast('请输入图片验证码',"middle",1000);
+							 return;
+						 }
+				 		var loadLayerIndex = layer.open({
+				 			shadeClose:false,
+				 			shade:'background-color: rgba(0,0,0,0.3)',
+				 		    type: 2,
+				 		    content: '加载中'
+				 		  });
+				 		 if(!flag){
+				 			 webToast('请不要频繁点击',"middle",1000);
+							 return;
+				 		 }
+				 		 flag = false;
+						 $.ajax({
+							 url:api.sendCode,
+							 data:{"mobile":phone,"type":"register","imageCode":$("#imageCode").val()},
+							 success:function(res){
+								 layer.close(loadLayerIndex);
+								 var d = JSON.parse(res);
+								 if(d==null || d.code!=200){
+									 $("#btnCode").removeAttr("disabled");
+									 webToast(d.message,"middle",1000); 
+									 if(d.code==3039 || d.code == 3007){
+										 changeImgCode();
+									 }
+									 flag =true;
+				 					 return;
+								 }
+								 layer.close(index);
+								 $("#btnCode").attr({"disabled":"disabled"});
+								 flag = true;
+								 webToast('验证码已发送',"middle",1000); 
+								 var num = 60;
+								 lock = setInterval(function(){
+									 if(num>0){
+										 $("#btnCode").val(num+"秒后获取");
+										 num--;
+									 }else{
+										 clearInterval(lock);
+										 $("#btnCode").attr({"disabled":"false","value":"重新获取"});
+										 $("#btnCode").removeAttr("disabled");
+									 }
+								 },1000);
+							 },
+			 				 error:function(jqXHR, textStatus, errorThrown){
+			 					 layer.close(layer.close);
+								 $("#btnCode").removeAttr("disabled");
+			 					 webToast('获取验证码失败',"middle",1000);
+			 					 flag =true;
+			 					 return;
+							 }
+						 });
+				 	  }
+				 });
+		  });
+		  $("#bunSubmit").click(function(){
+			  var codestr = getQueryString("code");
+			  var phone = $("#phone").val();
+			  var code = $("#code").val();
+			  var nickName = $("#nickName").val();
+			  var pword = $("#pword").val();
+			  if(!validatemobile(phone)){
+				   return;
+			  }
+			  if((!codestr) || codestr.length==0){
+				  webToast('请重新扫码进入页面',"middle",1000); 
+				  return;
+			  }
+			  if(code.length==0){
+				  webToast('请输入验证码',"middle",1000); 
+				  return;
+			  }
+			  if(nickName.length==0){
+				  webToast('请输入昵称',"middle",1000); 
+				  return;
+			  }
+			  if(isEmojiCharacter(nickName)){
+				  webToast('昵称不支持表情符号',"middle",1000); 
+				  return;
+			  }
+			  if(pword.length==0){
+				  webToast('请输入登录密码',"middle",1000); 
+				  return;
+			  }
+			  if(pword.length<6||pword.length>16){
+				  webToast('密码长度不正确',"middle",1000); 
+				  return;
+			  }
+			  var pwordReg = /^[0-9a-zA-Z]*$/g;
+			  if(!pwordReg.test(phone)){ 
+				  webToast('密码格式不正确',"middle",1000); 
+				  return;
+			  }
+			  $.ajax({
+				  url:api.register,
+				  data:{"mobile":phone,"nickName":nickName,"pword":md5(pword),"code":code,"os":0,"channel":"web","imei":"","source":"mobile","codestr":encodeURIComponent(codestr)},
+				  success:function(res){
+					  if(res==null){
+					 	 webToast('注册失败',"middle",1000); 
+	 					 return;
+					  }
+					  var d = JSON.parse(res);
+					  if(d.code!=200){
+						 webToast(d.message,"middle",1000); 
+	 					 return;
+					  }
+					 layer.open({
+						  shadeClose:false,
+						  content: '注册成功，请去麦芽APP登录',
+						  btn: '确认',
+					 	  yes:function(index){
+					 		 window.location.href = "http://maiya.zhibozhaoshang.com"; 
+					 	  }
+					 });
+				  },
+ 				  error:function(jqXHR, textStatus, errorThrown){
+ 					 webToast('获取验证码失败',"middle",1000); 
+ 					 return;
+				  }
+			  });
+		  });
+	}//end init
+	
+    function validatemobile(mobile){ 
+        if(mobile.length==0){ 
+           webToast('请输入手机号码',"middle",1000); 
+           return false; 
+        }     
+        if(mobile.length!=11){ 
+            webToast('请输入有效的手机号码',"middle",1000); 
+            return false; 
+        } 
+        var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(14[7])|(16[0-9]{1})|(17[0-9]{1})|(18[0-9]{1})|(19[0-9]{1}))+\d{8})$/; 
+        if(!myreg.test(mobile)){ 
+            webToast('请输入有效的手机号码',"middle",1000); 
+            return false; 
+        }
+        return true;        
+    } 
+    function getQueryString(name){
+         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+         var r = window.location.search.substr(1).match(reg);
+         if(r!=null)return  unescape(r[2]); return null;
+    }
+    function isEmojiCharacter(substring) {  
+        for ( var i = 0; i < substring.length; i++) {  
+            var hs = substring.charCodeAt(i);  
+            if (0xd800 <= hs && hs <= 0xdbff) {  
+                if (substring.length > 1) {  
+                    var ls = substring.charCodeAt(i + 1);  
+                    var uc = ((hs - 0xd800) * 0x400) + (ls - 0xdc00) + 0x10000;  
+                    if (0x1d000 <= uc && uc <= 0x1f77f) {  
+                        return true;  
+                    }  
+                }  
+            } else if (substring.length > 1) {  
+                var ls = substring.charCodeAt(i + 1);  
+                if (ls == 0x20e3) {  
+                    return true;  
+                }  
+            } else {  
+                if (0x2100 <= hs && hs <= 0x27ff) {  
+                    return true;  
+                } else if (0x2B05 <= hs && hs <= 0x2b07) {  
+                    return true;  
+                } else if (0x2934 <= hs && hs <= 0x2935) {  
+                    return true;  
+                } else if (0x3297 <= hs && hs <= 0x3299) {  
+                    return true;  
+                } else if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030  
+                        || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b  
+                        || hs == 0x2b50) {  
+                    return true;  
+                }  
+            }  
+        }  
+    } 
+    function changeImgCode() {        
+        var imgSrc = $("#imgObj");    
+        var src = imgSrc.attr("src");        
+        imgSrc.attr("src", chgUrl(src));
+    }
+    function chgUrl(url) {
+        var timestamp = (new Date()).valueOf();
+        var index = url.indexOf("&timestamp");
+        if(-1==index){
+        	return url + "&timestamp="+timestamp;
+        }
+        return url.substring(0,index)+"&timestamp="+timestamp;
+    }
+    
+    function changeImgCode() {        
+        var imgSrc = $("#imgObj");    
+        var src = imgSrc.attr("src");        
+        imgSrc.attr("src", chgUrl(src));
+    }
+    function chgUrl(url) {
+        var timestamp = (new Date()).valueOf();
+        var index = url.indexOf("&timestamp");
+        if(-1==index){
+        	return url + "&timestamp="+timestamp;
+        }
+        return url.substring(0,index)+"&timestamp="+timestamp;
+    }
+    function initWeChat(){
+    	$.ajax({
+    		url:api.getWebChatSign,
+    	    data:{'url':window.location.href},
+    	    success:function(res){
+    	    	if(res.code!=200){
+    	    		return;
+    	    	}
+    	    	wx.config({
+    	    	    debug: false,
+    	    	    appId: res.data.appid,
+    	    	    timestamp: res.data.timestamp,
+    	    	    nonceStr: res.data.nonceStr,
+    	    	    signature: res.data.signature,
+    	    	    jsApiList: [
+    	    	      'onMenuShareTimeline',
+    	    	      'onMenuShareAppMessage',
+    	    	      'onMenuShareQQ',
+    	    	      'onMenuShareQZone',
+    	    	      'onMenuShareWeibo'
+    	    	    ]
+    	    	});
+    	    
+    	    	wx.ready(function() {
+    	    		var title = '麦芽直播';
+    	    		var desc = '麦芽直播-用户注册';
+    	    		var link = window.location.href;
+    	    		var imgUrl  = 'http://image-default.jieyingkj.com/201808201614221.png'
+    	    		
+    	    		wx.onMenuShareAppMessage({
+    	    		    title: title,
+    	    		    desc: desc,
+    	    		    link: link,
+    	    		    imgUrl: imgUrl,
+    	    		    trigger: function (res) {
+    	    		    },
+    	    		    success: function (res) {
+    	    		    },
+    	    		    cancel: function (res) {
+    	    		    },
+    	    		    fail: function (res) {
+    	    		    }
+    	    		  });
+    	    		
+    	    		wx.onMenuShareTimeline({
+    	    			title: title,
+    	    		    desc: desc,
+    	    		    link: link,
+    	    		    imgUrl: imgUrl,
+    	    	        trigger: function (res) {
+    	    	       },
+    	    	        success: function (res) {
+    	    	        },
+    	    	        cancel: function (res) {
+    	    	        },
+    	    	        fail: function (res) {
+    	    	        }
+    	    	    });
+    	    		 wx.onMenuShareQQ({
+    	    			  title: title,
+    	    		      desc: desc,
+    	    		      link: link,
+    	    		      imgUrl: imgUrl,
+    	    		      trigger: function (res) {
+    	    		      },
+    	    		      complete: function (res) {
+    	    		      },
+    	    		      success: function (res) {
+    	    		      },
+    	    		      cancel: function (res) {
+    	    		      },
+    	    		      fail: function (res) {
+    	    		      }
+    	    		    });
+    	    		  
+    	    		 wx.onMenuShareWeibo({
+    	    			  title: title,
+    	    		      desc: desc,
+    	    		      link: link,
+    	    		      imgUrl: imgUrl,
+    	    		      trigger: function (res) {
+    	    		      },
+    	    		      complete: function (res) {
+    	    		      },
+    	    		      success: function (res) {
+    	    		      },
+    	    		      cancel: function (res) {
+    	    		      },
+    	    		      fail: function (res) {
+    	    		      }
+    	    		    });
+
+    	    		 wx.onMenuShareQZone({
+    	    			  title: title,
+    	    		      desc: desc,
+    	    		      link: link,
+    	    		      imgUrl: imgUrl,
+    	    		      trigger: function (res) {
+    	    		      },
+    	    		      complete: function (res) {
+    	    		      },
+    	    		      success: function (res) {
+    	    		      },
+    	    		      cancel: function (res) {
+    	    		      },
+    	    		      fail: function (res) {
+    	    		      }
+    	    		    });
+    	    	});
+    	    },
+    	    error:function(jqXHR, textStatus, errorThrown){
+			 }
+    	});
+    	
+    }
+	</script>
+</html>

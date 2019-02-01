@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.BillcvgInfoDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.BillcvgInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="anchorid" property="anchorid" jdbcType="INTEGER" />
+    <result column="gid" property="gid" jdbcType="INTEGER" />
+    <result column="gname" property="gname" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="addtime" property="addtime" jdbcType="INTEGER" />
+    <result column="starttime" property="starttime" jdbcType="INTEGER" />
+    <result column="endtime" property="endtime" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="realpricetotal" property="realpricetotal" jdbcType="INTEGER" />
+    <result column="gstatus" property="gstatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, anchorid, gid, gname, realpricetotal,count, addtime, starttime, endtime, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_bill.bill_cvg_list
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zhu_bill.bill_cvg_list
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.BillcvgInfo" >
+    insert into zhu_bill.bill_cvg_list (id, uid, anchorid, 
+      gid, gname,realpricetotal, count, 
+      addtime, starttime, endtime, 
+      type)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{anchorid,jdbcType=INTEGER}, 
+      #{gid,jdbcType=INTEGER}, #{gname,jdbcType=VARCHAR},#{realpricetotal,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, 
+      #{addtime,jdbcType=INTEGER}, #{starttime,jdbcType=INTEGER}, #{endtime,jdbcType=INTEGER}, 
+      #{type,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.BillcvgInfo" >
+    insert into zhu_bill.bill_cvg_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="anchorid != null" >
+        anchorid,
+      </if>
+      <if test="gid != null" >
+        gid,
+      </if>
+      <if test="gname != null" >
+        gname,
+      </if>
+      <if test="realpricetotal != null" >
+        realpricetotal,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="starttime != null" >
+        starttime,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="anchorid != null" >
+        #{anchorid,jdbcType=INTEGER},
+      </if>
+      <if test="gid != null" >
+        #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="gname != null" >
+        #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="realpricetotal != null" >
+        #{realpricetotal,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=INTEGER},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.BillcvgInfo" >
+    update zhu_bill.bill_cvg_list
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="anchorid != null" >
+        anchorid = #{anchorid,jdbcType=INTEGER},
+      </if>
+      <if test="gid != null" >
+        gid = #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="gname != null" >
+        gname = #{gname,jdbcType=VARCHAR},
+      </if>
+      <if test="realpricetotal != null" >
+        realpricetotal = #{realpricetotal,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        starttime = #{starttime,jdbcType=INTEGER},
+      </if>
+      <if test="endtime != null" >
+        endtime = #{endtime,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.BillcvgInfo" >
+    update zhu_bill.bill_cvg_list
+    set uid = #{uid,jdbcType=INTEGER},
+      anchorid = #{anchorid,jdbcType=INTEGER},
+      gid = #{gid,jdbcType=INTEGER},
+      gname = #{gname,jdbcType=VARCHAR},
+      realpricetotal = #{realpricetotal,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=INTEGER},
+      starttime = #{starttime,jdbcType=INTEGER},
+      endtime = #{endtime,jdbcType=INTEGER},
+      type = #{type,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getcvgStaList" parameterType="com.tinypig.newadmin.web.vo.BillcvgParamVo" resultMap="BaseResultMap">
+		select
+			t.id, t.uid, t.anchorid, t.gid, t.gname, t.count, t.addtime, t.starttime, t.endtime, t.type,
+			t.realpricetotal,IF(t.endtime>UNIX_TIMESTAMP(NOW()),0,1) gstatus
+		from zhu_bill.bill_cvg_list t
+		where 1=1
+		<if test="uid != null and uid != ''">
+			and t.uid=#{uid}
+		</if>
+		<if test="anchorid !=null and anchorid != ''">
+			and t.anchorid=#{anchorid}
+		</if>
+		<if test="startTime != null and startTime != ''">
+			<![CDATA[ and t.addtime >=UNIX_TIMESTAMP(#{startTime})]]>     
+		 </if> 
+		<if test="endTime != null and endTime != ''">
+			<![CDATA[ and t.addtime <=UNIX_TIMESTAMP(CONCAT(#{endTime},' 23:59:59'))]]>     
+		</if>
+		<if test="type!=null and type != ''">
+			and t.type=#{type}
+		</if>
+		<if test="gname!=null and gname != ''">
+			and t.gname like concat("%",#{gname},"%")
+		</if>
+		<if test="gstatus != null" >
+		  	<if test="gstatus == 0">
+		  		<![CDATA[ and t.endtime>UNIX_TIMESTAMP(NOW()) ]]>
+		  	</if>
+		  	<if test="gstatus == 1">
+		  		<![CDATA[ and t.endtime<=UNIX_TIMESTAMP(NOW()) ]]>
+		  	</if>
+		</if>
+		order by addtime limit #{startIndex},#{pageSize}
+  </select>
+  <select id="getAllCvgStaList" parameterType="com.tinypig.newadmin.web.vo.BillcvgParamVo" resultType="java.util.Map">
+	select
+		t.id, t.uid,t.gid, t.gname, t.count,t.realpricetotal,
+		IF(t.anchorid=0,'后台添加',t.anchorid) anchorid, 
+		FROM_UNIXTIME(t.addtime,'%Y-%m-%d %H:%i:%s') `addtime`,
+		FROM_UNIXTIME(t.starttime,'%Y-%m-%d %H:%i:%s') `starttime`,
+		FROM_UNIXTIME(t.endtime,'%Y-%m-%d %H:%i:%s') `endtime`,
+		(case t.type when 0 then '座驾' when 1 then 'vip' when 2 then '守护' end) type,
+		IF(t.endtime>UNIX_TIMESTAMP(NOW()),'未过期','过期') gstatus,
+		
+		  b1.salesman_id salesmanId1,
+		  c1.name salesmanName1,
+		  c1.contacts_phone salesmanContactsPhone1,
+		  b1.agent_user_id agentUserId1,
+		  d1.name agentUserName1,
+		  d1.contacts agentUserContactsName1,
+		  d1.contacts_phone agentUserContactsPhone1,
+		  b1.promoters_id promotersId1,
+		  e1.name promotersName1,
+		  e1.contacts promotersContactsName1,
+		  e1.contacts_phone promotersContactsPhone1,
+		  b1.extension_center_id extensionCenterId1,
+		  f1.name extensionCenterName1,
+		  f1.contacts extensionCenterContactsName1,
+		  f1.contacts_phone extensionCenterContactsPhone1, 
+		  g1.name strategicPartnerName1,
+		  g1.contacts strategicPartnerContactsName1,
+		  g1.contacts_phone strategicPartnerContactsPhone1,
+		  
+		  b2.salesman_id salesmanId2,
+		  c2.name salesmanName2,
+		  c2.contacts_phone salesmanContactsPhone2,
+		  b2.agent_user_id agentUserId2,
+		  d2.name agentUserName2,
+		  d2.contacts agentUserContactsName2,
+		  d2.contacts_phone agentUserContactsPhone2,
+		  b2.promoters_id promotersId2,
+		  e2.name promotersName2,
+		  e2.contacts promotersContactsName2,
+		  e2.contacts_phone promotersContactsPhone2,
+		  b2.extension_center_id extensionCenterId2,
+		  f2.name extensionCenterName2,
+		  f2.contacts extensionCenterContactsName2,
+		  f2.contacts_phone extensionCenterContactsPhone2, 
+		  g2.name strategicPartnerName2,
+		  g2.contacts strategicPartnerContactsName2,
+		  g2.contacts_phone strategicPartnerContactsPhone2
+		  		  			
+		from zhu_bill.bill_cvg_list t
+
+		LEFT JOIN zhu_admin.t_user_org_relation b1 ON b1.uid = t.uid 
+		LEFT JOIN zhu_admin.t_salesman c1 ON b1.salesman_id=c1.id 
+		LEFT JOIN zhu_admin.t_agent_user d1 ON b1.agent_user_id = d1.id 
+		LEFT JOIN zhu_admin.t_promoters e1 ON b1.promoters_id= e1.id
+		LEFT JOIN zhu_admin.t_extension_center f1 ON b1.extension_center_id=f1.id
+		LEFT JOIN zhu_admin.t_strategic_partner g1 ON b1.strategic_partner_id=g1.id
+		LEFT JOIN zhu_user.support_user_list h1 ON b1.uid=h1.uid and h1.status=1
+		LEFT JOIN zhu_user.user_ration_info i1 ON b1.uid=i1.uid
+		
+		LEFT JOIN zhu_admin.t_user_org_relation b2 ON b2.uid = t.anchorid 
+		LEFT JOIN zhu_admin.t_salesman c2 ON b2.salesman_id=c2.id 
+		LEFT JOIN zhu_admin.t_agent_user d2 ON b2.agent_user_id = d2.id 
+		LEFT JOIN zhu_admin.t_promoters e2 ON b2.promoters_id= e2.id
+		LEFT JOIN zhu_admin.t_extension_center f2 ON b2.extension_center_id=f2.id
+		LEFT JOIN zhu_admin.t_strategic_partner g2 ON b2.strategic_partner_id=g2.id
+		LEFT JOIN zhu_user.support_user_list h2 ON b2.uid=h2.uid and h2.status=1
+		LEFT JOIN zhu_user.user_ration_info i2 ON b2.uid=i2.uid
+		
+		where 1=1
+		<if test="uid != null and uid != ''">
+			and t.uid=#{uid}
+		</if>
+		<if test="anchorid !=null and anchorid != ''">
+			and t.anchorid=#{anchorid}
+		</if>
+		<if test="startTime != null and startTime != ''">
+			<![CDATA[ and t.addtime >=UNIX_TIMESTAMP(#{startTime})]]>     
+		 </if> 
+		<if test="endTime != null and endTime != ''">
+			<![CDATA[ and t.addtime <=UNIX_TIMESTAMP(CONCAT(#{endTime},' 23:59:59'))]]>     
+		</if>
+		<if test="type!=null and type != ''">
+			and t.type=#{type}
+		</if>
+		<if test="gname!=null and gname != ''">
+			and t.gname like concat("%",#{gname},"%")
+		</if>
+		<if test="gstatus != null" >
+		  	<if test="gstatus == 0">
+		  		<![CDATA[ and t.endtime>UNIX_TIMESTAMP(NOW()) ]]>
+		  	</if>
+		  	<if test="gstatus == 1">
+		  		<![CDATA[ and t.endtime<=UNIX_TIMESTAMP(NOW()) ]]>
+		  	</if>
+		</if>
+		order by t.addtime
+  </select>
+  <select id="getgetcvgStaCount" parameterType="com.tinypig.newadmin.web.vo.BillcvgParamVo" resultType="java.util.Map">
+		select count(id) total
+		from zhu_bill.bill_cvg_list
+		where 1=1
+		<if test="uid != null and uid != ''">
+			and uid=#{uid}
+		</if>
+		<if test="anchorid !=null and anchorid != ''">
+			and anchorid=#{anchorid}
+		</if>
+		<if test="startTime != null and startTime != ''">
+			<![CDATA[ and addtime >=UNIX_TIMESTAMP(#{startTime})]]>     
+		 </if> 
+		<if test="endTime != null and endTime != ''">
+			<![CDATA[ and addtime <=UNIX_TIMESTAMP(CONCAT(#{endTime},' 23:59:59'))]]>     
+		</if>
+		<if test="type!=null and type != ''">
+			and type=#{type}
+		</if>
+		<if test="gname!=null and gname != ''">
+			and gname like concat("%",#{gname},"%")
+		</if>
+		<if test="gstatus != null" >
+		  	<if test="gstatus == 0">
+		  		<![CDATA[ and endtime>UNIX_TIMESTAMP(NOW()) ]]>
+		  	</if>
+		  	<if test="gstatus == 1">
+		  		<![CDATA[ and endtime<=UNIX_TIMESTAMP(NOW()) ]]>
+		  	</if>
+		</if>
+  </select>
+</mapper>

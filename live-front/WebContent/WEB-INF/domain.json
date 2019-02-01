@@ -1,0 +1,30 @@
+{
+  "videos": {
+    "video_anchors": {
+      "line": [
+        {
+          "id": "2",
+          "host": "pili-publish.test.jieyingkj.com",
+          "domain": "rtmp://pili-publish.test.jieyingkj.com:1935/maiya-live-test",
+          "pageUrl": "http://192.168.20.251",
+          "port": "1935",
+          "key": "-LXP7KiF8d4xkNEkZprl1wDyvRUl5mEyBsse-Www",
+          "shareUrl": "http://192.168.20.251/newShare/share.html"
+        }
+      ]
+    },
+    "video_users": {
+      "line": [
+        {
+          "id": "2",
+          "host": "pili-live-rtmp.test.jieyingkj.com",
+          "hls":"http://pili-live-hls.test.jieyingkj.com/maiya-live-test",
+          "domain": "rtmp://pili-live-rtmp.test.jieyingkj.com:1935/maiya-live-test",
+          "pageUrl": "http://192.168.20.251",
+          "port": "1935",
+          "shareUrl": "http://192.168.20.251/newShare/share.html"
+        }
+      ]
+    }
+  }
+}

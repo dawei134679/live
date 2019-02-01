@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/tx
+     	   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+           
+	<!--外部数据库配置文件引入 -->
+	<bean id="propertyPlaceholderConfigurerJdbc"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config/datasource.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
+	<!-- 自动扫描的包名 -->
+	<context:component-scan base-package="com.tinypig" use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+
+	<!--  配置数据源-使用aibaba的Druid -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${Database.DriverClassName}" />
+		<!-- 基本属性 url、user、password -->
+		<property name="url" value="${Database.Url.Web}" />
+		<property name="username" value="${Database.Username.Web}" />
+		<property name="password" value="${Database.Password.Web}" />
+		<property name="validationQuery" value="true" />
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="10" />
+		<property name="minIdle" value="1" />
+		<property name="maxActive" value="100" />
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="60000" />
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+	</bean>
+
+
+	<!-- 配置SqlSessionFactory -->
+	<bean id="webSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:com/tinypig/newadmin/web/sql/*.xml" />
+	</bean>
+
+	<!--
+		MapperScannerConfigurer的Scanner类负责搜索basePackage类下所有的MapperClass并将其注册至spring的beanfinitionHolder中，其注册的classBean为MapperFactoryBean
+	-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		p:basePackage="com.tinypig.newadmin.web.dao" p:sqlSessionFactoryBeanName="webSqlSessionFactory"/>
+
+	<!-- 事务配置-事物管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!--AOP 事务配置 -配置切面-->
+	<aop:config>
+		<aop:pointcut id="interceptorPointCuts" expression="execution(* com..*.service.impl.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="interceptorPointCuts" />
+	</aop:config>
+
+	<!--AOP 事务配置 -配置事物传播特性-->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="edit*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<!-- 触发进行回滚的 Exception -->
+			<tx:method name="*" rollback-for="Exception" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- tx:annotation 自动配置事务，注意这个标签必需放在tx:advice下面，否则不起作用 -->  
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+</beans>

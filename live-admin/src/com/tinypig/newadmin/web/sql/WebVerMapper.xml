@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.WebVerDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.WebVer" >
+    <result column="iosVer" property="iosver" jdbcType="VARCHAR" />
+    <result column="iosAt" property="iosat" jdbcType="INTEGER" />
+    <result column="androidVer" property="androidver" jdbcType="VARCHAR" />
+    <result column="androidAt" property="androidat" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.WebVer" >
+    insert into web_ver (iosVer, iosAt, androidVer, 
+      androidAt)
+    values (#{iosver,jdbcType=VARCHAR}, #{iosat,jdbcType=INTEGER}, #{androidver,jdbcType=VARCHAR}, 
+      #{androidat,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.WebVer" >
+    insert into web_ver
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="iosver != null" >
+        iosVer,
+      </if>
+      <if test="iosat != null" >
+        iosAt,
+      </if>
+      <if test="androidver != null" >
+        androidVer,
+      </if>
+      <if test="androidat != null" >
+        androidAt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="iosver != null" >
+        #{iosver,jdbcType=VARCHAR},
+      </if>
+      <if test="iosat != null" >
+        #{iosat,jdbcType=INTEGER},
+      </if>
+      <if test="androidver != null" >
+        #{androidver,jdbcType=VARCHAR},
+      </if>
+      <if test="androidat != null" >
+        #{androidat,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

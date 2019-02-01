@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hkzb.game.dao.AllBetRecordMapper">
+	<resultMap id="BaseResultMap" type="com.hkzb.game.model.BetRecord">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="anchor_id" jdbcType="BIGINT" property="anchorId" />
+		<result column="uid" jdbcType="BIGINT" property="uid" />
+		<result column="bet_total" jdbcType="BIGINT" property="betTotal" />
+		<result column="capital_total" jdbcType="BIGINT" property="capitalTotal" />
+		<result column="aw_total" jdbcType="BIGINT" property="awTotal" />
+		<result column="commission" jdbcType="DOUBLE" property="commission" />
+		<result column="commission_total" jdbcType="BIGINT" property="commissionTotal" />
+		<result column="deserved_total" jdbcType="BIGINT" property="deservedTotal" />
+		<result column="periods" jdbcType="BIGINT" property="periods" />
+		<result column="status" jdbcType="BIT" property="status" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, anchor_id, uid, bet_total, capital_total, aw_total, commission,
+		commission_total,
+		deserved_total, periods, status
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from all_bet_record
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="getBetRecord" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from all_bet_record
+		where periods = #{periods}
+		and uid = #{uid}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		all_bet_record
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.hkzb.game.model.BetRecord">
+		insert into all_bet_record (id, anchor_id, uid,
+		bet_total, capital_total, aw_total,
+		commission, commission_total, deserved_total,
+		periods, status)
+		values (#{id,jdbcType=BIGINT}, #{anchorId,jdbcType=BIGINT},
+		#{uid,jdbcType=BIGINT},
+		#{betTotal,jdbcType=BIGINT}, #{capitalTotal,jdbcType=BIGINT}, #{awTotal,jdbcType=BIGINT},
+		#{commission,jdbcType=DOUBLE}, #{commissionTotal,jdbcType=BIGINT},
+		#{deservedTotal,jdbcType=BIGINT},
+		#{periods,jdbcType=BIGINT}, #{status,jdbcType=BIT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.hkzb.game.model.BetRecord">
+		insert into all_bet_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="anchorId != null">
+				anchor_id,
+			</if>
+			<if test="uid != null">
+				uid,
+			</if>
+			<if test="betTotal != null">
+				bet_total,
+			</if>
+			<if test="capitalTotal != null">
+				capital_total,
+			</if>
+			<if test="awTotal != null">
+				aw_total,
+			</if>
+			<if test="commission != null">
+				commission,
+			</if>
+			<if test="commissionTotal != null">
+				commission_total,
+			</if>
+			<if test="deservedTotal != null">
+				deserved_total,
+			</if>
+			<if test="periods != null">
+				periods,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="anchorId != null">
+				#{anchorId,jdbcType=BIGINT},
+			</if>
+			<if test="uid != null">
+				#{uid,jdbcType=BIGINT},
+			</if>
+			<if test="betTotal != null">
+				#{betTotal,jdbcType=BIGINT},
+			</if>
+			<if test="capitalTotal != null">
+				#{capitalTotal,jdbcType=BIGINT},
+			</if>
+			<if test="awTotal != null">
+				#{awTotal,jdbcType=BIGINT},
+			</if>
+			<if test="commission != null">
+				#{commission,jdbcType=DOUBLE},
+			</if>
+			<if test="commissionTotal != null">
+				#{commissionTotal,jdbcType=BIGINT},
+			</if>
+			<if test="deservedTotal != null">
+				#{deservedTotal,jdbcType=BIGINT},
+			</if>
+			<if test="periods != null">
+				#{periods,jdbcType=BIGINT},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=BIT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.hkzb.game.model.BetRecord">
+		<set>
+			<if test="anchorId != null">
+				anchor_id = #{anchorId,jdbcType=BIGINT},
+			</if>
+			<if test="uid != null">
+				uid = #{uid,jdbcType=BIGINT},
+			</if>
+			<if test="betTotal != null">
+				bet_total = #{betTotal,jdbcType=BIGINT},
+			</if>
+			<if test="capitalTotal != null">
+				capital_total = #{capitalTotal,jdbcType=BIGINT},
+			</if>
+			<if test="awTotal != null">
+				aw_total = #{awTotal,jdbcType=BIGINT},
+			</if>
+			<if test="commission != null">
+				commission = #{commission,jdbcType=DOUBLE},
+			</if>
+			<if test="commissionTotal != null">
+				commission_total = #{commissionTotal,jdbcType=BIGINT},
+			</if>
+			<if test="deservedTotal != null">
+				deserved_total = #{deservedTotal,jdbcType=BIGINT},
+			</if>
+			<if test="periods != null">
+				periods = #{periods,jdbcType=BIGINT},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=BIT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.hkzb.game.model.BetRecord">
+		update all_bet_record
+		set anchor_id = #{anchorId,jdbcType=BIGINT},
+		uid = #{uid,jdbcType=BIGINT},
+		capital_total = #{capitalTotal,jdbcType=BIGINT},
+		commission = #{commission,jdbcType=DOUBLE},
+		commission_total = #{commissionTotal,jdbcType=BIGINT},
+		deserved_total = #{deservedTotal,jdbcType=BIGINT},
+		periods = #{periods,jdbcType=BIGINT},
+		status = #{status,jdbcType=BIT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

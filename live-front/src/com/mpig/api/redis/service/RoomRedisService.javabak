@@ -1,0 +1,604 @@
+package com.mpig.api.redis.service;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Set;
+
+import com.mpig.api.db.RedisDB;
+import com.mpig.api.redis.core.RedisBucket;
+import com.mpig.api.utils.DateUtils;
+import com.mpig.api.utils.RedisContant;
+
+public class RoomRedisService {
+
+	private static final Long pageSiz = 15L;
+
+	/**
+	 * 新增关注别人数量
+	 * 
+	 * @param srcUid
+	 *            关注始发人
+	 * @param dstUid
+	 *            关注目标人 srcUid 关注了dstUid
+	 * @param type
+	 *            =on 关注 =off 取消关注
+	 * @return
+	 */
+	public static int addFollows(Integer srcUid, Integer dstUid, Double score,
+			String type) {
+		
+		RedisBucket.getInstance().getPool("").getResource();
+		
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		long ires = 0L;
+		if ("on".equalsIgnoreCase(type)) {
+			ires = redisDB.zadd(RedisContant.keyFollows + srcUid, score,
+					String.valueOf(dstUid));
+		} else {
+			ires = redisDB.zrem(RedisContant.keyFollows + srcUid,
+					String.valueOf(dstUid));
+		}
+		return (int) ires;
+	}
+
+	/**
+	 * 获取该用户进入房间的总次数，利于关注列表的排序
+	 * 
+	 * @param srcUid
+	 *            用户
+	 * @param dstUid
+	 *            主播
+	 * @return
+	 */
+	public static Double isFollows(Integer srcUid, Integer dstUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		return redisDB.zscore(RedisContant.keyFollows + srcUid,
+				dstUid.toString());
+	}
+
+	/**
+	 * 获取关注数
+	 * 
+	 * @param srcUid
+	 * @return
+	 */
+	public static Set<String> getFollows(Integer srcUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		return redisDB.zrevrange(RedisContant.keyFollows + srcUid, 0L, -1L);
+	}
+
+	/**
+	 * 新增粉丝
+	 * 
+	 * @param dstUid
+	 *            该用户新增粉丝
+	 * @param srcUid
+	 *            该用户成为dstUid的粉丝
+	 * @param type
+	 *            =on 表示新增 =off 取消
+	 * @return
+	 */
+	public static int addFans(Integer dstUid, Integer srcUid, Double score,
+			String type) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		long ires = 0L;
+		if ("on".equalsIgnoreCase(type)) {
+			ires = redisDB.zadd(RedisContant.keyFollows + dstUid, score,
+					String.valueOf(srcUid));
+		} else {
+			ires = redisDB.zrem(RedisContant.keyFollows + dstUid,
+					String.valueOf(srcUid));
+		}
+		return (int) ires;
+	}
+
+	/**
+	 * 获取粉丝的score
+	 * 
+	 * @param dstUid
+	 * @param srcUid
+	 * @return
+	 */
+	public static Double isFans(Integer dstUid, Integer srcUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		return redisDB.zscore(RedisContant.keyFollows + dstUid,
+				srcUid.toString());
+
+	}
+
+	/**
+	 * 获取该用户的粉丝数量
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static int getFansTotal(Integer uid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		return redisDB.zcard(RedisContant.keyFollows + uid).intValue();
+	}
+
+	/**
+	 * 获取粉丝列表
+	 * 
+	 * @param uid
+	 * @return Set value是uid
+	 */
+	public static Set<String> getFans(int uid, int pages) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		if (pages > 0) {
+			return redisDB.zrevrange(
+					RedisContant.keyFollows + String.valueOf(uid), (pages - 1)
+							* pageSiz, pages * pageSiz);
+		} else {
+			return redisDB.zrevrange(
+					RedisContant.keyFollows + String.valueOf(uid), 0L, -1L);
+		}
+	}
+
+	/**
+	 * 判断是否关注关系
+	 * 
+	 * @param srcUid
+	 *            srcUid 是否关注了dstUid
+	 * @param dstUid
+	 * @return
+	 */
+	public static Boolean isFan(Integer srcUid, Integer dstUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		String str = redisDB.hget(RedisContant.keyFollows + srcUid,
+				String.valueOf(dstUid));
+		if (str == null || "".equals(str)) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * 增加用户总喜欢数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static int addLikes(int uid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		return redisDB.incr(RedisContant.KeyLikes + uid).intValue();
+	}
+
+	/**
+	 * 获取用户总喜欢数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static int getLikes(int uid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		String str = redisDB.get(RedisContant.KeyLikes + uid);
+		if (str == null || "".equals(str)) {
+			return 0;
+		}
+		return Integer.parseInt(str);
+	}
+
+	/**
+	 * 增加本场用户喜欢数 开播时需要清空
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static int addRoomLikes(int uid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		return redisDB.incr(RedisContant.KeyRoomLikes + uid).intValue();
+	}
+
+	/**
+	 * 获取本场用户人数
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static int getRoomLikes(int uid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		String str = redisDB.get(RedisContant.KeyRoomLikes + uid);
+		if (str == null || "".equals(str)) {
+			return 0;
+		} else {
+			return Integer.valueOf(str);
+		}
+	}
+
+	/**
+	 * 开播时 清空数据
+	 * 
+	 * @param uid
+	 */
+	public static void delRoomLikes(int uid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		redisDB.del(RedisContant.KeyRoomLikes + uid);
+	}
+
+	/**
+	 * 记录主播开播后心跳时间
+	 * 
+	 * @param uid
+	 * @param micid
+	 *            麦时表ID
+	 * @param times
+	 *            心跳时间
+	 */
+	public static void addRoomEndTime(Integer uid, int micid, Long times) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+		redisDB.hset(RedisContant.keyStartLive, uid.toString(), micid + ","
+				+ times, 0);
+	}
+
+	/**
+	 * 获取主播最后一次心跳时间
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static String getRoomEndTime(Integer uid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+		return redisDB.hget(RedisContant.keyStartLive, uid.toString());
+	}
+
+	/**
+	 * 删除本场心跳记录
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static Long delRoomEndTime(Integer uid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+		return redisDB.hdel(RedisContant.keyStartLive, uid.toString());
+	}
+
+	/**
+	 * 用户进房缓存
+	 * 
+	 * @param srcUid
+	 *            用户
+	 * @param dstUid
+	 *            主播
+	 */
+	public static void userIntoRoom(int srcUid, int dstUid, Double score) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERRELATIONPORT);
+
+		Long times = System.currentTimeMillis() / 1000;
+
+		String srcU = String.valueOf(srcUid);
+		String dstU = String.valueOf(dstUid);
+
+		// 进房人次(总数)
+		redisDB.incr(RedisContant.KeyRoomTimes + dstU);
+		// 进房用户列表
+		redisDB.hset(RedisContant.KeyAnchorAndUser + dstU, srcU, times.toString(),
+				0);
+
+		// 用户与主播的关系(1:1)
+		redisDB.hset(RedisContant.KeyUserAndAnchor, srcU, dstU, 0);
+	}
+
+	/**
+	 * 用户离开房间
+	 * 
+	 * @param srcUid
+	 * @param dstUid
+	 * @return 进入房间时间
+	 */
+	public static Long userExitRoom(int srcUid, int dstUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERRELATIONPORT);
+		// 删除用户跟主播关系(1:1)
+		redisDB.hdel(RedisContant.KeyUserAndAnchor, String.valueOf(srcUid));
+		// 获取用户在该房间的时长
+		String str = redisDB.hget(RedisContant.KeyAnchorAndUser + dstUid,
+				String.valueOf(srcUid));
+		// 删除该房间的该用户
+		redisDB.hdel(RedisContant.KeyAnchorAndUser + dstUid, String.valueOf(srcUid));
+		if (str == null) {
+			return 0L;
+		} else {
+			return Long.valueOf(str);
+		}
+	}
+
+	/**
+	 * 获取房间内的观众列表
+	 * 
+	 * @param dstUid
+	 * @param page
+	 * @return
+	 */
+	public static Set<String> getUserListInAnchor(Integer dstUid, Long page) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERRELATIONPORT);
+		return redisDB.zrevrange(
+				RedisContant.KeyAnchorAndUser + dstUid.toString(), (page - 1)
+						* pageSiz, page * pageSiz);
+	}
+
+	/**
+	 * 获取房间内的观众数量
+	 * 
+	 * @param dstUid
+	 * @return
+	 */
+	public static Long getUsersInAnchor(Integer dstUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERRELATIONPORT);
+		return redisDB.zcard(RedisContant.KeyAnchorAndUser + dstUid.toString());
+	}
+	
+	/**
+	 * 本场直播 共进房人次
+	 * 
+	 * @param dstUid
+	 * @return
+	 */
+	public static int getEnterRoomTimes(int dstUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERRELATIONPORT);
+		String strRed = redisDB.get(RedisContant.KeyRoomTimes + dstUid);
+		if (strRed == null || "".equals(strRed)) {
+			return 0;
+		} else {
+			return Integer.valueOf(strRed);
+		}
+	}
+
+	/**
+	 * 修改用户送给主播的声援值 房间~用户(1:N) 声援榜
+	 * 
+	 * @param srcUid
+	 * @param dstUid
+	 * @param gets
+	 */
+	public static void sendGift(int srcUid, int dstUid, Double gets) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERRELATIONPORT);
+		Double dl = redisDB.zscore(RedisContant.KeyAnchorAndUser + dstUid,
+				String.valueOf(srcUid));
+		if (dl == null) {
+			redisDB.zadd(RedisContant.KeyAnchorAndUser + dstUid, gets,
+					String.valueOf(srcUid));
+		} else {
+			redisDB.zadd(RedisContant.KeyAnchorAndUser + dstUid, gets + dl,
+					String.valueOf(srcUid));
+		}
+
+	}
+
+	/**
+	 * 获取该用户所在的房间
+	 * 
+	 * @param srcUid
+	 * @return
+	 */
+	public static String getUserAnchor(Integer srcUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERRELATIONPORT);
+		return redisDB.hget(RedisContant.KeyUserAndAnchor, srcUid.toString());
+	}
+
+
+	/**
+	 * 开播时 清空数据
+	 * 
+	 * @param uid
+	 */
+	public static void delEnterRoomTimes(int dstUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISUSERRELATIONIP,
+				RedisContant.REDISUSERINFOPORT);
+		redisDB.del(RedisContant.KeyRoomTimes + dstUid);
+	}
+
+	/**
+	 * 开播用户列表
+	 * 
+	 * @param uid
+	 *            主播uid
+	 * @param recommend
+	 *            =0 不推荐 =1推荐
+	 * @param sort
+	 *            排序值 1位
+	 * @param rq
+	 *            人气值 7位数，不足左边补0
+	 */
+	public static void livingRoom(int uid, int recommend, int sort, int rq) {
+		String str = String.valueOf(recommend) + String.valueOf(sort)
+				+ String.format("%07d", rq);
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+		redisDB.zadd(RedisContant.KEYLIVEINFOLIST, Double.valueOf(str),
+				String.valueOf(uid));
+
+	}
+
+	/**
+	 * 获取开播列表
+	 * 
+	 * @param page
+	 * @return
+	 */
+	public static Set<String> getlivingRoom(int page) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+		return redisDB.zrange(RedisContant.KEYLIVEINFOLIST, (page - 1)
+				* pageSiz, page * pageSiz);
+	}
+
+	/**
+	 * 记录主播当天的声援值
+	 * 
+	 * @param uid
+	 * @param gets
+	 */
+	public static void addRoomCreditToday(int uid, int gets) {
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+		String strToday = df.format(new Date());
+		Date dt = null;
+		try {
+			dt = df.parse(strToday);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String redisKey = RedisContant.KeyRoomGetsToday + uid + strToday;
+
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+		String oldGets = redisDB.get(redisKey);
+		if (oldGets == null || "".equals(oldGets)) {
+			redisDB.set(redisKey, String.valueOf(gets),
+					DateUtils.getTimeStamp(dt) + 86400);
+		} else {
+			gets = Integer.valueOf(oldGets) + gets;
+			redisDB.set(redisKey, String.valueOf(gets),
+					DateUtils.getTimeStamp(dt) + 86400);
+		}
+	}
+
+	/**
+	 * 记录主播的声援榜(主播N:用户N)
+	 * 
+	 * @param srcUid
+	 *            送礼物给dstUid
+	 * @param dstUid
+	 * @param dbl
+	 *            礼物价值
+	 */
+	public static void addDstGetSrc(Integer srcUid, Integer dstUid, Double dbl) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+		Double olddb = redisDB.zscore(RedisContant.KeyDstGetsSrcMoney + dstUid,
+				srcUid.toString());
+		if (olddb != null) {
+			dbl = dbl + olddb;
+		}
+		// 安装声援值排序
+		redisDB.zadd(RedisContant.KeyDstGetsSrcMoney + dstUid, dbl,
+				srcUid.toString());
+	}
+
+	/**
+	 * 获取在声援排行榜中的位置
+	 * 
+	 * @param srcUid
+	 *            用户
+	 * @param dstUid
+	 *            主播
+	 * @return
+	 */
+	public static Long getSrcInDstSort(Integer srcUid, Integer dstUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+		return redisDB.zrevrank(RedisContant.KeyDstGetsSrcMoney + dstUid,
+				srcUid.toString());
+	}
+	
+	/**
+	 * 记录用户送礼给主播列表(用户N:主播N)
+	 * @param srcUid
+	 * @param dstUid
+	 * @param dbl
+	 */
+	public static void addSrcSendDst(Integer srcUid,Integer dstUid,Double dbl){
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+
+		Double olddb = redisDB.zscore(RedisContant.KeySrcSendDstMoney + dstUid,
+				srcUid.toString());
+		if (olddb != null) {
+			dbl = dbl + olddb;
+		}
+		// 安装声援值排序
+		redisDB.zadd(RedisContant.KeySrcSendDstMoney + dstUid, dbl,
+				srcUid.toString());
+	}
+
+	/**
+	 * 获取用户送给主播礼物价值总数
+	 * 
+	 * @param srcUid
+	 * @param dstUid
+	 * @return
+	 */
+	public static Double getSrcSendDst(Integer srcUid, Integer dstUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+		Double dbl = redisDB.zscore(RedisContant.KeySrcSendDstMoney + dstUid, srcUid.toString());
+		if (dbl == null) {
+			return (double) 0;
+		} else {
+			return dbl;
+		}
+
+	}
+
+	/**
+	 * 获取主播当天的声援值
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	public static int getRoomCreditToday(int uid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+		String strToday = df.format(new Date());
+		String redisKey = RedisContant.KeyRoomGetsToday + uid + strToday;
+
+		String gets = redisDB.get(redisKey);
+		if (gets == null || "".equals(gets)) {
+			return 0;
+		} else {
+			return Integer.valueOf(gets);
+		}
+	}
+
+	/**
+	 * 添加房间举报数
+	 * 
+	 * @param dstUid
+	 * @return
+	 */
+	public static int addReport(int dstUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+		return redisDB.incr(RedisContant.KeyRoomReports + dstUid).intValue();
+	}
+
+	/**
+	 * 处理房间举报数
+	 * 
+	 * @param dstUid
+	 * @return
+	 */
+	public static int delReport(int dstUid) {
+		RedisDB redisDB = new RedisDB(RedisContant.REDISDEFAULTP,
+				RedisContant.REDISDEFAULTPORT);
+		return redisDB.del(RedisContant.KeyRoomReports + dstUid).intValue();
+	}
+}

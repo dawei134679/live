@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.RealNameCheckDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.RealNameInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="realName" property="realname" jdbcType="VARCHAR" />
+    <result column="cardID" property="cardid" jdbcType="VARCHAR" />
+    <result column="cardNo" property="cardno" jdbcType="VARCHAR" />
+    <result column="bankAccount" property="bankaccount" jdbcType="VARCHAR" />
+    <result column="provinceOfBank" property="provinceofbank" jdbcType="VARCHAR" />
+    <result column="cityOfBank" property="cityofbank" jdbcType="VARCHAR" />
+    <result column="branchBank" property="branchbank" jdbcType="VARCHAR" />
+    <result column="positiveImage" property="positiveimage" jdbcType="VARCHAR" />
+    <result column="negativeImage" property="negativeimage" jdbcType="VARCHAR" />
+    <result column="handImage" property="handimage" jdbcType="VARCHAR" />
+    <result column="auditStatus" property="auditstatus" jdbcType="INTEGER" />
+    <result column="cause" property="cause" jdbcType="VARCHAR" />
+    <result column="createAt" property="createat" jdbcType="INTEGER" />
+    <result column="auditAt" property="auditat" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, realName, cardID, cardNo, bankAccount, provinceOfBank, cityOfBank, branchBank, 
+    positiveImage, negativeImage, handImage, auditStatus, cause, createAt, auditAt
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_authentication
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_authentication
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.RealNameInfo" >
+    insert into user_authentication (id, uid, realName, 
+      cardID, cardNo, bankAccount, 
+      provinceOfBank, cityOfBank, branchBank, 
+      positiveImage, negativeImage, handImage, 
+      auditStatus, cause, createAt, 
+      auditAt)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, 
+      #{cardid,jdbcType=VARCHAR}, #{cardno,jdbcType=VARCHAR}, #{bankaccount,jdbcType=VARCHAR}, 
+      #{provinceofbank,jdbcType=VARCHAR}, #{cityofbank,jdbcType=VARCHAR}, #{branchbank,jdbcType=VARCHAR}, 
+      #{positiveimage,jdbcType=VARCHAR}, #{negativeimage,jdbcType=VARCHAR}, #{handimage,jdbcType=VARCHAR}, 
+      #{auditstatus,jdbcType=INTEGER}, #{cause,jdbcType=VARCHAR}, #{createat,jdbcType=INTEGER}, 
+      #{auditat,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.RealNameInfo" >
+    insert into user_authentication
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="realname != null" >
+        realName,
+      </if>
+      <if test="cardid != null" >
+        cardID,
+      </if>
+      <if test="cardno != null" >
+        cardNo,
+      </if>
+      <if test="bankaccount != null" >
+        bankAccount,
+      </if>
+      <if test="provinceofbank != null" >
+        provinceOfBank,
+      </if>
+      <if test="cityofbank != null" >
+        cityOfBank,
+      </if>
+      <if test="branchbank != null" >
+        branchBank,
+      </if>
+      <if test="positiveimage != null" >
+        positiveImage,
+      </if>
+      <if test="negativeimage != null" >
+        negativeImage,
+      </if>
+      <if test="handimage != null" >
+        handImage,
+      </if>
+      <if test="auditstatus != null" >
+        auditStatus,
+      </if>
+      <if test="cause != null" >
+        cause,
+      </if>
+      <if test="createat != null" >
+        createAt,
+      </if>
+      <if test="auditat != null" >
+        auditAt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null" >
+        #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="cardno != null" >
+        #{cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="bankaccount != null" >
+        #{bankaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceofbank != null" >
+        #{provinceofbank,jdbcType=VARCHAR},
+      </if>
+      <if test="cityofbank != null" >
+        #{cityofbank,jdbcType=VARCHAR},
+      </if>
+      <if test="branchbank != null" >
+        #{branchbank,jdbcType=VARCHAR},
+      </if>
+      <if test="positiveimage != null" >
+        #{positiveimage,jdbcType=VARCHAR},
+      </if>
+      <if test="negativeimage != null" >
+        #{negativeimage,jdbcType=VARCHAR},
+      </if>
+      <if test="handimage != null" >
+        #{handimage,jdbcType=VARCHAR},
+      </if>
+      <if test="auditstatus != null" >
+        #{auditstatus,jdbcType=INTEGER},
+      </if>
+      <if test="cause != null" >
+        #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="createat != null" >
+        #{createat,jdbcType=INTEGER},
+      </if>
+      <if test="auditat != null" >
+        #{auditat,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.RealNameInfo" >
+    update user_authentication
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="realname != null" >
+        realName = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="cardid != null" >
+        cardID = #{cardid,jdbcType=VARCHAR},
+      </if>
+      <if test="cardno != null" >
+        cardNo = #{cardno,jdbcType=VARCHAR},
+      </if>
+      <if test="bankaccount != null" >
+        bankAccount = #{bankaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceofbank != null" >
+        provinceOfBank = #{provinceofbank,jdbcType=VARCHAR},
+      </if>
+      <if test="cityofbank != null" >
+        cityOfBank = #{cityofbank,jdbcType=VARCHAR},
+      </if>
+      <if test="branchbank != null" >
+        branchBank = #{branchbank,jdbcType=VARCHAR},
+      </if>
+      <if test="positiveimage != null" >
+        positiveImage = #{positiveimage,jdbcType=VARCHAR},
+      </if>
+      <if test="negativeimage != null" >
+        negativeImage = #{negativeimage,jdbcType=VARCHAR},
+      </if>
+      <if test="handimage != null" >
+        handImage = #{handimage,jdbcType=VARCHAR},
+      </if>
+      <if test="auditstatus != null" >
+        auditStatus = #{auditstatus,jdbcType=INTEGER},
+      </if>
+      <if test="cause != null" >
+        cause = #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="createat != null" >
+        createAt = #{createat,jdbcType=INTEGER},
+      </if>
+      <if test="auditat != null" >
+        auditAt = #{auditat,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.RealNameInfo" >
+    update user_authentication
+    set uid = #{uid,jdbcType=INTEGER},
+      realName = #{realname,jdbcType=VARCHAR},
+      cardID = #{cardid,jdbcType=VARCHAR},
+      cardNo = #{cardno,jdbcType=VARCHAR},
+      bankAccount = #{bankaccount,jdbcType=VARCHAR},
+      provinceOfBank = #{provinceofbank,jdbcType=VARCHAR},
+      cityOfBank = #{cityofbank,jdbcType=VARCHAR},
+      branchBank = #{branchbank,jdbcType=VARCHAR},
+      positiveImage = #{positiveimage,jdbcType=VARCHAR},
+      negativeImage = #{negativeimage,jdbcType=VARCHAR},
+      handImage = #{handimage,jdbcType=VARCHAR},
+      auditStatus = #{auditstatus,jdbcType=INTEGER},
+      cause = #{cause,jdbcType=VARCHAR},
+      createAt = #{createat,jdbcType=INTEGER},
+      auditAt = #{auditat,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <select id="getAllRealNameList" resultType="java.util.Map" parameterType="com.tinypig.newadmin.web.entity.RealNameParamDto">
+  	SELECT 
+  		 a.uid,
+		 a.realName,
+		 a.cardID,
+		 a.auditStatus,
+		 CASE WHEN a.auditStatus = 1 THEN '待审核'
+		 WHEN a.auditStatus = 2 THEN '驳回'
+		 WHEN a.auditStatus= 3 THEN '已通过'
+		 ELSE '' END auditStatusStr,
+		 a.createAt,
+		 CASE WHEN a.createAt = 0 THEN '' ELSE 
+		 FROM_UNIXTIME(a.createAt,'%Y-%m-%d %H:%i:%s') END creatAtStr,
+		 a.auditAt,
+		 CASE WHEN a.auditAt = 0 THEN '' ELSE 
+		 FROM_UNIXTIME(a.auditAt,'%Y-%m-%d %H:%i:%s') END auditAtStr,
+		 b.salesman_id salesmanId,
+		 c.name salesmanName,
+		 c.contacts_phone salesmanContactsPhone,
+		 b.agent_user_id agentUserId,
+		 d.name agentUserName,
+		 d.contacts agentUserContactsName,
+		 d.contacts_phone agentUserContactsPhone,
+		 b.promoters_id promotersId,
+		 e.name promotersName,
+		 e.contacts promotersContactsName,
+		 e.contacts_phone promotersContactsPhone,
+		 b.extension_center_id extensionCenterId,
+		 f.name extensionCenterName,
+		 f.contacts extensionCenterContactsName,
+		 f.contacts_phone extensionCenterContactsPhone,
+		 g.name strategicPartnerName,
+		 g.contacts strategicPartnerContactsName,
+		 g.contacts_phone strategicPartnerContactsPhone 
+  	from 
+	  	zhu_user.user_authentication a,
+	  	zhu_admin.t_user_org_relation b,
+	  	zhu_admin.t_salesman c,
+	  	zhu_admin.t_agent_user d,
+	  	zhu_admin.t_promoters e,
+	  	zhu_admin.t_extension_center f,
+	  	zhu_admin.t_strategic_partner g 
+  	WHERE 
+	  	a.uid = b.uid 
+	  	and b.salesman_id = c.id
+		and b.agent_user_id = d.id 
+		and b.promoters_id = e.id 
+		and b.extension_center_id = f.id
+		and b.strategic_partner_id= g.id
+		<if test="uid != null and uid!=0" >
+		  	and a.uid =  #{uid}
+		</if>
+		<if test="realName!=null and realName!=''">
+			and	a.realName like concat("%",#{realName},"%")
+		</if>
+		<if test="cardID!=null and cardID!=''">
+			and	a.cardID like concat("%",#{cardID},"%")
+		</if>
+		<if test="spid != null and spid!=0" >
+		  	and b.strategic_partner_id =  #{spid}
+		</if>
+		<if test="ecid != null and ecid!=0" >
+		  	and b.extension_center_id =  #{ecid}
+		</if>
+		<if test="pid != null and pid!=0" >
+		  	and b.promoters_id =  #{pid}
+		</if>
+		<if test="auid != null and auid!=0" >
+		  	and b.agent_user_id  =  #{auid}
+		</if>
+		<if test="sid != null and sid!=0" >
+		  	and b.salesman_id =  #{sid}
+		</if>
+		<if test="auditStatus != null and auditStatus !=-1" >
+		  	and a.auditStatus = #{auditStatus}
+		</if> 
+		<if test="cStartTime!=null">
+			and a.createAt>=#{cStartTime}
+		</if>
+		<if test="cEndTime!=null">
+			<![CDATA[ and a.createAt <= #{cEndTime}]]>
+		</if>
+		<if test="pStartTime!=null">
+			and a.auditAt>=#{pStartTime}
+		</if>
+		<if test="pEndTime!=null">
+			<![CDATA[ and a.auditAt <= #{pEndTime}]]>
+		</if>
+  </select>
+
+  <select id="getRealNameList" resultType="java.util.Map" parameterType="com.tinypig.newadmin.web.entity.RealNameParamDto">
+  	SELECT 
+  		 a.uid,
+		 a.realName,
+		 a.cardID,
+		 a.auditStatus,
+		 a.createAt createTime,
+		 a.auditAt passTime,
+		 b.salesman_id salesmanId,
+		 c.name salesmanName,
+		 c.contacts_phone salesmanContactsPhone,
+		 b.agent_user_id agentUserId,
+		 d.name agentUserName,
+		 d.contacts agentUserContactsName,
+		 d.contacts_phone agentUserContactsPhone,
+		 b.promoters_id promotersId,
+		 e.name promotersName,
+		 e.contacts promotersContactsName,
+		 e.contacts_phone promotersContactsPhone,
+		 b.extension_center_id extensionCenterId,
+		 f.name extensionCenterName,
+		 f.contacts extensionCenterContactsName,
+		 f.contacts_phone extensionCenterContactsPhone,
+		 g.name strategicPartnerName,
+		 g.contacts strategicPartnerContactsName,
+		 g.contacts_phone strategicPartnerContactsPhone 
+  	from 
+	  	zhu_user.user_authentication a,
+	  	zhu_admin.t_user_org_relation b,
+	  	zhu_admin.t_salesman c,
+	  	zhu_admin.t_agent_user d,
+	  	zhu_admin.t_promoters e,
+	  	zhu_admin.t_extension_center f,
+	  	zhu_admin.t_strategic_partner g 
+  	WHERE 
+	  	a.uid = b.uid 
+	  	and b.salesman_id = c.id
+		and b.agent_user_id = d.id 
+		and b.promoters_id = e.id 
+		and b.extension_center_id = f.id
+		and b.strategic_partner_id= g.id
+		<if test="uid != null and uid!=0" >
+		  	and a.uid =  #{uid}
+		</if>
+		<if test="realName!=null and realName!=''">
+			and	a.realName like concat("%",#{realName},"%")
+		</if>
+		<if test="cardID!=null and cardID!=''">
+			and	a.cardID like concat("%",#{cardID},"%")
+		</if>
+		<if test="spid != null and spid!=0" >
+		  	and b.strategic_partner_id =  #{spid}
+		</if>
+		<if test="ecid != null and ecid!=0" >
+		  	and b.extension_center_id =  #{ecid}
+		</if>
+		<if test="pid != null and pid!=0" >
+		  	and b.promoters_id =  #{pid}
+		</if>
+		<if test="auid != null and auid!=0" >
+		  	and b.agent_user_id  =  #{auid}
+		</if>
+		<if test="sid != null and sid!=0" >
+		  	and b.salesman_id =  #{sid}
+		</if>
+		<if test="auditStatus != null and auditStatus !=-1" >
+		  	and a.auditStatus = #{auditStatus}
+		</if> 
+		<if test="cStartTime!=null">
+			and a.createAt>=#{cStartTime}
+		</if>
+		<if test="cEndTime!=null">
+			<![CDATA[ and a.createAt <= #{cEndTime}]]>
+		</if>
+		<if test="pStartTime!=null">
+			and a.auditAt>=#{pStartTime}
+		</if>
+		<if test="pEndTime!=null">
+			<![CDATA[ and a.auditAt <= #{pEndTime}]]>
+		</if>
+	limit #{startIndex},#{pageSize}
+  </select>
+  <select id="getRealNameTotal" resultType="java.lang.Integer" parameterType="com.tinypig.newadmin.web.entity.RealNameParamDto">
+	SELECT 
+		COUNT(a.uid) total 
+	FROM
+		zhu_user.user_authentication a,
+	  	zhu_admin.t_user_org_relation b,
+	  	zhu_admin.t_salesman c,
+	  	zhu_admin.t_agent_user d,
+	  	zhu_admin.t_promoters e,
+	  	zhu_admin.t_extension_center f,
+	  	zhu_admin.t_strategic_partner g
+  	WHERE 
+	  	a.uid = b.uid 
+	  	and b.salesman_id = c.id
+		and b.agent_user_id = d.id 
+		and b.promoters_id = e.id 
+		and b.extension_center_id = f.id
+		and b.strategic_partner_id= g.id
+		<if test="uid != null and uid!=0" >
+		  	and a.uid =  #{uid}
+		</if>
+		<if test="realName!=null and realName!=''">
+			and	a.realName like concat("%",#{realName},"%")
+		</if>
+		<if test="cardID!=null and cardID!=''">
+			and	a.cardID like concat("%",#{cardID},"%")
+		</if>
+		<if test="spid != null and spid!=0" >
+		  	and b.strategic_partner_id =  #{spid}
+		</if>
+		<if test="ecid != null and ecid!=0" >
+		  	and b.extension_center_id =  #{ecid}
+		</if>
+		<if test="pid != null and pid!=0" >
+		  	and b.promoters_id =  #{pid}
+		</if>
+		<if test="auid != null and auid!=0" >
+		  	and b.agent_user_id  =  #{auid}
+		</if>
+		<if test="sid != null and sid!=0" >
+		  	and b.salesman_id =  #{sid}
+		</if>
+		<if test="cStartTime!=null">
+			and a.createAt>=#{cStartTime}
+		</if>
+		<if test="cEndTime!=null">
+			<![CDATA[ and a.createAt <= #{cEndTime}]]>
+		</if>
+		<if test="pStartTime!=null">
+			and a.auditAt>=#{pStartTime}
+		</if>
+		<if test="pEndTime!=null">
+			<![CDATA[ and a.auditAt <= #{pEndTime}]]>
+		</if>
+  </select>
+</mapper>

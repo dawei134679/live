@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.AnchorInfoDao" >
+  <select id="getAnchorList" resultType="java.util.Map" parameterType="com.tinypig.newadmin.web.entity.AnchorInfoParamDto">
+	  	SELECT 
+		  a.uid,
+		  a.nickname,
+		  h.auditAt,
+		  CASE
+		    WHEN h.auditAt = 0 
+		    THEN '' 
+		    ELSE FROM_UNIXTIME(h.auditAt, '%Y-%m-%d %H:%i:%s') 
+		  END auditAtStr,
+		  a.liveStatus,
+		  CASE
+		    WHEN a.liveStatus = 0 
+		    THEN '未直播' 
+		    ELSE '直播中' 
+		  END liveStatusStr,
+		  a.identity,
+		  CASE
+		    WHEN a.identity = 1 
+		    THEN '正常' 
+		    WHEN a.identity = 3 
+		    THEN '封号' 
+		    ELSE '禁播' 
+		  END identityStr,
+		  a.salesman_id salesmanId,
+		  a.salesman_name salesmanName,
+		  a.salesman_contacts_phone salesmanContactsPhone,
+		  a.agent_user_id agentUserId,
+		  a.agent_user_name agentUserName,
+		  a.agent_user_contacts_name agentUserContactsName,
+		  a.agent_user_contacts_phone agentUserContactsPhone,
+		  a.promoters_id promotersId,
+		  a.promoters_name promotersName,
+		  a.promoters_contacts_name promotersContactsName,
+		  a.promoters_contacts_phone promotersContactsPhone,
+		  a.extension_center_id extensionCenterId,
+		  a.extension_center_name extensionCenterName,
+		  a.extension_center_contacts_name extensionCenterContactsName,
+		  a.extension_center_contacts_phone extensionCenterContactsPhone,
+		  a.strategic_partner_id strategicPartnerId,
+		  a.strategic_partner_name strategicPartnerName,
+		  a.strategic_partner_contacts_name strategicPartnerContactsName,
+		  a.strategic_partner_contacts_phone strategicPartnerContactsPhone   
+		  FROM
+		  zhu_user.user_info a,
+		  zhu_user.user_authentication h 
+		WHERE a.uid = h.uid 
+		  AND h.auditStatus = 3
+		<if test="uid != null and uid!=0" >
+		  	and a.uid =  #{uid}
+		</if>
+		<if test="spid != null and spid!=0" >
+		  	and a.strategic_partner_id =  #{spid}
+		</if>
+		<if test="ecid != null and ecid!=0" >
+		  	and a.extension_center_id =  #{ecid}
+		</if>
+		<if test="pid != null and pid!=0" >
+		  	and a.promoters_id =  #{pid}
+		</if>
+		<if test="auid != null and auid!=0" >
+		  	and a.agent_user_id  =  #{auid}
+		</if>
+		<if test="sid != null and sid!=0" >
+		  	and a.salesman_id =  #{sid}
+		</if>
+		<if test="liveStatus != null and liveStatus !=-1" >
+		  	and a.liveStatus = #{liveStatus}
+		</if>
+		order by auditAt desc
+	limit #{startIndex},#{pageSize}
+  </select>
+   <select id="getAnchorTotal" resultType="java.lang.Integer" parameterType="com.tinypig.newadmin.web.entity.AnchorInfoParamDto">
+	  	SELECT 
+	  		COUNT(a.uid)
+	  	FROM
+		  zhu_user.user_info a,
+		  zhu_user.user_authentication h 
+		WHERE a.uid = h.uid 
+		  AND h.auditStatus = 3
+		<if test="uid != null and uid!=0" >
+		  	and a.uid =  #{uid}
+		</if>
+		<if test="spid != null and spid!=0" >
+		  	and a.strategic_partner_id =  #{spid}
+		</if>
+		<if test="ecid != null and ecid!=0" >
+		  	and a.extension_center_id =  #{ecid}
+		</if>
+		<if test="pid != null and pid!=0" >
+		  	and a.promoters_id =  #{pid}
+		</if>
+		<if test="auid != null and auid!=0" >
+		  	and a.agent_user_id  =  #{auid}
+		</if>
+		<if test="sid != null and sid!=0" >
+		  	and a.salesman_id =  #{sid}
+		</if>
+		<if test="liveStatus != null and liveStatus !=-1" >
+		  	and a.liveStatus = #{liveStatus}
+		</if>
+  </select>
+   <select id="getAnchorAllList" resultType="java.util.Map" parameterType="com.tinypig.newadmin.web.entity.AnchorInfoParamDto">
+  	SELECT 
+		  a.uid,
+		  a.nickname,
+		  h.auditAt,
+		  CASE
+		    WHEN h.auditAt = 0 
+		    THEN '' 
+		    ELSE FROM_UNIXTIME(h.auditAt, '%Y-%m-%d %H:%i:%s') 
+		  END auditAtStr,
+		  a.liveStatus,
+		  CASE
+		    WHEN a.liveStatus = 0 
+		    THEN '未直播' 
+		    ELSE '直播中' 
+		  END liveStatusStr,
+		  a.identity,
+		  CASE
+		    WHEN a.identity = 1 
+		    THEN '正常' 
+		    WHEN a.identity = 3 
+		    THEN '封号' 
+		    ELSE '禁播' 
+		  END identityStr,
+		  a.salesman_id salesmanId,
+		  a.salesman_name salesmanName,
+		  a.salesman_contacts_phone salesmanContactsPhone,
+		  a.agent_user_id agentUserId,
+		  a.agent_user_name agentUserName,
+		  a.agent_user_contacts_name agentUserContactsName,
+		  a.agent_user_contacts_phone agentUserContactsPhone,
+		  a.promoters_id promotersId,
+		  a.promoters_name promotersName,
+		  a.promoters_contacts_name promotersContactsName,
+		  a.promoters_contacts_phone promotersContactsPhone,
+		  a.extension_center_id extensionCenterId,
+		  a.extension_center_name extensionCenterName,
+		  a.extension_center_contacts_name extensionCenterContactsName,
+		  a.extension_center_contacts_phone extensionCenterContactsPhone,
+		  a.strategic_partner_id strategicPartnerId,
+		  a.strategic_partner_name strategicPartnerName,
+		  a.strategic_partner_contacts_name strategicPartnerContactsName,
+		  a.strategic_partner_contacts_phone strategicPartnerContactsPhone   
+		  FROM
+		  zhu_user.user_info a,
+		  zhu_user.user_authentication h 
+		WHERE a.uid = h.uid 
+		  AND h.auditStatus = 3
+		<if test="uid != null and uid!=0" >
+		  	and a.uid =  #{uid}
+		</if>
+		<if test="spid != null and spid!=0" >
+		  	and a.strategic_partner_id =  #{spid}
+		</if>
+		<if test="ecid != null and ecid!=0" >
+		  	and a.extension_center_id =  #{ecid}
+		</if>
+		<if test="pid != null and pid!=0" >
+		  	and a.promoters_id =  #{pid}
+		</if>
+		<if test="auid != null and auid!=0" >
+		  	and a.agent_user_id  =  #{auid}
+		</if>
+		<if test="sid != null and sid!=0" >
+		  	and a.salesman_id =  #{sid}
+		</if>
+		<if test="liveStatus != null and liveStatus !=-1" >
+		  	and a.liveStatus = #{liveStatus}
+		</if>
+		order by auditAt desc
+  </select>
+</mapper>

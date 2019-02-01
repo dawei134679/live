@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.AnchorDao">
+<resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.ActivityGift" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="gid" property="gid" jdbcType="INTEGER" />
+    <result column="atype" property="atype" jdbcType="INTEGER" />
+    <result column="stime" property="stime" jdbcType="INTEGER" />
+    <result column="etime" property="etime" jdbcType="INTEGER" />
+    <result column="isvalid" property="isvalid" jdbcType="BIT" />
+  </resultMap>
+  <select id="getanchorlistByUnionId" resultType="java.util.HashMap">
+  	select a.unionname,b.anchorid,a.adminname from zhu_union.union_info a,zhu_union.union_anchor_ref b where a.unionid=b.unionid and a.unionid=#{unionid,jdbcType=INTEGER}
+  </select>
+  <select id="getanchorlistByUnionName" resultType="java.util.HashMap">
+  	select a.unionname,b.anchorid,a.adminname from zhu_union.union_info a,zhu_union.union_anchor_ref b where a.unionid=b.unionid and a.unionname=#{unionname,jdbcType=VARCHAR}
+  </select>
+  <select id="getanchorlistByUid" resultType="java.util.HashMap">
+  	select a.unionname,b.anchorid,a.adminname from zhu_union.union_info a,zhu_union.union_anchor_ref b where a.unionid=b.unionid and b.anchorid=#{anchorid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getPunishAnchorInfoByUid" resultType="java.util.HashMap">
+  	select a.nickname,a.anchorLevel,a.userLevel,a.recommend,a.identity,b.status,c.id as authId,d.warns,e.weigui
+  	from zhu_user.user_base_info_#{sufix,jdbcType=VARCHAR} a 
+  	INNER JOIN zhu_user.user_account_#{sufix,jdbcType=VARCHAR} b ON a.uid=b.uid 
+  	LEFT JOIN zhu_user.user_authentication c on a.uid=c.uid and c.auditStatus=3
+  	LEFT JOIN (select dd.uid,count(*) as warns from zhu_live.live_violation dd where dd.category=1
+  	<if test="stime > 0">
+  		dd.addtime >=#{stime,jdbcType=INTEGER}
+  	</if>
+  	 group by dd.uid) d
+  	LEFT JOIN (select ee.uid,count(*) as weigui from zhu_live.live_violation ee where ee.category=2 
+  	<if test="etime > 0">
+  		ee.addtime >=#{etime,jdbcType=INTEGER}
+  	</if>
+  	group by ee.uid) e
+  	 WHERE a.uid=#{uid,jdbcType=INTEGER}
+  </select>
+  
+  
+  
+</mapper>

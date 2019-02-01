@@ -1,0 +1,265 @@
+body,html{
+	margin: 0; padding: 0;
+	-webkit-overflow-scrolling: touch;
+}
+/*禁用选择*/
+*{
+	-webkit-user-select: none;
+	moz-user-select: -moz-none;
+	-moz-user-select: none;
+	-o-user-select:none;
+	-khtml-user-select:none;
+	-webkit-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+/*页面背景样式*/
+.back{
+      width:100%; height: 100%; position: fixed; bottom: 0; 
+      background: url(../img/bg_all.png);
+      /*background: url(../img/kj_bg.png);*/
+      /*background: url(../img/big_bg.png);*/
+      background-size: 100% 100%; 
+}
+/*游戏页面顶部样式*/
+.back .top{
+	width: 96%; height: 20px; position: relative; top: 10px;
+	margin-left: 50%; left: -48%;z-index:3;
+}
+.back .top .explain,.record{
+	width: 22%; float: left;
+}
+.back .top .record{
+	width: 22%; float: left;
+}
+.back .top .speed{
+	width: 50%; height: 20px; margin-top: 5px; float: left; margin-left: 3%; margin-right: 3%;
+}
+/*
+.back .top .speed .pro{
+	width: 100%;
+    background:url('../img/Loading.png');
+    background-size:100% 100%;
+}
+ 
+.back .top .speed .pro::-webkit-progress-bar{
+    background: none;
+}
+ 
+.back .top .speed .pro::-webkit-progress-value{
+    background:url('../img/jindutiao.png');
+    background-size:100% 100%;
+}
+*/
+.back .top .speed .bacj{
+	width:100%;
+	height:100%;
+	background: url('../img/Loading.png');
+	background-size: 100% 100%;
+}
+
+.back .top .speed .bacj2{
+	width: 96%;
+    height: 74%;
+    margin-left: 50%;
+    left: -48%;
+    top: 8%;
+	position: relative;
+	overflow: hidden;
+	border-radius:10px;
+}
+
+.back .top .explain img,.record img{
+	width: 100%;
+}
+.back .top .speed .f{
+	width:24px ; height:12px; position:absolute; top:9px; margin-left: 50%; left: -10px;
+	text-align: center;
+}
+.back .top .speed .f img{
+   width: 8px; position: relative; margin: 0; padding: 0; float: left;
+}
+/*游戏页面内容样式*/
+.back .centent{
+	width: 93%; height: 250px; position: relative; margin-left: 50%; left: -46.5%;z-index:2;
+	/* top: 10px;  *//*display: none;*/
+}
+.back .centent .fruits1,.fruits2,.fruits3,.fruits5,.fruits6,.fruits4{
+	width: 15.5%; height: 60%; float: left;
+	text-align: center; 
+}
+   .back .centent .fruits2{
+	margin-left: 1.5%;
+}
+.back .centent .fruits3,.fruits4,.fruits5,.fruits6{
+	margin-left: 1.2%;
+}
+.back .centent .fruits1{
+	margin-left: 0.5%;
+}
+.back .centent .a{
+	font-size: 10px; font-weight:bold; color: #f4b883; top: -10px; position: relative;
+}
+.back .centent .fruits1 .mary,.fruits2 .mary,.fruits3 .mary,.fruits4 .mary,.fruits5 .mary,.fruits6 .mary{
+	width: 90%; height: 9%; margin-left: 50%; position: relative; top: -10px;
+	left: -45%; background: url(../img/btn_zcyz_bg.png); background-size: 100% 100%; text-align: center;
+	line-height: 15px; font-size: 12px; color: #f4b883
+	
+}
+.back .centent .fruits1 .mary span,.fruits2 .mary span,.fruits3 .mary span,.fruits4 .mary span,.fruits5 .mary span,.fruits6 .mary span{
+   font-size: 13px; color: #f4b883;
+}
+.back .centent .fruits1 .but,.fruits2 .but,.fruits3 .but,.fruits4 .but,.fruits5 .but,.fruits6 .but{
+	width: 70%; margin-top:-7px; position: relative; margin-left: 50%;
+	left: -35%; background: url(../img/btn_green_bg.png); background-size: 100% 100%; text-align: center;
+}
+.back .centent .fruits1 .but span,.fruits2 .but span,.fruits3 .but span,.fruits4 .but span,.fruits5 .but span,.fruits6 .but span{
+	font-weight: bold; color: #fff; font-size:12px; text-shadow: 2px 2px 2px darkgreen; position: relative; top: -2px;
+}
+/*
+.back .centent .fruits1 .but img,.fruits2 .but img,.fruits3 .but img,.fruits4 .but img,.fruits5 .but img,.fruits6 .but img{
+	 width: 5px;
+}
+*/
+/*摇奖页面样式*/
+.back .centent-two{
+	width: 93%; height: 130px; position: relative; margin-left: 50%; left: -46.5%;
+	margin-top: 20px; text-align: center;z-index:1;
+}
+.back .centent-two .gt1{
+    width: 29%; height: 100%; float: left; position: relative; margin-left: 8px; overflow: hidden;
+}
+.back .centent-two .gt2{
+	width: 29%; height: 100%; float: left;position: relative; margin-left: 13px; overflow: hidden;
+}
+.back .centent-two .gt3{
+	width: 29%; height: 100%; float: left;position: relative; margin-left: 15px; overflow: hidden;
+}
+.back .centent-two .gt1 .tu{
+  	width: 100%; height: 100%;  position: relative; top: 0px;
+}
+.back .centent-two .gt2 .tu2{
+  	width: 100%; height: 100%;  position: relative; top: 0px;
+}
+.back .centent-two .gt3 .tu3{
+  	width: 100%; height: 100%;  position: relative; top: 0px;
+}
+.back .centent-two .gt1 .tu img,.gt2 .tu2 img,.gt3 .tu3 img {
+	width: 60%; border-top: 0px solid #000;border-bottom:0px solid #000;margin-top:-5px;
+}
+/*开奖页面样式*/
+.back .open{
+   	/* width: 93%; height: 130px; position: relative; margin-left: 50%; left: -46.5%;margin-top: 20px; text-align: center;display: none;z-index:2; */
+   	width: 100%;
+    height: 130px;
+    position: relative;
+    /* margin-left: 50%; */
+    /* left: -46.5%; */
+    margin-top: 20px;
+    text-align: center;
+    display: none;
+    z-index: 2;
+}
+.back .op1,.op2,.op3{
+	/* width: 20%; height: 40%; background: url(../img/las.png); background-size: 100% 100%;margin-left: 10.5%; margin-top: 10px; float: left; */
+    width: 15%;
+    height: 32%;
+    background: url(../img/las.png);
+    background-size: 100% 100%;
+    margin-left: 14%;
+    /* margin-top: 2%; */
+    float: left;	
+}
+.back .open .op1 img,.op2 img,.op3 img{
+   	width: 68%;
+}
+.back .open .open-text{
+   	/* width: 100%;height: 50px; position: relative; clear: both; font-weight: bold;
+   	text-shadow: 1px 1px 1px #333333;font-size:10px; */
+   	width: 100%;
+    height: 30px;
+    position: relative;
+    clear: both;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #333333;
+    font-size: 14px;
+    /* text-align: center; */
+    padding-top: 2%;
+}
+.back .open .open-text ul{
+   	/* width: 50%; left: 50%; position: relative; margin-left: -25%; */
+   	width: 100%;
+    /* left: 50%; */
+    position: relative;
+    /* margin-left: -25%; */
+    padding: 0;
+}
+.back .open .open-text ul li{
+   	/* text-align: left; list-style: none;  */
+   	list-style: none;
+    width: 100%;
+    text-align: center;
+}
+/*游戏说明样式*/
+.back .spak{
+	width: 100%; height: 100%; position: absolute; background-color: red; background:url(../img/big_bg.png);
+    z-index: 2; top: 0; background-size: 100% 100%; display: none;
+}
+/*游戏记录样式*/
+.back .webl{
+	width: 100%; height: 100%; position: absolute; background-color: red; background:url(../img/big_bg.png);
+    z-index: 2; top: 0; background-size: 100% 100%; display: none;
+}
+.back .webl .kj-top{
+	width: 60%; height: 50px; position: relative; left: 50%; margin-left: -30%;
+}
+.back .webl .kjjl{
+	width: 85%; height: 64%; background:rgba(0,0,0,0.3); border: 1px solid #000; position: relative; top: -24px;
+	margin-left: 50%; left: -42.5%; border-radius: 20px; overflow-y: scroll; overflow-x: hidden;-webkit-overflow-scrolling: touch;
+}
+.back .webl .kjjl table tr{
+	height: 50px;
+}
+.back .webl .kjjl table tr td .bj{
+	width:30px; height: 30px; text-align: center;
+}
+.back .webl .kjjl table tr td .bj.zc{
+	background:url(../img/kk.png); background-size: 100% 100%;
+}
+.back .webl .kjjl table tr td .bj.dui{
+	background:url(../img/bg_dui.png); background-size: 100% 100%;
+}
+.back .webl .kjjl table tr td .bj.cuo{
+	background:url(../img/bg_cuo.png); background-size: 100% 100%;
+}
+.back .webl .kjjl table tr td .bj img{
+	width: 80%;
+}
+.back .webl .kjjl table tr td .bj span{
+	font-size: 9px; background-color: #3d1806; padding: 2px; border-radius: 5px; position: relative; top: -9px;
+}
+/*游戏页面底部*/
+.back .bottom{
+	width: 97%; height:20%; position:absolute; background: url(../img/bottom_mu_bg.png);
+	margin-left: 50%; left: -48.5%; background-size: 100% 100%; bottom:5px;z-index:3;
+}
+.back .bottom .recharge{
+	width: 40%;height: 80%; background:url(../img/Base@2x.png); position: relative; top: 3px; left: -5px; float: left;
+	background-size: 100% 100%;padding-bottom: 5px;padding-right: 15px;
+}
+.back .bottom .recharge .coinicon{
+	height: 30px;
+    position: absolute;
+    left: 5px;
+} 
+.back .bottom .recharge .brown{
+	width: 48%; height: 18px; background:url(../img/money_bg_zong.png); float: left; margin-top:9px; margin-left: 32px;
+	background-size: 100% 100%; font-size: 12px; color: #fff; font-weight: bold; line-height: 19px; padding-left: 5px;
+	text-shadow: 1px 1px 1px #333333;
+}
+.back .bottom .moey{
+	width:35%; height: 25px; float: right; position: relative; top: 9px; right: 20px;
+}
+.back .bottom .moey img{
+	width:22%;
+}

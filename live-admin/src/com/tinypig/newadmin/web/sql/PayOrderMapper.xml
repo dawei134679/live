@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.PayOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.PayOrder" >
+    <id column="order_id" property="orderId" jdbcType="CHAR" />
+    <result column="srcuid" property="srcuid" jdbcType="INTEGER" />
+    <result column="dstuid" property="dstuid" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="zhutou" property="zhutou" jdbcType="INTEGER" />
+    <result column="creatAt" property="creatat" jdbcType="INTEGER" />
+    <result column="paytime" property="paytime" jdbcType="INTEGER" />
+    <result column="os" property="os" jdbcType="INTEGER" />
+    <result column="paytype" property="paytype" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="inpour_no" property="inpourNo" jdbcType="CHAR" />
+    <result column="details" property="details" jdbcType="VARCHAR" />
+    <result column="userSource" property="usersource" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="registtime" property="registtime" jdbcType="INTEGER" />
+    <result column="data_type" property="dataType" jdbcType="INTEGER" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="update_user_id" property="updateUserId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, srcuid, dstuid, amount, zhutou, creatAt, paytime, os, paytype, status, 
+    inpour_no, details, userSource, channel, registtime, data_type, flag, create_time, 
+    create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_pay.pay_order
+    where order_id = #{orderId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from zhu_pay.pay_order
+    where order_id = #{orderId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.PayOrder" >
+    insert into zhu_pay.pay_order (order_id, srcuid, dstuid, 
+      amount, zhutou, creatAt, 
+      paytime, os, paytype, 
+      status, inpour_no, details, 
+      userSource, channel, registtime, 
+      data_type, flag, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+    values (#{orderId,jdbcType=CHAR}, #{srcuid,jdbcType=INTEGER}, #{dstuid,jdbcType=INTEGER}, 
+      #{amount,jdbcType=DOUBLE}, #{zhutou,jdbcType=INTEGER}, #{creatat,jdbcType=INTEGER}, 
+      #{paytime,jdbcType=INTEGER}, #{os,jdbcType=INTEGER}, #{paytype,jdbcType=CHAR}, 
+      #{status,jdbcType=INTEGER}, #{inpourNo,jdbcType=CHAR}, #{details,jdbcType=VARCHAR}, 
+      #{usersource,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}, #{registtime,jdbcType=INTEGER}, 
+      #{dataType,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
+      #{createUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=BIGINT}, #{updateUserId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.PayOrder" >
+    insert into zhu_pay.pay_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="srcuid != null" >
+        srcuid,
+      </if>
+      <if test="dstuid != null" >
+        dstuid,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="zhutou != null" >
+        zhutou,
+      </if>
+      <if test="creatat != null" >
+        creatAt,
+      </if>
+      <if test="paytime != null" >
+        paytime,
+      </if>
+      <if test="os != null" >
+        os,
+      </if>
+      <if test="paytype != null" >
+        paytype,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="inpourNo != null" >
+        inpour_no,
+      </if>
+      <if test="details != null" >
+        details,
+      </if>
+      <if test="usersource != null" >
+        userSource,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="registtime != null" >
+        registtime,
+      </if>
+      <if test="dataType != null" >
+        data_type,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=CHAR},
+      </if>
+      <if test="srcuid != null" >
+        #{srcuid,jdbcType=INTEGER},
+      </if>
+      <if test="dstuid != null" >
+        #{dstuid,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="zhutou != null" >
+        #{zhutou,jdbcType=INTEGER},
+      </if>
+      <if test="creatat != null" >
+        #{creatat,jdbcType=INTEGER},
+      </if>
+      <if test="paytime != null" >
+        #{paytime,jdbcType=INTEGER},
+      </if>
+      <if test="os != null" >
+        #{os,jdbcType=INTEGER},
+      </if>
+      <if test="paytype != null" >
+        #{paytype,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="inpourNo != null" >
+        #{inpourNo,jdbcType=CHAR},
+      </if>
+      <if test="details != null" >
+        #{details,jdbcType=VARCHAR},
+      </if>
+      <if test="usersource != null" >
+        #{usersource,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="registtime != null" >
+        #{registtime,jdbcType=INTEGER},
+      </if>
+      <if test="dataType != null" >
+        #{dataType,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.PayOrder" >
+    update zhu_pay.pay_order
+    <set >
+      <if test="srcuid != null" >
+        srcuid = #{srcuid,jdbcType=INTEGER},
+      </if>
+      <if test="dstuid != null" >
+        dstuid = #{dstuid,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="zhutou != null" >
+        zhutou = #{zhutou,jdbcType=INTEGER},
+      </if>
+      <if test="creatat != null" >
+        creatAt = #{creatat,jdbcType=INTEGER},
+      </if>
+      <if test="paytime != null" >
+        paytime = #{paytime,jdbcType=INTEGER},
+      </if>
+      <if test="os != null" >
+        os = #{os,jdbcType=INTEGER},
+      </if>
+      <if test="paytype != null" >
+        paytype = #{paytype,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="inpourNo != null" >
+        inpour_no = #{inpourNo,jdbcType=CHAR},
+      </if>
+      <if test="details != null" >
+        details = #{details,jdbcType=VARCHAR},
+      </if>
+      <if test="usersource != null" >
+        userSource = #{usersource,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="registtime != null" >
+        registtime = #{registtime,jdbcType=INTEGER},
+      </if>
+      <if test="dataType != null" >
+        data_type = #{dataType,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.PayOrder" >
+    update zhu_pay.pay_order
+    set srcuid = #{srcuid,jdbcType=INTEGER},
+      dstuid = #{dstuid,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DOUBLE},
+      zhutou = #{zhutou,jdbcType=INTEGER},
+      creatAt = #{creatat,jdbcType=INTEGER},
+      paytime = #{paytime,jdbcType=INTEGER},
+      os = #{os,jdbcType=INTEGER},
+      paytype = #{paytype,jdbcType=CHAR},
+      status = #{status,jdbcType=INTEGER},
+      inpour_no = #{inpourNo,jdbcType=CHAR},
+      details = #{details,jdbcType=VARCHAR},
+      userSource = #{usersource,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=VARCHAR},
+      registtime = #{registtime,jdbcType=INTEGER},
+      data_type = #{dataType,jdbcType=INTEGER},
+      flag = #{flag,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      update_user_id = #{updateUserId,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=CHAR}
+  </update>
+  
+  <update id="delPayOrder" parameterType="com.tinypig.newadmin.web.entity.PayOrder" >
+    update zhu_pay.pay_order  set flag = 0, 
+      update_time = #{updateTime,jdbcType=BIGINT},
+      update_user_id = #{updateUserId,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=CHAR} and data_type=2 and flag=1
+  </update>
+</mapper>

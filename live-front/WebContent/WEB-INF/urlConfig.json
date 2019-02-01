@@ -1,0 +1,29 @@
+{
+	"url":[{
+		"adminrpc_publish_room_all":"http://192.168.20.251:8001/publish/room_all",
+		"adminrpc_publish_room":"http://192.168.20.251:8001/publish/room",
+		"adminrpc_publish_world":"http://192.168.20.251:8001/publish/world",
+		"adminrpc_user_token":"http://192.168.20.251:8001/user/token",
+		"adminrpc_begin_live":"http://192.168.20.251:8001/room/begin_live",
+		"adminrpc_end_live":"http://192.168.20.251:8001/room/end_live",
+		"adminrpc_publish_live":"http://192.168.20.251:8001/publish/multiCast",
+		"silent_on":"http://192.168.20.251:8001/room/silent_on",
+		"silent_off":"http://192.168.20.251:8001/room/silent_off",
+		"kick_out":"http://192.168.20.251:8001/room/kick_out",
+		"channel_weixin":"https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN",
+		"channel_qq":"https://graph.qq.com/user/get_user_info?access_token=%s&oauth_consumer_key=%s&openid=%s",
+		"channel_weibo":"https://api.weibo.com/2/users/show.json?access_token=%s&uid=%s",
+		"weixinTixianUrl":"https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack",
+		"weixinBindUrl":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=dasdw243#wechat_redirect",
+		"weixin_userInfo":"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code",
+		"weixin_getToken":"https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s",
+		"weixin_userInfoByToken":"https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN",
+		"weixin_unifiedorder":"https://api.mch.weixin.qq.com/pay/unifiedorder",
+		"weixin_callback":"http://api-test.xiaozhutv.com:10000/notify/webWXPayNotify",
+		"weixin_redpack_clientIP":"101.201.76.5",
+		"admin_piganalysis":"http://web.shark2:9080/pigAnalysis/eqm/save",
+		"mobilemsgchannel":"http://221.179.180.158:9007/QxtSms/QxtFirewall?OperID=mxzzb&OperPass=mxzzb1620&DesMobile=%s&Content=%s&ContentType=15",
+		"qn_accessKey":"A2M6tWZVJe2Si0wIFIsCej8ek4Qkrb9uCmwGDes1",
+		"qn_secretKey":"-LXP7KiF8d4xkNEkZprl1wDyvRUl5mEyBsse-Www"
+	}]
+}

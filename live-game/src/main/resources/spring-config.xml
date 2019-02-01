@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+               http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+               http://www.springframework.org/schema/context
+               http://www.springframework.org/schema/context/spring-context-4.0.xsd
+               http://www.springframework.org/schema/tx
+               http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+               http://www.springframework.org/schema/aop
+               http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+               http://www.springframework.org/schema/mvc
+               http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+			   http://www.springframework.org/schema/task  
+    		   http://www.springframework.org/schema/task/spring-task-3.1.xsd
+               "
+	default-autowire="byName ">
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:*.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="spring-redis.xml" />
+
+	<context:component-scan base-package="com.hkzb" />
+	<task:annotation-driven />
+	
+	<!-- 阿里 druid 数据库连接池 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		destroy-method="close">
+		<!-- 数据库基本信息配置 -->
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="filters" value="${jdbc.filters}" />
+		<!-- 最大并发连接数 -->
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<!-- 初始化连接数量 -->
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="${jdbc.maxWait}" />
+		<!-- 最小空闲连接数 -->
+		<property name="minIdle" value="${jdbc.minIdle}" />
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
+		<property name="validationQuery" value="${jdbc.validationQuery}" />
+		<property name="testWhileIdle" value="${jdbc.testWhileIdle}" />
+		<property name="testOnBorrow" value="${jdbc.testOnBorrow}" />
+		<property name="testOnReturn" value="${jdbc.testOnReturn}" />
+		<property name="maxOpenPreparedStatements" value="${jdbc.maxOpenPreparedStatements}" />
+		<!-- 打开 removeAbandoned 功能 -->
+		<property name="removeAbandoned" value="${jdbc.removeAbandoned}" />
+		<!-- 1800 秒，也就是 30 分钟 -->
+		<property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}" />
+		<!-- 关闭 abanded 连接时输出错误日志 -->
+		<property name="logAbandoned" value="${jdbc.logAbandoned}" />
+	</bean>
+
+	<!-- 开启配置 -->
+	<bean id="sqlSessionFactory0" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:mybatis/*.xml" />
+	</bean>
+
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 ,包下的类需要使用@MapperScan注解,否则容器注入会失败 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.hkzb.game.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory0" />
+	</bean>
+
+	<!-- 事物 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- exception -->
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView">
+			<value>showError</value>
+		</property>
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.Exception">jsonErr</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="springContextUtil" class="com.hkzb.game.common.utils.SpringContextUtil"
+		lazy-init="false" />
+</beans>

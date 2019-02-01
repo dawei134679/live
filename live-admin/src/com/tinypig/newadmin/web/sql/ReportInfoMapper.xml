@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.ReportInfoDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.ReportInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="uid" property="uid" jdbcType="BIGINT" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="rid" property="rid" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="handletime" property="handletime" jdbcType="BIGINT" />
+    <result column="handlemark" property="handlemark" jdbcType="VARCHAR" />
+    <result column="handle_uid" property="handleUid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, content, rid, status, createtime, handletime, handlemark, handle_uid
+  </sql>
+  <select id="getReportInfoList" resultMap="BaseResultMap" parameterType="com.tinypig.newadmin.web.entity.ReportInfoParamDto">
+		select
+		<include refid="Base_Column_List" />
+		from zhu_admin.t_report_info t
+		where 1=1
+	    <if test="status != null" >
+	        and status = #{status,jdbcType=TINYINT}
+	    </if>		
+		<if test="uid!=null and uid!=''">
+			and t.uid=#{uid}
+		</if>
+		<if test="rid!=null and rid!=''">
+			and t.rid=#{rid}
+		</if>
+		<if test="status!=null and status!=''">
+			and t.status=#{status}
+		</if>
+		<if test="handle_uid!=null and handle_uid!=''">
+			and t.handle_uid=#{handle_uid}
+		</if>
+		<if test="screatetime!=null and screatetime!=''">
+			and t.createtime &gt;=#{screatetime}
+		</if> 
+		<if test="ecreatetime!=null and ecreatetime!=''">
+			and t.createtime &lt;=#{ecreatetime}
+		</if>
+		<if test="shandletime!=null and shandletime!=''">
+			and t.handletime &gt;=#{shandletime}
+		</if> 
+		<if test="ehandletime!=null and ehandletime!=''">
+			and t.handletime &lt;=#{ehandletime}
+		</if>
+		order by t.createtime desc
+		limit #{startIndex},#{pageSize}
+  </select>
+  <select id="getReportInfoTotal" resultType="java.lang.Integer" parameterType="com.tinypig.newadmin.web.entity.ReportInfoParamDto">
+		select
+		 count(*) total
+		from zhu_admin.t_report_info t
+		where 1=1
+		<if test="status != null" >
+	        and status = #{status,jdbcType=TINYINT}
+	    </if>
+		<if test="uid!=null and uid!=''">
+			and t.uid=#{uid}
+		</if>
+		<if test="rid!=null and rid!=''">
+			and t.rid=#{rid}
+		</if>
+		<if test="status!=null and status!=''">
+			and t.status=#{status}
+		</if>
+		<if test="handle_uid!=null and handle_uid!=''">
+			and t.handle_uid=#{handle_uid}
+		</if>
+		<if test="screatetime!=null and screatetime!=''">
+			and t.createtime &gt;=#{screatetime}
+		</if> 
+		<if test="ecreatetime!=null and ecreatetime!=''">
+			and t.createtime &lt;=#{ecreatetime}
+		</if>
+		<if test="shandletime!=null and shandletime!=''">
+			and t.handletime &gt;=#{shandletime}
+		</if> 
+		<if test="ehandletime!=null and ehandletime!=''">
+			and t.handletime &lt;=#{ehandletime}
+		</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.t_report_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from zhu_admin.t_report_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.ReportInfo" >
+    insert into zhu_admin.t_report_info (id, uid, content, 
+      rid, status, createtime, 
+      handletime, handlemark, handle_uid
+      )
+    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, 
+      #{rid,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{createtime,jdbcType=BIGINT}, 
+      #{handletime,jdbcType=BIGINT}, #{handlemark,jdbcType=VARCHAR}, #{handleUid,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.ReportInfo" >
+    insert into zhu_admin.t_report_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="rid != null" >
+        rid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="handletime != null" >
+        handletime,
+      </if>
+      <if test="handlemark != null" >
+        handlemark,
+      </if>
+      <if test="handleUid != null" >
+        handle_uid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null" >
+        #{rid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="handletime != null" >
+        #{handletime,jdbcType=BIGINT},
+      </if>
+      <if test="handlemark != null" >
+        #{handlemark,jdbcType=VARCHAR},
+      </if>
+      <if test="handleUid != null" >
+        #{handleUid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.ReportInfo" >
+    update zhu_admin.t_report_info
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null" >
+        rid = #{rid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="handletime != null" >
+        handletime = #{handletime,jdbcType=BIGINT},
+      </if>
+      <if test="handlemark != null" >
+        handlemark = #{handlemark,jdbcType=VARCHAR},
+      </if>
+      <if test="handleUid != null" >
+        handle_uid = #{handleUid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.ReportInfo" >
+    update zhu_admin.t_report_info
+    set uid = #{uid,jdbcType=BIGINT},
+      content = #{content,jdbcType=VARCHAR},
+      rid = #{rid,jdbcType=BIGINT},
+      status = #{status,jdbcType=TINYINT},
+      createtime = #{createtime,jdbcType=BIGINT},
+      handletime = #{handletime,jdbcType=BIGINT},
+      handlemark = #{handlemark,jdbcType=VARCHAR},
+      handle_uid = #{handleUid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateHandlemark">
+    update zhu_admin.t_report_info
+    set 
+      handletime = #{handletime,jdbcType=BIGINT},
+      handlemark = #{handlemark,jdbcType=VARCHAR},
+      handle_uid = #{handleUid,jdbcType=BIGINT},
+      status=1
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

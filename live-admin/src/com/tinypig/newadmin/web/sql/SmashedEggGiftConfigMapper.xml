@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.SmashedEggGiftConfigDao">
+	<resultMap id="BaseResultMap"
+		type="com.tinypig.newadmin.web.entity.SmashedEggGiftConfig">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="gift_id" property="giftId" jdbcType="BIGINT" />
+		<result column="gift_name" property="giftName" jdbcType="VARCHAR" />
+		<result column="gift_type" property="giftType" jdbcType="BIT" />
+		<result column="gift_num" property="giftNum"  jdbcType="INTEGER" />
+		<result column="hammer_type" property="hammerType" jdbcType="BIT" />
+		<result column="probability" property="probability" jdbcType="DOUBLE" />
+		<result column="isfirstprize" property="isfirstprize" jdbcType="BIT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, gift_id, gift_name,gift_type,gift_num, hammer_type, probability, isfirstprize
+	</sql>
+	<select id="getGiftList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from live_game.smashed_egg_gift_config
+		<where>
+			<if test="hammerType!=null and hammerType!=-1">
+				and hammer_type=#{hammerType}
+			</if>
+		</where>
+		limit #{startIndex},#{pageSize}
+	</select>
+	<select id="getSmashedEggGiftConfig" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from live_game.smashed_egg_gift_config where hammer_type=#{hammerType}
+	</select>
+	<insert id="saveSmashedEggGiftConfig"
+		parameterType="com.tinypig.newadmin.web.entity.SmashedEggGiftConfig">
+		insert into live_game.smashed_egg_gift_config (id, gift_id,
+		gift_name,gift_type,gift_num,hammer_type, probability, isfirstprize)
+		values (#{id,jdbcType=BIGINT}, #{giftId,jdbcType=BIGINT},
+		#{giftName,jdbcType=VARCHAR}, #{giftType,jdbcType=INTEGER},
+		#{giftNum,jdbcType=BIT}, #{hammerType,jdbcType=BIT},
+		#{probability,jdbcType=DOUBLE}, #{isfirstprize,jdbcType=BIT})
+	</insert>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from live_game.smashed_egg_gift_config
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		live_game.smashed_egg_gift_config
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert"
+		parameterType="com.tinypig.newadmin.web.entity.SmashedEggGiftConfig">
+		insert into live_game.smashed_egg_gift_config (id, gift_id,
+		gift_name,gift_type,gift_num,
+		hammer_type, probability, isfirstprize
+		)
+		values (#{id,jdbcType=BIGINT}, #{giftId,jdbcType=BIGINT},
+		#{giftName,jdbcType=VARCHAR},#{giftType,jdbcType=INTEGER},
+		#{giftNum,jdbcType=BIT},
+		#{hammerType,jdbcType=BIT}, #{probability,jdbcType=DOUBLE}, #{isfirstprize,jdbcType=BIT}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.tinypig.newadmin.web.entity.SmashedEggGiftConfig">
+		insert into live_game.smashed_egg_gift_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="giftId != null">
+				gift_id,
+			</if>
+			<if test="giftName != null">
+				gift_name,
+			</if>
+			<if test="giftType != null">
+				gift_type,
+			</if>
+			<if test="giftNum!= null">
+				gift_num,
+			</if>
+			<if test="hammerType != null">
+				hammer_type,
+			</if>
+			<if test="probability != null">
+				probability,
+			</if>
+			<if test="isfirstprize != null">
+				isfirstprize,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="giftId != null">
+				#{giftId,jdbcType=BIGINT},
+			</if>
+			<if test="giftName != null">
+				#{giftName,jdbcType=VARCHAR},
+			</if>
+			<if test="giftType != null">
+				#{giftType,jdbcType=INTEGER},
+			</if>
+			<if test="giftNum != null">
+				#{giftNum,jdbcType=BIT},
+			</if>
+			<if test="hammerType != null">
+				#{hammerType,jdbcType=BIT},
+			</if>
+			<if test="probability != null">
+				#{probability,jdbcType=DOUBLE},
+			</if>
+			<if test="isfirstprize != null">
+				#{isfirstprize,jdbcType=BIT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.tinypig.newadmin.web.entity.SmashedEggGiftConfig">
+		update live_game.smashed_egg_gift_config
+		<set>
+			<if test="giftId != null">
+				gift_id = #{giftId,jdbcType=BIGINT},
+			</if>
+			<if test="giftName != null">
+				gift_name = #{giftName,jdbcType=VARCHAR},
+			</if>
+			<if test="giftType != null">
+				gift_type = #{giftType,jdbcType=INTEGER},
+			</if>
+			<if test="giftNum != null">
+				gift_num = #{giftNum,jdbcType=BIT},
+			</if>
+			<if test="hammerType != null">
+				hammer_type = #{hammerType,jdbcType=BIT},
+			</if>
+			<if test="probability != null">
+				probability = #{probability,jdbcType=DOUBLE},
+			</if>
+			<if test="isfirstprize != null">
+				isfirstprize = #{isfirstprize,jdbcType=BIT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.tinypig.newadmin.web.entity.SmashedEggGiftConfig">
+		update live_game.smashed_egg_gift_config
+		set gift_id = #{giftId,jdbcType=BIGINT},
+		gift_name = #{giftName,jdbcType=VARCHAR},
+		gift_type = #{giftType,jdbcType=INTEGER},
+		gift_num = #{giftNum,jdbcType=BIT},
+		hammer_type = #{hammerType,jdbcType=BIT},
+		probability = #{probability,jdbcType=DOUBLE},
+		isfirstprize = #{isfirstprize,jdbcType=BIT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateNoFirstPrize">
+		update live_game.smashed_egg_gift_config
+		set isfirstprize = 0 
+		where hammer_type = #{hammerType,jdbcType=BIT} and id!=#{id,jdbcType=BIGINT}
+	</update>
+	<select id="getSumProbability" resultType="map">
+		SELECT
+		IFNULL(SUM(probability),0) AS sp FROM live_game.smashed_egg_gift_config
+		where hammer_type = #{hammerType,jdbcType=BIT} and id!=#{id,jdbcType=BIGINT}
+	</select>
+</mapper>
+
+
+
+
+
+
+ 

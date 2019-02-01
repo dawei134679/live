@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+	<title>奔驰宝马</title>
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="css/choujiang.css">
+	<script type="text/javascript" src="../assets/js/fastclick.min.js"></script>
+	<script type="text/javascript" src="../assets/js/jquery-1.11.0.js"></script>
+	<script type="text/javascript" src="../assets/js/iScroll.js"></script>
+	<script type="text/javascript" src="../assets/js/crypto-js-3.1.9-1/crypto-js.js"></script>
+	<script type="text/javascript" src="../assets/js/zrender.min.js"></script>
+	<script type="text/javascript" src="../assets/js/layer_mobile/layer.js"></script>
+	<script type="text/javascript" src="../assets/js/game.config.js?v=4"></script>
+	<script type="text/javascript" src="js/easing.js"></script>
+	<script type="text/javascript" src="js/choujiang.js"></script>
+    <style>
+        html, body{width: 100%;height: 100%;margin:0px;padding:0px;}
+        #main {width: 100%;height: 100%;position: absolute;margin:0px;padding:0px;}
+		.shuoming{height:100%;width:98%;overflow-x:hidden;overflow-y:scroll;margin-top:25px;margin-left:1%;display:none;}
+		.toptool {text-align:center;position:fixed;top:0;width:100%;background:#fff;overflow: hidden;padding-bottom:5px;}
+		.toptool .title{text-align:center;font-size:22px;margin:0px auto;}
+		.toptool .close{text-align:left;position:absolute;top:0;padding:5px;}
+		
+		.container{width: 100%;height: 100%;margin:0;display:none;}
+		.closeRecord{position: fixed;top:0;height: 15%;z-index: 3;padding:5px;}
+		.tab-handlers{position: fixed;top:0;width: 100%;height: 15%;z-index: 2;padding-left:25%;}
+		.tab-handler{border-radius:10px 10px 0 0;padding:0 5px;position: relative;display: block;float: left;height: 100%;line-height: 2em;font-size: 14pt;width:25%;text-align:center;padding: 0px;color: #717181;transition: .3s;transform: scale(.9);background-color: #58596b;color:#eaeaea;}
+		.tab-handler.select{color: #fff;background-color: #e74c3c;transform: scale(1);}
+		.tab-contents{height:80%;width: 100%;z-index:1;top:20%;position: absolute;overflow:hidden;overflow-y:scroll;background-color: #fff;}
+		.tab-contents .tab-content{display: none;position: absolute;width: 100%;height: 80%;padding: 0px;color: #999;font-size: 14px;line-height: 1.618em;background-color: #fff;opacity: 0;transition: transform .5s, opacity .7s;transform: translateY(20px);}
+		.tab-contents .tab-content.show{display: block;opacity: 1;transform: scale(1);}
+		.tab-contents .tab-content .line{width: 99%;margin: 0px auto;clear: both;float: left;display: block;padding: 5px 0px;}
+		.tab-contents .tab-content .line table tr td{text-align:center;padding-top:5px;}
+		.tab-contents .tab-content .line table tr td .cb{width: 35px;height: 35px;}
+		.tab-contents .tab-content .line table tr td.status_1{background:#eaeaea;color:#000;}
+		.tab-contents .tab-content .line table tr td.status_2{background:red;color:#fff;}
+		.tab-contents .tab-content .line table tr td.status_3{background:green;color:#fff;}
+		.tab-contents .tab-content .line .left{float:left;margin-left:10px;margin-top: 2%;position: absolute;}
+		.tab-contents .tab-content .line .right{float:right;margin-right:10px;}
+		.tab-contents .tab-content .line .right .cb{width: 45%;height: 45%;}
+		.tab-contents .tab-content .line-more{margin: 0px auto;margin:5px 10px;text-align:center;border:0px;width: 99%;clear: both;float: left;display: block;padding: 5px 0px;}
+    </style>
+</head>
+<body>
+	<div id="main"></div>
+	<div class="shuoming" id="gameComment">
+		<div class="toptool">
+			<div class="title">游戏说明</div>
+			<div class="close" onclick="$('#gameComment,.toptool').hide();$('#main').show();"><img src="img/cancel.png" style="width:25px;height:25px;"/></div>
+		</div>
+		<div>
+			<p>游戏中有奔驰、宝马、奥迪、大众4种车标，每种车标有3个颜色，一共12种不同图标。</p>
+			<p>每个图标对应一个奖金倍数，每局倍数随机变动。</p>
+			<p>玩家选择一个或多个图标投注，与开奖图标相同则中奖。</p>
+			<h1>操作说明</h1>
+			<p>筹码：点击鼠标左右键切换筹码大小</p>
+			<p>投注：点击图标投注筹码，左键增加，右键减少</p>
+			<p>续押：按照上一局游戏投注</p>
+			<p>自动：自动续押投注</p>
+			<p>清空：投注筹码清零</p>
+		</div>
+	</div>
+	
+	<div class="container">
+	  <div class="closeRecord" onclick="$('.container').hide();$('#main').show();"><img src="img/cancel.png" style="width:25px;height:25px;"/></div>
+	  <div class="tab-handlers">
+	    <!--tab section 1-->
+	    <label did="1" class="tab-handler select">押注记录</label>
+	    <!--tab section 2-->
+	    <label did="2" class="tab-handler">开奖记录</label>
+	  </div>
+	  <div class="tab-contents">
+	    <div class="tab-content show">
+			<div class="line-more" pageNo="0" id="loadMore1">加载更多...</div>
+		</div>
+	    <div class="tab-content">
+			<div class="line-more" pageNo="0" id="loadMore2">加载更多...</div>
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- 提示不能下注 -->
+	<div id='cannotxiazhu' style='display:none;background: #000;opacity: 0.7;color: #fff;top: 50%;position: absolute;left: 50%;margin-left: -75px;width: 150px;text-align: center;padding:3px;border-radius:5px;'>现在已经不能下注了</div>
+	<!-- 加载游戏失败 -->
+	<div id='loadGameFail' style='display:none;background: #000;opacity: 0.7;color: #fff;top: 50%;position: absolute;left: 50%;margin-left: -40px;width: 80px;text-align: center;padding:3px;border-radius:5px;'>加载游戏失败</div>
+	
+	<div class="contentBox">
+		<!--抽奖框-->
+		<div class="draw">
+			<div class="drawBox clearfix">
+				<div class="num num1 fl"></div>
+			    <div class="num num2 fl"></div>
+			    <div class="num num3 fl"></div>
+			</div>
+			<div class="blackBg"></div>
+		</div>
+	</div>	
+	
+	<div class="testBtn"><button type="button" onclick="$('#main').hide();$('.contentBox').show();zhuan();">转</button></div>
+	
+	<script type="text/javascript">
+		var log = function(msg){(console || window.console).info(msg);}
+        var main = document.getElementById('main');
+        // 初始化zrender
+        window.zr = zrender.init(main);
+		
+		/*************************************************
+		**背景图
+		*************************************************/
+		var mainImgOpt = {
+			style: {
+				width:zr.getWidth(),
+				height:zr.getHeight(),
+				x: 0,
+				y: 0,
+				image: 'img/main_bg_1.png'
+			}
+		};
+		var bg_main1 = new zrender.Image(mainImgOpt);
+		zr.add(bg_main1);
+
+		mainImgOpt.style.image = "img/main_bg_2.png";
+		mainImgOpt.style.opacity = 0;
+		var bg_main2 = new zrender.Image(mainImgOpt);
+		zr.add(bg_main2);
+		
+		var mainbg = 1;
+		setTimeout(function(){
+			window.setInterval(function(){
+				if(mainbg == 1){
+					mainbg = 2;
+					bg_main2.setStyle({opacity:1});
+					bg_main1.setStyle({opacity:0});
+				}else{
+					mainbg = 1;
+					bg_main2.setStyle({opacity:0});
+					bg_main1.setStyle({opacity:1});
+				}
+			},500);
+		},200);
+		
+		/*************************************************
+		**开奖背景
+		*************************************************/
+		var kaijiangBackOpt = {
+			style: {
+				width:zr.getWidth(),
+				height:zr.getHeight(),
+				x: 0,
+				y: 0,
+				image: 'img/kaijiang_bg.png'
+			}
+		};
+		var kaijiangBack = new zrender.Image(kaijiangBackOpt);
+		zr.add(kaijiangBack);
+		kaijiangBack.hide();
+		/*************************************************
+		**中奖图标
+		*************************************************/
+		var zhongjiangOpt = {
+			style: {
+				width:60,
+				height:60,
+				x: zr.getWidth()/2 - 30,
+				y: zr.getHeight()/2 - 10,
+				image: 'img/kaijiang.png'
+			}
+		};
+		var zhongjiang = new zrender.Image(zhongjiangOpt);
+		zr.add(zhongjiang);
+		zhongjiang.hide();
+		
+		/*************************************************
+		**开奖中
+		*************************************************/
+		var kaijiangOpt = {
+			style: {
+				width:zr.getWidth()/3,
+				height:zr.getHeight()/3,
+				x: zr.getWidth()/2 - zr.getWidth()/3/2,
+				y: zr.getHeight()/2 - zr.getHeight()/6/2,
+				image: 'img/kaijiang.png'
+			}
+		};
+		var kaijiang = new zrender.Image(kaijiangOpt);
+		zr.add(kaijiang);
+		kaijiang.hide();
+		
+		/*************************************************
+		**倒计时
+		*************************************************/
+		var img_djs = new zrender.Image({
+			style: {
+				x: zr.getWidth()/2 - 25,
+				y: 0,
+				width:'45',
+				height:'45',
+				image: 'img/time_bg.png',
+				text:'',
+				textAlign:'center',
+				textFont:'bold 24px verdana',
+				textColor:'#ffffff',
+				textBaseline:'middle',
+				brushType:'fill',
+				color:'#ffffff',
+				strokeColor:'#ffffff',
+				lineWidth:1,
+				textFill:"#FFF"
+			}
+		});
+        zr.add(img_djs);
+		
+		/*************************************************
+		**游戏说明
+		*************************************************/
+        var btn_yxsm = new zrender.Image({
+			style: {
+				x: 0,
+				y: 0,
+				width:'70',
+				height:'25',
+				image: 'img/up_btn.png',
+				text:'游戏说明',
+				textFill:"#000",
+				textAlign:'center',
+				textFont:'normal 12px verdana',
+				textBaseline:'middle',
+				textPosition:'inside'
+			}
+		});
+		zr.add(btn_yxsm);
+		
+		btn_yxsm.on('click', function(e) {
+			if($("#gameComment").is(":hidden")){
+				$('#main').hide();
+				$('#gameComment,.toptool').show();
+			}
+			e.event.preventDefault();
+		});
+		
+		/*************************************************
+		**历史纪录
+		*************************************************/
+		var btn_lsjl = new zrender.Image({
+			style: {
+				x: zr.getWidth() - 70,
+				y: 0,
+				width:'70',
+				height:'25',
+				image: 'img/up_btn.png',
+				text:'历史纪录',
+				textFill:"#000",
+				textAlign:'center',
+				textFont:'normal 12px verdana',
+				textBaseline:'middle',
+				textPosition:'inside'
+			}
+		});
+        zr.add(btn_lsjl);
+
+        btn_lsjl.on('click', function(e) {
+        	//btn_lsjl.setStyle({text:("res:"+getAppConfig())});
+        	//window.location.href="history.html?t="+new Date().getTime();
+       		//appOpen('history.html');
+       		$(".tab-contents .tab-content").eq(0).find('div').not(".line-more").remove();
+       		$(".tab-contents .tab-content").eq(1).find('div').not(".line-more").remove();
+       		getStakeRecord();
+       		getLotteryRecord();
+       		$("#main").hide();
+       		$(".container").show();
+        });
+		
+        window.toolDownGroup = new zrender.Group();
+		/*************************************************
+		**底部工具条
+		*************************************************/		
+		var downtool_img = new zrender.Image({
+			style: {
+				x: 0,
+				y: zr.getHeight()-35,
+				width:zr.getWidth(),
+				height:35,
+				image: 'img/down_warp.png'
+			}
+		});
+		toolDownGroup.add(downtool_img);
+		
+		/*************************************************
+		**金币图标
+		*************************************************/
+		var btn_jbtb = new zrender.Image({
+			style: {
+				x: 30,
+				y: zr.getHeight() - 25,
+				width:'20',
+				height:'20',
+				image: 'img/qian.png'
+			}
+		});
+		toolDownGroup.add(btn_jbtb);
+		
+		/*************************************************
+		**金币数量
+		*************************************************/
+		var qian = new zrender.Text({
+            style: {
+                x: 50,
+				y: zr.getHeight() - 20,
+                text: '0',
+                width: 50,
+                height: 50,
+				textColor: 'red',
+                textFont: '14px Microsoft Yahei',
+				textFill:"gold"
+            },
+			hoverable: true
+		});
+		toolDownGroup.add(qian);
+		/*************************************************
+		**充值
+		*************************************************/
+		var chongzhi = new zrender.Text({
+            style: {
+                x: 95,
+				y: zr.getHeight() - 19,
+                text: '充值',
+                width: 50,
+                height: 50,
+                textFont: '12px Microsoft Yahei',
+				textFill:"gold"
+			}
+		});
+		toolDownGroup.add(chongzhi);
+		chongzhi.on('click',function(){
+			console.info('充值');
+		});
+		
+		/*************************************************
+		**筹码
+		*************************************************/
+		var chipsAry = [1,5,10,50,100,500,1000];
+		var chips = [];
+		var chipsImgOpt = {
+			baseOpt : {
+				x: zr.getWidth()/3 + 10,
+				y: zr.getHeight()-30,
+				width:28,
+				height:28,
+				image: 'img/cb_bg.png'
+			}
+		};
+		var chipClick = function(e){
+			var d = e.target.data;
+			for(var i=0;i<chips.length;i++){
+				if(i != d.n){
+					var v = chips[i];
+					v.setStyle({opacity:1});
+					v.selected = false;
+				}
+			}
+			chips[d.n].setStyle({opacity:0});
+			chips[d.n].selected = true;
+		}
+		for(var i=0;i<chipsAry.length;i++){
+			chipsImgOpt.style = $.extend({},chipsImgOpt.baseOpt);
+			chipsImgOpt.style.image= 'img/cm_'+chipsAry[i]+'.png';
+			chipsImgOpt.style.x = zr.getWidth()/3 + 10 + (i) * zr.getWidth()/12;
+			chipsImgOpt.data = {v:chipsAry[i],n:i};
+			var chip = new zrender.Image(chipsImgOpt);
+			chipsImgOpt.style.image= 'img/cm_zz.png';
+			chipsImgOpt.style.opacity= 1;
+			var chipUp = new zrender.Image(chipsImgOpt);
+			toolDownGroup.add(chip);
+			toolDownGroup.add(chipUp);
+			if(i == 0){
+				chipUp.setStyle({opacity:0});
+				chipUp.selected = true;
+			}
+			chips.push(chipUp);
+			chip.on('click',chipClick);
+			chipUp.on('click',chipClick);
+		}
+		zr.add(toolDownGroup);
+		
+		/*************************************************
+		**车标列表
+		*************************************************/
+		var loadCheBiao = function(datalist){
+			var chebiaoImgOpt = {
+				baseOpt : {
+					x: zr.getWidth()/13,
+					y: zr.getHeight()/3,
+					width:45,
+					height:45,
+					image: 'img/cb_bg.png'
+				}
+			};
+			// 获取选中的筹码
+			window.getSelectChip = function(){
+				var selectChip = chips.filter(function(v){return v.selected;})[0];
+				return selectChip.data;
+			}
+			// 下注
+			window.callXiaZhu = function(e){
+				var symiao = img_djs.style.text || 0;
+				if(symiao < 4){
+					$("#cannotxiazhu").show();
+					setTimeout(function(){
+						$("#cannotxiazhu").hide();
+					},2000);
+					//alert('现在已经不能下注了');
+					return;
+				}
+				var val = getSelectChip().v;
+				var tmpTxt = chebiaoImgYzs[e.target.data.n];
+				var did = e.target.data.did;
+				//押注
+				ajax({
+					url :'/gameCar/stake',
+					type:'post',
+					data:{roomId:Config.roomId,anchorId:Config.anchorId,carId:did,money:val,periods:Config.periods},
+					success:function(d){
+						if(d.code == '200'){
+							tmpTxt.setStyle({text:parseInt(tmpTxt.style.text+val)});
+							window.refreshMoney();
+						}else{
+							show(JSON.stringify(d));
+						}
+					}
+				});
+			}
+			// 定义车标变量
+			window.chebiaoImgs = [];
+			window.chebiaoImgSels = [];
+			window.chebiaoImgBgs = [];
+			window.chebiaoImgYzs = [];
+			window.chebiaoGroup = new zrender.Group();
+			
+			for(var i =0;i<datalist.length;i++){
+				var dbchebiao = datalist[i];
+				//背景
+				chebiaoImgOpt.style = $.extend({},chebiaoImgOpt.baseOpt);
+				chebiaoImgOpt.data = {n:i,did:dbchebiao.id};
+				chebiaoImgOpt.style.x = ((zr.getWidth()) / 13) + (i) * ((zr.getWidth()) / 7);
+				var chebiaoImgBg = new zrender.Image(chebiaoImgOpt);
+				chebiaoGroup.add(chebiaoImgBg);
+				chebiaoImgBg.on('click',callXiaZhu);
+				chebiaoImgBgs.push(chebiaoImgBg);
+				
+				//选中背景
+				/**
+				chebiaoImgOpt.style.image = 'img/cb_sel.png';
+				chebiaoImgOpt.style.opacity = 0;
+				var chebiaoImgSel = new zrender.Image(chebiaoImgOpt);
+				chebiaoGroup.add(chebiaoImgSel);
+				chebiaoImgSel.on('click',callXiaZhu);
+				chebiaoImgSels.push(chebiaoImgSel);
+				**/
+				
+				//押注数量
+				chebiaoImgOpt.style.opacity = 1;
+				chebiaoImgOpt.style.image = 'img/text_bg.png';
+				chebiaoImgOpt.style.width = 45;
+				chebiaoImgOpt.style.height = 25;
+				chebiaoImgOpt.style.text = 0;
+				chebiaoImgOpt.style.textFont = 'normal 14px verdana';;//'bold 18px verdana';
+				chebiaoImgOpt.style.textPosition = 'inside';
+				//chebiaoImgOpt.style.textAlign = 'center';
+				// chebiaoImgOpt.style.textBaseline = 'middle';
+				chebiaoImgOpt.style.y = zr.getHeight()/3*1.9;
+				var chebiaoImgText = new zrender.Image(chebiaoImgOpt);
+				chebiaoGroup.add(chebiaoImgText);
+				chebiaoImgText.on('click',callXiaZhu);
+				chebiaoImgYzs.push(chebiaoImgText);
+				
+				//车标
+				chebiaoImgOpt.style = $.extend({},chebiaoImgOpt.baseOpt);
+				chebiaoImgOpt.data = {n:i,did:dbchebiao.id};
+				chebiaoImgOpt.style.x = zr.getWidth()/13 + (i) * zr.getWidth()/7;
+				chebiaoImgOpt.style.image = dbchebiao.img;
+				chebiaoImgOpt.style.width -= 15;
+				chebiaoImgOpt.style.height -= 15;
+				chebiaoImgOpt.style.x += 8;
+				chebiaoImgOpt.style.y += 8;
+				var chebiaoImg = new zrender.Image(chebiaoImgOpt);
+				chebiaoGroup.add(chebiaoImg);
+				chebiaoImg.on('click',callXiaZhu);
+				chebiaoImgs.push(chebiaoImg);
+			}
+			zr.add(chebiaoGroup);
+		}
+		
+		//重置
+		window.resetGame = function(){
+			window.loadTimeAndPeriods();
+			kaijiang.hide();
+			kaijiangBack.hide();
+			zhongjiang.hide();
+			chebiaoGroup.show();
+			toolDownGroup.show();
+			zhongjiangTip.hide();
+			zhongjiangStr.hide();
+			for(var k=0;k<chebiaoImgYzs.length;k++){
+				chebiaoImgYzs[k].setStyle({text:0});
+			}
+		}
+		
+		//加载秒数和期数
+		window.loadTimeAndPeriods = function(){
+			ajax({
+				url :'/gameCar/getGameCarTime',
+				data:{roomId:Config.roomId,anchorId:Config.anchorId},
+				success:function(d){
+					show("加载秒期数："+JSON.stringify(d));
+					if(d.code == '200'){
+						Config.periods = d.data.periods;
+						img_djs.setStyle({text:(40 - d.data.time)});
+						window.daojishi_timer = setTimeout(window.startDaoJiShi,1000);
+					}
+				}
+			});
+		}
+		
+		/*************************************************
+		**中奖未中奖提示语
+		*************************************************/
+		var zhongjiangTipOpt = {style: {}};
+		var zhongjiangTip = new zrender.Image(zhongjiangTipOpt);
+		zr.add(zhongjiangTip);
+		zhongjiangTip.hide();
+
+		/*************************************************
+		**押注 中奖 展示字符串
+		*************************************************/
+		var zhongjiangStrOpt = {
+			style: {
+				image: 'img/zj_tmbg.png',
+				color: 'red',
+                textFont: '14px Microsoft Yahei',
+				textFill:"red",	
+				x:zr.getWidth()/2 - 100,
+				y:zr.getHeight() - 30,
+				width:200,
+				height:24
+			}
+		};
+		var zhongjiangStr = new zrender.Image(zhongjiangStrOpt);
+		zr.add(zhongjiangStr);
+		zhongjiangStr.hide();
+		
+		
+
+		//获取押注记录
+		var getStakeRecord = function(_pageNo){
+			var pageNo = parseInt(_pageNo || 0) + 1;
+			ajax({
+				url :'/gameCar/getStakeRecord',
+				type:'post',
+				data:{pageNo:pageNo,pageSize:10},
+				success:function(d){
+					show("押注记录："+JSON.stringify(d));
+					if(d.code == '200'){
+						var html = [];
+						if(d.data.length > 0){
+							for(var i=0;i<d.data.length;i++){
+								var r = d.data[i];
+								html.push('<div class="line">');
+						        	//html.push('<div class="left">第'+r.periods+'期</div><div class="right"><img class="cb" src="'+window.chebiao[r.carId+'']+'" /></div>');
+						        	html.push('<table width="100%" border="1" bordercolor="#ccc" style="border-collapse:collapse;padding:0 5px;">');
+						        	html.push('<tr>');
+						        	html.push('<td rowspan="2">'+r.periods+'</td>');
+						        	for(var cb in window.chebiao){
+						        		html.push('<td><img class="cb" src="'+window.chebiao[cb]+'" /></td>');
+						        	}
+						        	html.push('</tr>');
+						        	html.push('<tr>');
+						        	var carIds = (r.carId+"").split(",");
+						        	var moneys = (r.money+"").split(",");
+						        	var statuss = (r.status+"").split(",");
+						        	for(var cb in window.chebiao){
+						        		var hasCarId = false,tmpMoney = 0,tmpStatus=1;
+						        		for(var k=0;k<carIds.length;k++){
+						        			var carId = carIds[k];
+											if(cb == carId){
+												hasCarId = true;
+												tmpMoney = moneys[k];
+												tmpStatus = statuss[k];
+												break;
+											}
+						        		}
+							        	if(hasCarId){
+								        	html.push('<td class="status_'+tmpStatus+'">'+tmpMoney+'</td>');
+							        	}else{
+								        	html.push('<td>0</td>');
+							        	}
+						        	}
+						        	html.push('</tr>');
+						        	html.push('</table>');
+					        	html.push('</div>');
+							}
+							$(".tab-contents .tab-content").eq(0).find(".line-more").before(html.join('')).attr("pageNo",pageNo);
+						}else{
+							$(".tab-contents .tab-content").eq(0).find(".line-more").html('没有更多记录').attr('onclick','');
+						}
+					}
+				}
+			});
+		}
+		//获取开奖记录
+		var getLotteryRecord = function(_pageNo){
+			var pageNo = parseInt(_pageNo || 0) + 1;
+			ajax({
+				url :'/gameCar/getLotteryRecord',
+				type:'post',
+				data:{pageNo:pageNo,pageSize:10,anchorId:Config.anchorId},
+				success:function(d){
+					if(d.code == '200'){
+						var html = [];
+						if(d.data.length > 0){
+							for(var i=0;i<d.data.length;i++){
+								var r = d.data[i];
+								if(!r.carId){
+									continue;									
+								}
+								html.push('<div class="line">');
+									html.push('<div class="left">第'+r.periods+'期</div><div class="right"><img class="cb" src="'+window.chebiao[r.carId+'']+'" /></div>');
+					        	html.push('</div>');
+							}
+							$(".tab-contents .tab-content").eq(1).find(".line-more").before(html.join('')).attr("pageNo",pageNo);
+						}else{
+							$(".tab-contents .tab-content").eq(1).find(".line-more").html('没有更多记录').attr('onclick','');
+						}
+					}
+				}
+			});
+		}
+        var initClickEvent = function(){
+        	//tab标签click
+        	$(".tab-handler").on("click",function(event){
+        		var that = $(this);
+        		if(!that.hasClass("select")){
+        			that.addClass("select");
+        		}
+        		that.siblings().removeClass('select');
+				var did = parseInt(that.attr("did"));
+				$(".tab-contents .tab-content").eq(did-1).addClass('show')
+				$(".tab-contents .tab-content").eq(did == 2?0:1).removeClass('show');
+        	});
+			//加载更多click
+			$("#loadMore1").bind('click',function(){
+				getStakeRecord($(this).attr('pageNo'));
+			});
+			$("#loadMore2").bind('click',function(){
+				getLotteryRecord($(this).attr('pageNo'));
+			});
+        }
+
+		window.refreshMoney = function(){
+			try{
+				qian.setStyle({text:((window.yangtuo||yangtuo).getMoney() || 0)});
+			}catch(e){
+				show(JSON.stringify(e));
+			}
+		}
+		
+		/*去掉手机滑动默认行为*/
+		$(function(){
+			FastClick.attach(document.body);
+			
+			//延迟100毫秒
+			setTimeout(function(){
+
+				getAppConfig();
+				
+				window.refreshMoney();
+				
+				//加载车标
+				ajax({
+					url :'/gameCar/getGameCarConfig',
+					success:function(d){
+						if(d.code == '200'){
+							loadCheBiao(d.data);
+							window.chebiao = {};
+							for(var i=0;i<d.data.length;i++){
+								var key = d.data[i].id;
+								var val = d.data[i].img;
+								window.chebiao[key] = val;
+							}
+							//初始化历史记录里tab点击事件
+				        	initClickEvent();
+						}else{
+							//加载游戏失败
+							$("#loadGameFail").show();
+							setTimeout(function(){
+								$("#loadGameFail").hide();
+							},2000);
+						}
+					},
+					error:function(){
+						//加载游戏失败
+						$("#loadGameFail").show();
+						setTimeout(function(){
+							$("#loadGameFail").hide();
+						},2000);
+					}
+				});
+				
+				window.startDaoJiShi = function(){
+					if(img_djs.style.text-- > 0){
+						img_djs.setStyle({text:img_djs.style.text});
+						clearTimeout(window.daojishi_timer);
+						window.daojishi_timer = setTimeout(window.startDaoJiShi,1000);
+					}else{
+						img_djs.setStyle({text:0});
+						clearTimeout(window.daojishi_timer);
+						chebiaoGroup.hide();
+						kaijiang.show();
+						window.serverKaijiang();
+					}
+				}
+				
+				window.serverKaijiang = function(){
+					ajax({
+						url :'/gameCar/getLotteryByPeriods',
+						data:{periods:Config.periods,anchorId:Config.anchorId},
+						success:function(d){
+							show("get开奖记录："+JSON.stringify(d));
+							if(d.code == '200'){
+								kaijiang.hide();
+								kaijiangBack.show();
+								var carId = d.data.carId;
+								$("#main").hide();
+								$(".contentBox").show();
+								zhuan(111,function(){
+									$("#main").show();
+									$(".contentBox").hide();
+									for(var i=0;i<chebiaoImgs.length;i++){
+										if(chebiaoImgs[i].data.did == carId){
+											//展示本期中奖图标
+											zhongjiang_idx = i;
+											zhongjiang.setStyle({image:chebiaoImgs[i].style.image});
+											zhongjiang.show();
+											toolDownGroup.hide();
+											//展示押注结果
+											var zhongMoney = parseInt(chebiaoImgYzs[i].style.text);
+											if(zhongMoney > 0){
+												zhongjiangTip.setStyle({
+													image: 'img/yj_yeah.png',
+													width:172* 0.6,
+													height:23* 0.6,
+													x:zr.getWidth()/2 - 86* 0.6,
+													y:zr.getHeight() - 40
+												});
+											}else{
+												zhongjiangTip.setStyle({
+													image: 'img/yj_no.png',
+													width:229 * 0.6,
+													height:23 * 0.6,
+													x:zr.getWidth()/2 - 114.5* 0.6,
+													y:zr.getHeight() - 40
+												});
+											}
+											var yaMoney = 0;//押注金额
+											for(var j=0;j<chebiaoImgYzs.length;j++){
+												yaMoney += parseInt(chebiaoImgYzs[j].style.text)
+											}
+											if(yaMoney>0){
+												zhongjiangTip.show();
+											}
+											var moneyStr = '押注：'+yaMoney+'        中奖：'+(zhongMoney*2);
+											zhongjiangStr.setStyle({
+												text:moneyStr
+											});
+											zhongjiangStr.show();
+											window.refreshMoney();
+											break;
+										}
+									}
+									setTimeout(function(){
+										window.resetGame();
+									},3000);
+								});
+							}else if(d.code == '3000'){
+								setTimeout(function(){window.serverKaijiang();},3000);
+							}else{
+								setTimeout(function(){window.serverKaijiang();},5000);
+							}
+						},
+						error:function(){
+							setTimeout(function(){window.serverKaijiang();},5000);
+						}
+					});
+				}
+				window.loadTimeAndPeriods();
+			},100);
+		});
+		
+    </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.ActivityGiftDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.ActivityGift" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="gid" property="gid" jdbcType="INTEGER" />
+    <result column="atype" property="atype" jdbcType="INTEGER" />
+    <result column="stime" property="stime" jdbcType="INTEGER" />
+    <result column="etime" property="etime" jdbcType="INTEGER" />
+    <result column="isvalid" property="isvalid" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="BaseResultMapVo" type="com.tinypig.newadmin.web.vo.ActivityGiftVo" extends="BaseResultMap">
+    <result column="gname" property="gname" jdbcType="VARCHAR" />
+    <result column="starttime" property="starttime" jdbcType="VARCHAR" />
+    <result column="endtime" property="endtime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, gid, atype, stime, etime, isvalid
+  </sql>
+  <sql id="BaseVo_Column_List" >
+    id, gid, atype, stime, etime, isvalid, IF ( stime > 0, from_unixtime(stime), '' ) AS starttime, IF ( etime > 0, from_unixtime(etime), '' ) AS endtime
+  </sql>
+  <sql id="Base_Where_List">
+	<where>
+	AND cga.gid = cg.gid
+	<if test="atype != null">AND cga.atype = #{atype}</if>
+	</where>
+  </sql>
+  <select id="selectCount" parameterType="com.tinypig.newadmin.web.vo.ActivityGiftVo" resultType="java.lang.Integer">
+        select 
+    		count(1)
+    	from
+    		zhu_config.config_gift_activity cga, zhu_config.config_giftlist cg
+    	<include refid="Base_Where_List" />
+  </select>
+  <select id="selectList" parameterType="com.tinypig.newadmin.web.vo.ActivityGiftVo" resultMap="BaseResultMapVo">
+    	select 
+    		cga.id, cga.gid, cga.atype, cga.isvalid, IF ( stime > 0, from_unixtime(stime), '' ) AS starttime, IF ( etime > 0, from_unixtime(etime), '' ) AS endtime, cg.gname
+    	from
+    		zhu_config.config_gift_activity cga, zhu_config.config_giftlist cg
+    	<include refid="Base_Where_List" />
+    	order by cga.id desc
+    	<if test="rowNumStart != null">
+    		<if test="pageSize != null">
+    			limit #{rowNumStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    		</if>
+    	</if>
+  </select>
+  <select id="getGiftList" resultType="java.util.HashMap">
+    	SELECT gid, gname FROM zhu_config.config_giftlist
+    	where gtype = 5
+  </select>
+  <select id="getAllGiftList" resultType="java.util.HashMap">
+    	SELECT gid, gname FROM zhu_config.config_giftlist
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMapVo" parameterType="java.lang.Integer" >
+    select 
+    <include refid="BaseVo_Column_List" />
+    from zhu_config.config_gift_activity
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zhu_config.config_gift_activity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.ActivityGift" >
+    insert into zhu_config.config_gift_activity (id, gid, atype, 
+      stime, etime, isvalid)
+    values (#{id,jdbcType=INTEGER}, #{gid,jdbcType=INTEGER}, #{atype,jdbcType=INTEGER}, 
+      #{stime,jdbcType=INTEGER}, #{etime,jdbcType=INTEGER}, #{isvalid,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.ActivityGift" >
+    insert into zhu_config.config_gift_activity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gid != null" >
+        gid,
+      </if>
+      <if test="atype != null" >
+        atype,
+      </if>
+      <if test="stime != null" >
+        stime,
+      </if>
+      <if test="etime != null" >
+        etime,
+      </if>
+      <if test="isvalid != null" >
+        isvalid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gid != null" >
+        #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="atype != null" >
+        #{atype,jdbcType=INTEGER},
+      </if>
+      <if test="stime != null" >
+        #{stime,jdbcType=INTEGER},
+      </if>
+      <if test="etime != null" >
+        #{etime,jdbcType=INTEGER},
+      </if>
+      <if test="isvalid != null" >
+        #{isvalid,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.ActivityGift" >
+    update zhu_config.config_gift_activity
+    <set >
+      <if test="gid != null" >
+        gid = #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="atype != null" >
+        atype = #{atype,jdbcType=INTEGER},
+      </if>
+      <if test="stime != null" >
+        stime = #{stime,jdbcType=INTEGER},
+      </if>
+      <if test="etime != null" >
+        etime = #{etime,jdbcType=INTEGER},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.ActivityGift" >
+    update zhu_config.config_gift_activity
+    set gid = #{gid,jdbcType=INTEGER},
+      atype = #{atype,jdbcType=INTEGER},
+      stime = #{stime,jdbcType=INTEGER},
+      etime = #{etime,jdbcType=INTEGER},
+      isvalid = #{isvalid,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,97 @@
+{
+    "/gameDoll/getGameDollConfig|GET": {
+        "code": "200",
+        "msg": "处理成功",
+        "operateTime": 1524560844985,
+        "data": [
+            {
+                "id": 1,
+                "imageUrl": "http://p0gy7d6cg.bkt.clouddn.com/mhXUooVWMeWuz5ir1516584065996.png",
+                "multiple": 100,
+                "name": "1",
+                "probability": 0.6
+            },
+            {
+                "id": 2,
+                "imageUrl": "http://p0gy7d6cg.bkt.clouddn.com/JQA8UFOcR96MCmUh1516584079623.png",
+                "multiple": 20,
+                "name": "2",
+                "probability": 0.2
+            },
+            {
+                "id": 3,
+                "imageUrl": "http://p0gy7d6cg.bkt.clouddn.com/v5XHLMHpOIFfrdcp1516584100409.png",
+                "multiple": 1,
+                "name": "3",
+                "probability": 0.3
+            },
+            {
+                "id": 4,
+                "imageUrl": "http://p0gy7d6cg.bkt.clouddn.com/smiKRhv7gvXsXzYd1516584129663.png",
+                "multiple": 1,
+                "name": "4",
+                "probability": 0.1
+            },
+            {
+                "id": 5,
+                "imageUrl": "http://p0gy7d6cg.bkt.clouddn.com/CX3Fhit52LhbbzFB1516584140352.png",
+                "multiple": 10,
+                "name": "5",
+                "probability": 0.8
+            },
+            {
+                "id": 6,
+                "imageUrl": "http://p0gy7d6cg.bkt.clouddn.com/14918veRjJA24V8d1516584149120.png",
+                "multiple": 30,
+                "name": "6",
+                "probability": 0.1
+            },
+            {
+                "id": 7,
+                "imageUrl": "http://p0gy7d6cg.bkt.clouddn.com/GFA8isgx6dPpriWh1516584165748.png",
+                "multiple": 1,
+                "name": "7",
+                "probability": 0.1
+            },
+            {
+                "id": 8,
+                "imageUrl": "http://p0gy7d6cg.bkt.clouddn.com/DlIB15AplwCiG7yK1516584177608.png",
+                "multiple": 2,
+                "name": "8",
+                "probability": 0.3
+            },
+            {
+                "id": 9,
+                "imageUrl": "http://p0gy7d6cg.bkt.clouddn.com/XWobgf48LQqE6Lf61516584185746.png",
+                "multiple": 1,
+                "name": "9",
+                "probability": 0.5
+            }
+        ]
+    },
+    "/gameDoll/getGameDollMoney|GET": {
+        "code": "200",
+        "msg": "处理成功",
+        "operateTime": 1524560844981,
+        "data": {
+            "claw3": "300",
+            "claw1": "100",
+            "claw2": "200"
+        }
+    },
+    "/gameDoll/grab|POST": {
+        "code": "200",
+        "msg": "抓到啦",
+        "operateTime": 1524562100697,
+        "data": {
+            "recordId": 1895,
+            "totalPrice": 1000
+        }
+    },
+    "/gameDoll/pushDollMsg|POST": {
+        "code": "200",
+        "msg": "推送成功",
+        "operateTime": 1524562102175,
+        "data": null
+    }
+}

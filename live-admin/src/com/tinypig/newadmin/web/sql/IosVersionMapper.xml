@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.IosVersionDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.IosVersion" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="pay" property="pay" jdbcType="INTEGER" />
+    <result column="payother" property="payother" jdbcType="INTEGER" />
+    <result column="giftshow" property="giftshow" jdbcType="INTEGER" />
+    <result column="tixian" property="tixian" jdbcType="INTEGER" />
+    <result column="gameshow" property="gameshow" jdbcType="INTEGER" />
+    <result column="adsshow" property="adsshow" jdbcType="INTEGER" />
+    <result column="audit" property="audit" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, version, pay, payother, giftshow, tixian, gameshow, adsshow,audit 
+  </sql>
+  <select id="getIosVersionList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from zhu_admin.t_iosversion
+		limit #{startIndex},#{pageSize}
+  </select>
+  <select id="getAllIosVersion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from zhu_admin.t_iosversion
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.t_iosversion
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from zhu_admin.t_iosversion
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.IosVersion" >
+    insert into zhu_admin.t_iosversion (id, version,pay,payother,giftshow,tixian,gameshow,adsshow,audit)
+    values (#{id,jdbcType=BIGINT}, #{version,jdbcType=VARCHAR},#{pay,jdbcType=INTEGER},#{payother,jdbcType=INTEGER},#{giftshow,jdbcType=INTEGER},#{tixian,jdbcType=INTEGER},#{gameshow,jdbcType=INTEGER},#{adsshow,jdbcType=INTEGER},#{audit,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.IosVersion" >
+    insert into zhu_admin.t_iosversion
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="pay != null" >
+        pay,
+      </if>
+      <if test="payother != null" >
+        payother,
+      </if>
+      <if test="giftshow != null" >
+        giftshow,
+      </if>
+      <if test="tixian != null" >
+        tixian,
+      </if>
+      <if test="gameshow != null" >
+        gameshow,
+      </if>
+      <if test="adsshow != null" >
+        adsshow,
+      </if>
+      <if test="audit!= null" >
+        audit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="pay != null" >
+        #{pay,jdbcType=INTEGER},
+      </if>
+      <if test="payother != null" >
+        #{payother,jdbcType=INTEGER},
+      </if>
+      <if test="giftshow != null" >
+        #{giftshow,jdbcType=INTEGER},
+      </if>
+      <if test="tixian != null" >
+        #{tixian,jdbcType=INTEGER},
+      </if>
+      <if test="gameshow != null" >
+        #{gameshow,jdbcType=INTEGER},
+      </if>
+      <if test="adsshow != null" >
+        #{adsshow,jdbcType=INTEGER},
+      </if>
+      <if test="audit != null" >
+        #{audit,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.IosVersion" >
+    update zhu_admin.t_iosversion
+    <set >
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="pay != null" >
+        pay = #{pay,jdbcType=INTEGER},
+      </if>
+      <if test="payother != null" >
+        payother = #{payother,jdbcType=INTEGER},
+      </if>
+      <if test="giftshow != null" >
+        giftshow = #{giftshow,jdbcType=INTEGER},
+      </if>
+      <if test="tixian != null" >
+        tixian = #{tixian,jdbcType=INTEGER},
+      </if>
+      <if test="gameshow != null" >
+        gameshow = #{gameshow,jdbcType=INTEGER},
+      </if>
+      <if test="adsshow != null" >
+        adsshow = #{adsshow,jdbcType=INTEGER},
+      </if>
+      <if test="audit != null" >
+        audit = #{audit,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.IosVersion" >
+    update zhu_admin.t_iosversion
+    set version = #{version,jdbcType=VARCHAR},
+      pay = #{pay,jdbcType=INTEGER},
+      payother = #{payother,jdbcType=INTEGER},
+      giftshow = #{giftshow,jdbcType=INTEGER},
+      tixian = #{tixian,jdbcType=INTEGER},
+      gameshow = #{gameshow,jdbcType=INTEGER},
+      adsshow = #{adsshow,jdbcType=INTEGER},
+      audit = #{audit,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hkzb.game.dao.GameCarRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.hkzb.game.model.GameCarRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="room_id" property="roomId" jdbcType="BIGINT" />
+    <result column="anchor_id" property="anchorId" jdbcType="BIGINT" />
+    <result column="car_id1" property="carId1" jdbcType="BIGINT" />
+    <result column="car_id2" property="carId2" jdbcType="BIGINT" />
+    <result column="car_id3" property="carId3" jdbcType="BIGINT" />
+    <result column="lottery_time" property="lotteryTime" jdbcType="BIGINT" />
+    <result column="periods" property="periods" jdbcType="BIGINT" />
+    <result column="lottery_type" property="lotteryType" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="BaseResultMap1"  type="com.hkzb.game.dto.WinningResultDto" >
+  	<result column="car_id1" property="carId1" jdbcType="BIGINT" />
+    <result column="car_id2" property="carId2" jdbcType="BIGINT" />
+    <result column="car_id3" property="carId3" jdbcType="BIGINT" />
+    <result column="totalStakeMoney" property="totalStakeMoney" jdbcType="BIGINT" />
+    <result column="totalDeservedMoney" property="totalDeservedMoney" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, room_id, anchor_id, car_id1, car_id2, car_id3, lottery_time, periods,lottery_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from game_car_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from game_car_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hkzb.game.model.GameCarRecord" 
+		useGeneratedKeys="true" keyProperty="id">
+    insert into game_car_record (id, room_id, anchor_id, 
+      car_id1, car_id2, car_id3, 
+      lottery_time, periods,lottery_type)
+    values (#{id,jdbcType=BIGINT}, #{roomId,jdbcType=BIGINT}, #{anchorId,jdbcType=BIGINT}, 
+      #{carId1,jdbcType=BIGINT}, #{carId2,jdbcType=BIGINT}, #{carId3,jdbcType=BIGINT}, 
+      #{lotteryTime,jdbcType=BIGINT}, #{periods,jdbcType=BIGINT}, #{lotteryType,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hkzb.game.model.GameCarRecord" >
+    insert into game_car_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roomId != null" >
+        room_id,
+      </if>
+      <if test="anchorId != null" >
+        anchor_id,
+      </if>
+      <if test="carId1 != null" >
+        car_id1,
+      </if>
+      <if test="carId2 != null" >
+        car_id2,
+      </if>
+      <if test="carId3 != null" >
+        car_id3,
+      </if>
+      <if test="lotteryTime != null" >
+        lottery_time,
+      </if>
+      <if test="periods != null" >
+        periods,
+      </if>
+       <if test="lotteryType != null" >
+        lottery_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="roomId != null" >
+        #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="anchorId != null" >
+        #{anchorId,jdbcType=BIGINT},
+      </if>
+      <if test="carId1 != null" >
+        #{carId1,jdbcType=BIGINT},
+      </if>
+      <if test="carId2 != null" >
+        #{carId2,jdbcType=BIGINT},
+      </if>
+      <if test="carId3 != null" >
+        #{carId3,jdbcType=BIGINT},
+      </if>
+      <if test="lotteryTime != null" >
+        #{lotteryTime,jdbcType=BIGINT},
+      </if>
+      <if test="periods != null" >
+        #{periods,jdbcType=BIGINT},
+      </if>
+      <if test="lotteryType != null" >
+     	#{lotteryType,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hkzb.game.model.GameCarRecord" >
+    update game_car_record
+    <set >
+      <if test="roomId != null" >
+        room_id = #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="anchorId != null" >
+        anchor_id = #{anchorId,jdbcType=BIGINT},
+      </if>
+      <if test="carId1 != null" >
+        car_id1 = #{carId1,jdbcType=BIGINT},
+      </if>
+      <if test="carId2 != null" >
+        car_id2 = #{carId2,jdbcType=BIGINT},
+      </if>
+      <if test="carId3 != null" >
+        car_id3 = #{carId3,jdbcType=BIGINT},
+      </if>
+      <if test="lotteryTime != null" >
+        lottery_time = #{lotteryTime,jdbcType=BIGINT},
+      </if>
+      <if test="periods != null" >
+        periods = #{periods,jdbcType=BIGINT},
+      </if>
+      <if test="lotteryType != null" >
+     	 lottery_type = #{lotteryType,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hkzb.game.model.GameCarRecord" >
+    update game_car_record
+    set room_id = #{roomId,jdbcType=BIGINT},
+      anchor_id = #{anchorId,jdbcType=BIGINT},
+      car_id1 = #{carId1,jdbcType=BIGINT},
+      car_id2 = #{carId2,jdbcType=BIGINT},
+      car_id3 = #{carId3,jdbcType=BIGINT},
+      lottery_time = #{lotteryTime,jdbcType=BIGINT},
+      periods = #{periods,jdbcType=BIGINT},
+      lottery_type = #{lotteryType,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getMaxPeriods" resultType="java.lang.Long">
+		select IFNULL(max(periods),0) periods from game_car_record
+  </select>
+  <select id="getLotteryRecord" resultMap="BaseResultMap" parameterType="com.hkzb.game.dto.LotteryRecordParamDto">
+		select
+		<include refid="Base_Column_List" />
+		from game_car_record
+		where lottery_type > 0
+		order by periods desc
+		limit ${(pageNo-1)*pageSize}, ${pageSize}
+  </select>
+  <select id="getLotteryByPeriods" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from game_car_record
+		where periods=#{periods}
+  </select>
+  <select id="getWinningResultByPeriods" resultMap="BaseResultMap1">
+		SELECT 
+		   IFNULL(SUM(money),0) totalStakeMoney,
+		   IFNULL(SUM(deserved_money),0) totalDeservedMoney
+		FROM
+		  game_car_record c,
+		  game_car_stake_record s 
+		WHERE c.id = s.ref_id 
+		  AND c.anchor_id = #{anchorId}
+		  AND c.periods = #{periods} 
+		  AND s.uid = #{uid} 
+  </select>
+  <update id="updateGameCarRecord" parameterType="com.hkzb.game.model.GameCarRecord">
+		update game_car_record
+		set car_id1 = #{carId1,jdbcType=BIGINT},car_id2 = #{carId2,jdbcType=BIGINT},car_id3 = #{carId3,jdbcType=BIGINT},
+		lottery_time = #{lotteryTime,jdbcType=BIGINT},lottery_type = #{lotteryType,jdbcType=BIGINT}
+		where anchor_id = #{anchorId,jdbcType=BIGINT} 
+			  and periods = #{periods,jdbcType=BIGINT}
+  </update>
+</mapper>

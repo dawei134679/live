@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.AnchorMicTimeDao">
+	<resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.LiveMicTime">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="os" property="os" jdbcType="VARCHAR" />
+		<result column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="slogan" property="slogan" jdbcType="VARCHAR" />
+		<result column="province" property="province" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="starttime" property="starttime" jdbcType="INTEGER" />
+		<result column="endtime" property="endtime" jdbcType="INTEGER" />
+		<result column="audience" property="audience" jdbcType="INTEGER" />
+		<result column="views" property="views" jdbcType="INTEGER" />
+		<result column="likes" property="likes" jdbcType="INTEGER" />
+		<result column="credit" property="credit" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="BIT" />
+		<result column="addtime" property="addtime" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, os, uid, slogan, province, city, starttime, endtime, audience, views,
+		likes,
+		credit, type, addtime
+	</sql>
+
+	<select id="getAnchorMicTimeList" resultType="java.util.Map"
+		parameterType="com.tinypig.newadmin.web.entity.AnchorMicTimeParamDto">
+		SELECT
+		FROM_UNIXTIME(t.addtime,'%Y-%m-%d') RepDate,
+		sum(t.endtime-t.starttime) openTime,
+		t.*,
+		a.nickname,
+		a.salesman_id salesmanId,
+		a.salesman_name salesmanName,
+		a.salesman_contacts_phone salesmanContactsPhone,
+		a.agent_user_id agentUserId,
+		a.agent_user_name agentUserName,
+		a.agent_user_contacts_name agentUserContactsName,
+		a.agent_user_contacts_phone agentUserContactsPhone,
+		a.promoters_id promotersId,
+		a.promoters_name promotersName,
+		a.promoters_contacts_name promotersContactsName,
+		a.promoters_contacts_phone promotersContactsPhone,
+		a.extension_center_id extensionCenterId,
+		a.extension_center_name extensionCenterName,
+		a.extension_center_contacts_name extensionCenterContactsName,
+		a.extension_center_contacts_phone extensionCenterContactsPhone,
+		a.strategic_partner_id strategicPartnerId,
+		a.strategic_partner_name strategicPartnerName,
+		a.strategic_partner_contacts_name strategicPartnerContactsName,
+		a.strategic_partner_contacts_phone strategicPartnerContactsPhone
+		FROM
+		zhu_live.live_mic_time t,
+		zhu_user.user_info a
+		WHERE
+		t.uid = a.uid
+		AND t.endTime>0
+		<if test="anchorId != null and anchorId != 0">
+			and t.uid = #{anchorId}
+		</if>
+		<if test="agentUserId != null and agentUserId != 0">
+			and a.strategic_partner_id.agent_user_id = #{agentUserId}
+		</if>
+		<if test="strategicPartnerId != null and strategicPartnerId != 0">
+			and a.id = #{strategicPartnerId}
+		</if>
+		<if test="extensionCenterId != null and extensionCenterId != 0">
+			and a.extension_center_id = #{extensionCenterId}
+		</if>
+		<if test="promotersId != null and promotersId !=0">
+			and a.promoters_id = #{promotersId}
+		</if>
+		<if test="salesmanId != null and salesmanId !=0">
+			and a.salesman_id = #{salesmanId}
+		</if>
+		<if test="startTime != null and startTime !=''">
+			<![CDATA[ and t.addtime >=UNIX_TIMESTAMP(#{startTime})]]>
+		</if>
+		<if test="endTime != null and endTime !=''">
+			<![CDATA[ and t.addtime <=UNIX_TIMESTAMP(#{endTime})]]>
+		</if>
+		group by FROM_UNIXTIME(t.addtime,'%Y-%m-%d'),t.uid
+		order by t.addtime
+		desc
+		limit #{startIndex},#{pageSize}
+	</select>
+
+	<select id="getAnchorMicTimeTotal" resultType="java.lang.Integer"
+		parameterType="com.tinypig.newadmin.web.entity.AnchorMicTimeParamDto">
+		SELECT
+		count(*)
+		FROM
+		(SELECT
+		FROM_UNIXTIME(t.addtime,'%Y-%m-%d') RepDate,
+		sum(t.endtime-t.starttime) openTime,
+		t.*,
+		a.nickname,
+		a.salesman_id salesmanId,
+		a.salesman_name salesmanName,
+		a.salesman_contacts_phone salesmanContactsPhone,
+		a.agent_user_id agentUserId,
+		a.agent_user_name agentUserName,
+		a.agent_user_contacts_name agentUserContactsName,
+		a.agent_user_contacts_phone agentUserContactsPhone,
+		a.promoters_id promotersId,
+		a.promoters_name promotersName,
+		a.promoters_contacts_name promotersContactsName,
+		a.promoters_contacts_phone promotersContactsPhone,
+		a.extension_center_id extensionCenterId,
+		a.extension_center_name extensionCenterName,
+		a.extension_center_contacts_name extensionCenterContactsName,
+		a.extension_center_contacts_phone extensionCenterContactsPhone,
+		a.strategic_partner_id strategicPartnerId,
+		a.strategic_partner_name strategicPartnerName,
+		a.strategic_partner_contacts_name strategicPartnerContactsName,
+		a.strategic_partner_contacts_phone strategicPartnerContactsPhone
+		FROM
+		zhu_live.live_mic_time t,
+		zhu_user.user_info a
+		WHERE
+		t.uid = a.uid
+		AND t.endTime>0
+		<if test="anchorId != null and anchorId != 0">
+			and t.uid = #{anchorId}
+		</if>
+		<if test="agentUserId != null and agentUserId != 0">
+			and a.strategic_partner_id.agent_user_id = #{agentUserId}
+		</if>
+		<if test="strategicPartnerId != null and strategicPartnerId != 0">
+			and a.id = #{strategicPartnerId}
+		</if>
+		<if test="extensionCenterId != null and extensionCenterId != 0">
+			and a.extension_center_id = #{extensionCenterId}
+		</if>
+		<if test="promotersId != null and promotersId !=0">
+			and a.promoters_id = #{promotersId}
+		</if>
+		<if test="salesmanId != null and salesmanId !=0">
+			and a.salesman_id = #{salesmanId}
+		</if>
+		<if test="startTime != null and startTime !=''">
+			<![CDATA[ and t.addtime >=UNIX_TIMESTAMP(#{startTime})]]>
+		</if>
+		<if test="endTime != null and endTime !=''">
+			<![CDATA[ and t.addtime <=UNIX_TIMESTAMP(#{endTime})]]>
+		</if>
+		group by FROM_UNIXTIME(t.addtime,'%Y-%m-%d'),t.uid) n
+	</select>
+
+	<select id="getAllAnchorMicTimeList" resultType="java.util.Map"
+		parameterType="com.tinypig.newadmin.web.entity.AnchorMicTimeParamDto">
+		SELECT
+		FROM_UNIXTIME(t.addtime,'%Y-%m-%d') RepDateStr,
+		sum(t.endtime-t.starttime) openTime,
+		t.*,
+		a.nickname,
+		a.salesman_id salesmanId,
+		a.salesman_name salesmanName,
+		a.salesman_contacts_phone salesmanContactsPhone,
+		a.agent_user_id agentUserId,
+		a.agent_user_name agentUserName,
+		a.agent_user_contacts_name agentUserContactsName,
+		a.agent_user_contacts_phone agentUserContactsPhone,
+		a.promoters_id promotersId,
+		a.promoters_name promotersName,
+		a.promoters_contacts_name promotersContactsName,
+		a.promoters_contacts_phone promotersContactsPhone,
+		a.extension_center_id extensionCenterId,
+		a.extension_center_name extensionCenterName,
+		a.extension_center_contacts_name extensionCenterContactsName,
+		a.extension_center_contacts_phone extensionCenterContactsPhone,
+		a.strategic_partner_id strategicPartnerId,
+		a.strategic_partner_name strategicPartnerName,
+		a.strategic_partner_contacts_name strategicPartnerContactsName,
+		a.strategic_partner_contacts_phone strategicPartnerContactsPhone
+		FROM
+		zhu_live.live_mic_time t,
+		zhu_user.user_info a
+		WHERE
+		t.uid = a.uid
+		AND t.endTime>0
+		<if test="anchorId != null and anchorId != 0">
+			and t.uid = #{anchorId}
+		</if>
+		<if test="agentUserId != null and agentUserId != 0">
+			and a.strategic_partner_id.agent_user_id = #{agentUserId}
+		</if>
+		<if test="strategicPartnerId != null and strategicPartnerId != 0">
+			and a.id = #{strategicPartnerId}
+		</if>
+		<if test="extensionCenterId != null and extensionCenterId != 0">
+			and a.extension_center_id = #{extensionCenterId}
+		</if>
+		<if test="promotersId != null and promotersId !=0">
+			and a.promoters_id = #{promotersId}
+		</if>
+		<if test="salesmanId != null and salesmanId !=0">
+			and a.salesman_id = #{salesmanId}
+		</if>
+		<if test="startTime != null and startTime !=''">
+			<![CDATA[ and t.addtime >=UNIX_TIMESTAMP(#{startTime})]]>
+		</if>
+		<if test="endTime != null and endTime !=''">
+			<![CDATA[ and t.addtime <=UNIX_TIMESTAMP(#{endTime})]]>
+		</if>
+		group by FROM_UNIXTIME(t.addtime,'%Y-%m-%d'),t.uid
+		order by t.addtime
+		desc
+	</select>
+
+	<select id="getAnchorLiveSta" resultMap="BaseResultMap" parameterType="com.tinypig.newadmin.web.entity.AnchorMicTimeParamDto">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		zhu_live.live_mic_time
+		WHERE
+		1=1
+		<if test="anchorId != null and anchorId != 0">
+			and uid = #{anchorId}
+		</if>
+
+		<if test="addTime != null and addTime !=''">
+			<![CDATA[ and addtime >=UNIX_TIMESTAMP(CONCAT(#{addTime},' 00:00:00'))]]>
+			<![CDATA[ and addtime <=UNIX_TIMESTAMP(CONCAT(#{addTime},' 23:59:59'))]]>
+		</if>
+		order by addtime desc
+	</select>
+	
+	<select id="getAllAnchorTime" resultType="java.lang.Integer"
+		parameterType="com.tinypig.newadmin.web.entity.AnchorMicTimeParamDto">
+		SELECT
+		sum(t.endtime-t.starttime) allOpenTime
+		FROM
+		zhu_live.live_mic_time t,
+		zhu_user.user_info a
+		WHERE
+		t.uid = a.uid
+		AND t.endTime>0
+		<if test="anchorId != null and anchorId != 0">
+			and t.uid = #{anchorId}
+		</if>
+		<if test="agentUserId != null and agentUserId != 0">
+			and a.strategic_partner_id.agent_user_id = #{agentUserId}
+		</if>
+		<if test="strategicPartnerId != null and strategicPartnerId != 0">
+			and a.id = #{strategicPartnerId}
+		</if>
+		<if test="extensionCenterId != null and extensionCenterId != 0">
+			and a.extension_center_id = #{extensionCenterId}
+		</if>
+		<if test="promotersId != null and promotersId !=0">
+			and a.promoters_id = #{promotersId}
+		</if>
+		<if test="salesmanId != null and salesmanId !=0">
+			and a.salesman_id = #{salesmanId}
+		</if>
+		<if test="startTime != null and startTime !=''">
+			<![CDATA[ and t.addtime >=UNIX_TIMESTAMP(#{startTime})]]>
+		</if>
+		<if test="endTime != null and endTime !=''">
+			<![CDATA[ and t.addtime <=UNIX_TIMESTAMP(#{endTime})]]>
+		</if>
+	</select>
+</mapper>

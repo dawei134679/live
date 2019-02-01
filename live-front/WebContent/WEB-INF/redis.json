@@ -1,0 +1,75 @@
+{
+    "redis": [{
+    	"name":"user",
+    	"host":"127.0.0.1",
+        "port": "6379",
+        "maxTotal":1500,
+        "maxIdle":50,
+		"minIdle":5,
+        "auth":"123456",
+        "shard":"on"
+    },{
+    	"name":"relationoff",
+    	"host":"127.0.0.1",
+        "port": "6379",
+        "maxTotal":50,
+        "maxIdle":3,
+		"minIdle":1,
+        "auth":"123456",
+        "shard":"off"
+    },{
+    	"name":"relation",
+    	"host":"127.0.0.1",
+        "port": "6379",
+        "maxTotal":100,
+        "maxIdle":3,
+		"minIdle":1,
+        "auth":"123456",
+        "shard":"on"
+    },{
+    	"name":"other",
+    	"host":"127.0.0.1",
+        "port": "6379",
+        "maxTotal":500,
+        "maxIdle":10,
+		"minIdle":2,
+        "auth":"123456",
+        "shard":"on"
+    },{
+    	"name":"words",
+    	"host":"127.0.0.1",
+        "port": "6379",
+        "maxTotal":6,
+        "maxIdle":3,
+		"minIdle":1,
+        "auth":"123456",
+        "shard":"on"
+    },{
+    	"name":"redEnvelop",
+    	"host":"127.0.0.1",
+    	"maxTotal":2000,
+        "maxIdle":50,
+		"minIdle":5,
+        "port": "6379",
+        "auth":"123456",
+        "shard":"on"
+    },{
+    	"name":"statistics",
+    	"host":"127.0.0.1",
+        "port": "6379",
+        "maxTotal":1500,
+        "maxIdle":50,
+		"minIdle":5,
+        "auth":"123456",
+        "shard":"on"
+    },{
+    	"name":"feed",
+    	"host":"127.0.0.1",
+        "port": "6379",
+        "maxTotal":1500,
+        "maxIdle":50,
+		"minIdle":5,
+        "auth":"123456",
+        "shard":"on"
+    }]
+}

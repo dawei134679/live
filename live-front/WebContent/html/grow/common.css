@@ -1,0 +1,54 @@
+html, body, p, ul, li, dl, dt, dd, h1, h2, h3, h4, form, input {
+	margin: 0;
+	padding: 0;
+	outline:none;
+}
+html {
+	-webkit-text-size-adjust:none;
+}
+body {
+	 background:#fff;
+	font-family:'Microsoft YaHei';
+	font-size: 62.5%;/*10 ÷ 16 × 100% = 62.5%*/
+	color:#292929;
+	background-size:100% auto;
+	-moz-user-select: none; /*火狐*/
+	-webkit-user-select: none; /*webkit浏览器*/
+	-ms-user-select: none; /*IE10*/
+	-khtml-user-select: none; /*早期浏览器*/
+	user-select: none;
+}
+
+ul, li {
+	list-style:none;
+}
+a {
+	text-decoration:none;
+	color:#292929;
+}
+a:hover {
+	text-decoration:none;
+	color:#ffffff;
+}
+h1, h2, h3, h4, strong {
+	font-weight:700;
+}
+img {
+	display:inline-block;
+	border:0;
+	margin:0; padding:0;
+}:focus {
+	outline:0
+}
+.warp{width:100%; overflow:hidden;zoom:1;}
+body.videoin{ background:url(../images/bgnew.png) repeat;}
+img{width:100%; height:auto;}
+.fl{ float:left; display:inline; overflow:hidden;zoom:1;}
+.fr{ float:right; display:inline; overflow:hidden;zoom:1;}
+.warp{width:100%;height:100%; overflow:hidden;zoom:1;}
+#fsvs-body{ position:absolute; left:0; top:0; width:100%;height:100%;}
+.page1{width:100%; height:100%; overflow:hidden;zoom:1;  position:relative;}
+.title{ background:#f8f8f8; overflow:hidden;zoom:1; padding:15px; text-align:center; font-size:15px;}
+.title span{ margin-left:-10px;}
+.back{ width:10px; overflow:hidden;zoom:1;}
+.mian{ width:100%; overflow:hidden;zoom:1;}

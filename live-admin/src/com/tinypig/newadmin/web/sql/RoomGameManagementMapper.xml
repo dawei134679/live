@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.RoomGameManagementDao">
+	<resultMap id="BaseResultMap"
+		type="com.tinypig.newadmin.web.entity.RoomGameManagement">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="game_key" property="gameKey" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="BIT" />
+		<result column="status" property="status" jdbcType="BIT" />
+		<result column="server_url" property="serverUrl" jdbcType="VARCHAR" />
+		<result column="init_url" property="initUrl" jdbcType="VARCHAR" />
+		<result column="destory_url" property="destoryUrl" jdbcType="VARCHAR" />
+		<result column="page_url" property="pageUrl" jdbcType="VARCHAR" />
+		<result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+		<result column="game_icon_url" property="gameIconUrl" jdbcType="VARCHAR" />
+		<result column="game_commission" property="gameCommission"
+			jdbcType="DOUBLE" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="create_user_id" property="createUserId"
+			jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+		<result column="update_user_id" property="updateUserId"
+			jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, game_key, name, type, status, server_url, init_url, destory_url,
+		page_url, img_url,
+		game_icon_url, game_commission, create_time, create_user_id, update_time,
+		update_user_id
+	</sql>
+	<select id="getRoomGameList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from zhu_config.room_game_management
+		where status !=3
+		<if test="name!=null">
+			and name like concat("%",#{name},"%")
+		</if>
+		<if test="status!=null and status!=-1">
+			and status=#{status}
+		</if>
+		order by create_time limit #{startIndex},#{pageSize}
+	</select>
+	<update id="doValid">
+		update zhu_config.room_game_management set
+		status=#{status},update_time=#{updateTime},update_user_id=#{updateUserId}
+		where id=#{id}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from zhu_config.room_game_management
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="getRoomGame" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from zhu_config.room_game_management where status=1
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from zhu_config.room_game_management
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.tinypig.newadmin.web.entity.RoomGameManagement">
+		insert into zhu_config.room_game_management (id, game_key, name,
+		type, status, server_url, init_url,
+		destory_url, page_url, img_url,
+		game_icon_url, game_commission, create_time,
+		create_user_id, update_time, update_user_id
+		)
+		values (#{id,jdbcType=BIGINT}, #{gameKey,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{type,jdbcType=BIT}, #{status,jdbcType=BIT}, #{serverUrl,jdbcType=VARCHAR},
+		#{initUrl,jdbcType=VARCHAR},
+		#{destoryUrl,jdbcType=VARCHAR}, #{pageUrl,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR},
+		#{gameIconUrl,jdbcType=VARCHAR}, #{gameCommission,jdbcType=DOUBLE},
+		#{createTime,jdbcType=BIGINT},
+		#{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{updateUserId,jdbcType=BIGINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.RoomGameManagement">
+		insert into zhu_config.room_game_management
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="gameKey != null">
+				game_key,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="serverUrl != null">
+				server_url,
+			</if>
+			<if test="initUrl != null">
+				init_url,
+			</if>
+			<if test="destoryUrl != null">
+				destory_url,
+			</if>
+			<if test="pageUrl != null">
+				page_url,
+			</if>
+			<if test="imgUrl != null">
+				img_url,
+			</if>
+			<if test="gameIconUrl != null">
+				game_icon_url,
+			</if>
+			<if test="gameCommission != null">
+				game_commission,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="createUserId != null">
+				create_user_id,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="updateUserId != null">
+				update_user_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="gameKey != null">
+				#{gameKey,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=BIT},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=BIT},
+			</if>
+			<if test="serverUrl != null">
+				#{serverUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="initUrl != null">
+				#{initUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="destoryUrl != null">
+				#{destoryUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="pageUrl != null">
+				#{pageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="imgUrl != null">
+				#{imgUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="gameIconUrl != null">
+				#{gameIconUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="gameCommission != null">
+				#{gameCommission,jdbcType=DOUBLE},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="createUserId != null">
+				#{createUserId,jdbcType=BIGINT},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=BIGINT},
+			</if>
+			<if test="updateUserId != null">
+				#{updateUserId,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.RoomGameManagement">
+		update zhu_config.room_game_management
+		<set>
+			<if test="gameKey != null">
+				game_key = #{gameKey,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=BIT},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=BIT},
+			</if>
+			<if test="serverUrl != null">
+				server_url = #{serverUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="initUrl != null">
+				init_url = #{initUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="destoryUrl != null">
+				destory_url = #{destoryUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="pageUrl != null">
+				page_url = #{pageUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="imgUrl != null">
+				img_url = #{imgUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="gameIconUrl != null">
+				game_icon_url = #{gameIconUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="gameCommission != null">
+				game_commission = #{gameCommission,jdbcType=DOUBLE},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="createUserId != null">
+				create_user_id = #{createUserId,jdbcType=BIGINT},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=BIGINT},
+			</if>
+			<if test="updateUserId != null">
+				update_user_id = #{updateUserId,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.RoomGameManagement">
+		update zhu_config.room_game_management
+		set game_key = #{gameKey,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		type = #{type,jdbcType=BIT},
+		status = #{status,jdbcType=BIT},
+		server_url = #{serverUrl,jdbcType=VARCHAR},
+		init_url = #{initUrl,jdbcType=VARCHAR},
+		destory_url = #{destoryUrl,jdbcType=VARCHAR},
+		page_url = #{pageUrl,jdbcType=VARCHAR},
+		img_url = #{imgUrl,jdbcType=VARCHAR},
+		game_icon_url = #{gameIconUrl,jdbcType=VARCHAR},
+		game_commission = #{gameCommission,jdbcType=DOUBLE},
+		create_time = #{createTime,jdbcType=BIGINT},
+		create_user_id = #{createUserId,jdbcType=BIGINT},
+		update_time = #{updateTime,jdbcType=BIGINT},
+		update_user_id = #{updateUserId,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+</mapper>

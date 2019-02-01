@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.GameCarDao">
+	<resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.GameCar">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="img" property="img" jdbcType="VARCHAR" />
+		<result column="probability1" property="probability1" jdbcType="DOUBLE" />
+		<result column="multiple1" property="multiple1" jdbcType="DOUBLE" />
+		<result column="probability2" property="probability2" jdbcType="DOUBLE" />
+		<result column="multiple2" property="multiple2" jdbcType="DOUBLE" />
+		<result column="probability3" property="probability3" jdbcType="DOUBLE" />
+		<result column="multiple3" property="multiple3" jdbcType="DOUBLE" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="BIT" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="create_user_id" property="createUserId"
+			jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+		<result column="update_user_id" property="updateUserId"
+			jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, img, probability1, multiple1, probability2, multiple2,
+		probability3, multiple3,
+		sort, status, create_time, create_user_id, update_time, update_user_id
+	</sql>
+	<select id="getCarList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from live_game.game_car_config
+		<where>
+			<if test="name!=null and name!=''">
+				name like concat("%",#{name},"%")
+			</if>
+			<if test="status!=null and status!=-1">
+				and status=#{status}
+			</if>
+		</where>
+		order by create_time limit #{startIndex},#{pageSize}
+	</select>
+	<select id="getGameCarConfig" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from live_game.game_car_config where status=1
+	</select>
+	<update id="doValid">
+		update live_game.game_car_config set
+		status=#{status},update_time=#{updateTime},update_user_id=#{updateUserId}
+		where id=#{id}
+	</update>
+	<insert id="saveCar" parameterType="com.tinypig.newadmin.web.entity.GameCar">
+		insert into
+		live_game.game_car_config
+		(name,img,pprobability1, multiple1, probability2, multiple2, probability3,
+		multiple3,sort,status,create_time,create_user_id)
+		values(#{name},#{img},#{probability},#{firstMultiple},#{doubleProbability},#{doubleMultiple},#{tripleProbability},#{tripleMultiple},#{sort},1,#{createTime},#{createUserId})
+	</insert>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from live_game.game_car_config
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		live_game.game_car_config
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.tinypig.newadmin.web.entity.GameCar">
+		insert into live_game.game_car_config (id, name, img,
+		probability1, multiple1, probability2,
+		multiple2, probability3, multiple3,
+		sort, status, create_time,
+		create_user_id, update_time, update_user_id
+		)
+		values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+		#{img,jdbcType=VARCHAR},
+		#{probability1,jdbcType=DOUBLE}, #{multiple1,jdbcType=DOUBLE}, #{probability2,jdbcType=DOUBLE},
+		#{multiple2,jdbcType=DOUBLE}, #{probability3,jdbcType=DOUBLE},
+		#{multiple3,jdbcType=DOUBLE},
+		#{sort,jdbcType=INTEGER}, #{status,jdbcType=BIT}, #{createTime,jdbcType=BIGINT},
+		#{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT},
+		#{updateUserId,jdbcType=BIGINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.GameCar">
+		insert into glive_game.game_car_config
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="img != null">
+				img,
+			</if>
+			<if test="probability1 != null">
+				probability1,
+			</if>
+			<if test="multiple1 != null">
+				multiple1,
+			</if>
+			<if test="probability2 != null">
+				probability2,
+			</if>
+			<if test="multiple2 != null">
+				multiple2,
+			</if>
+			<if test="probability3 != null">
+				probability3,
+			</if>
+			<if test="multiple3 != null">
+				multiple3,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="createUserId != null">
+				create_user_id,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="updateUserId != null">
+				update_user_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="img != null">
+				#{img,jdbcType=VARCHAR},
+			</if>
+			<if test="probability1 != null">
+				#{probability1,jdbcType=DOUBLE},
+			</if>
+			<if test="multiple1 != null">
+				#{multiple1,jdbcType=DOUBLE},
+			</if>
+			<if test="probability2 != null">
+				#{probability2,jdbcType=DOUBLE},
+			</if>
+			<if test="multiple2 != null">
+				#{multiple2,jdbcType=DOUBLE},
+			</if>
+			<if test="probability3 != null">
+				#{probability3,jdbcType=DOUBLE},
+			</if>
+			<if test="multiple3 != null">
+				#{multiple3,jdbcType=DOUBLE},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=BIT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="createUserId != null">
+				#{createUserId,jdbcType=BIGINT},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=BIGINT},
+			</if>
+			<if test="updateUserId != null">
+				#{updateUserId,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.GameCar">
+		update live_game.game_car_config
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="img != null">
+				img = #{img,jdbcType=VARCHAR},
+			</if>
+			<if test="probability1 != null">
+				probability1 = #{probability1,jdbcType=DOUBLE},
+			</if>
+			<if test="multiple1 != null">
+				multiple1 = #{multiple1,jdbcType=DOUBLE},
+			</if>
+			<if test="probability2 != null">
+				probability2 = #{probability2,jdbcType=DOUBLE},
+			</if>
+			<if test="multiple2 != null">
+				multiple2 = #{multiple2,jdbcType=DOUBLE},
+			</if>
+			<if test="probability3 != null">
+				probability3 = #{probability3,jdbcType=DOUBLE},
+			</if>
+			<if test="multiple3 != null">
+				multiple3 = #{multiple3,jdbcType=DOUBLE},
+			</if>
+			<if test="sort != null">
+				sort = #{sort,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=BIT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="createUserId != null">
+				create_user_id = #{createUserId,jdbcType=BIGINT},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=BIGINT},
+			</if>
+			<if test="updateUserId != null">
+				update_user_id = #{updateUserId,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.GameCar">
+		update live_game.game_car_config
+		set name = #{name,jdbcType=VARCHAR},
+		img = #{img,jdbcType=VARCHAR},
+		probability1 = #{probability1,jdbcType=DOUBLE},
+		multiple1 = #{multiple1,jdbcType=DOUBLE},
+		probability2 = #{probability2,jdbcType=DOUBLE},
+		multiple2 = #{multiple2,jdbcType=DOUBLE},
+		probability3 = #{probability3,jdbcType=DOUBLE},
+		multiple3 = #{multiple3,jdbcType=DOUBLE},
+		sort = #{sort,jdbcType=INTEGER},
+		status = #{status,jdbcType=BIT},
+		create_time = #{createTime,jdbcType=BIGINT},
+		create_user_id = #{createUserId,jdbcType=BIGINT},
+		update_time = #{updateTime,jdbcType=BIGINT},
+		update_user_id = #{updateUserId,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="getSumProbability" resultType="map">
+		select
+		sum(probability1) sp from live_game.game_car_config where id!=#{id} and
+		status=1
+	</select>
+</mapper>
+
+
+
+
+
+
+ 

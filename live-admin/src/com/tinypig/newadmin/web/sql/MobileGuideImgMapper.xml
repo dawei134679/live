@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.MobileGuideImgDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.MobileGuideImg" >
+    <id column="id" property="id" jdbcType="SMALLINT" />
+    <result column="imgsrc" property="imgsrc" jdbcType="VARCHAR" />
+    <result column="link" property="link" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="SMALLINT" />
+    <result column="showtime" property="showtime" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, imgsrc, link, addtime, sort, showtime, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+    select 
+    <include refid="Base_Column_List" />
+    from mobile_guide_img
+    where id = #{id,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+    delete from mobile_guide_img
+    where id = #{id,jdbcType=SMALLINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.MobileGuideImg" >
+    insert into mobile_guide_img
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="imgsrc != null" >
+        imgsrc,
+      </if>
+      <if test="link != null" >
+        link,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="showtime != null" >
+        showtime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=SMALLINT},
+      </if>
+      <if test="imgsrc != null" >
+        #{imgsrc,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null" >
+        #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=SMALLINT},
+      </if>
+      <if test="showtime != null" >
+        #{showtime,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.MobileGuideImg" >
+    update mobile_guide_img
+    <set >
+      <if test="imgsrc != null" >
+        imgsrc = #{imgsrc,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null" >
+        link = #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=SMALLINT},
+      </if>
+      <if test="showtime != null" >
+        showtime = #{showtime,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=SMALLINT}
+  </update>
+</mapper>

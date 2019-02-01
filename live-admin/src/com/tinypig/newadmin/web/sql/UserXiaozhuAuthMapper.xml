@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.UserXiaozhuAuthDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.UserXiaozhuAuth" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="authContent" property="authcontent" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="cause" property="cause" jdbcType="VARCHAR" />
+    <result column="createAt" property="createat" jdbcType="INTEGER" />
+    <result column="auditAt" property="auditat" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.tinypig.newadmin.web.entity.UserXiaozhuAuthWithBLOBs" extends="BaseResultMap" >
+    <result column="authPics" property="authpics" jdbcType="LONGVARCHAR" />
+    <result column="authURLs" property="authurls" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, nickname, authContent, status, cause, createAt, auditAt
+  </sql>
+  <sql id="Blob_Column_List" >
+    authPics, authURLs
+  </sql>
+  <sql id="Base_Where_List">
+		<where>
+			<if test="uid != null">AND uid = #{uid}</if>
+			<if test="status != null">AND status = #{status}</if>
+		</where>
+  </sql>
+  <select id="selectList" parameterType="com.tinypig.newadmin.web.entity.UserXiaozhuAuth" resultMap="BaseResultMap">
+    	select 
+    		<include refid="Base_Column_List" />
+    	from
+    		zhu_user.user_xiaozhu_auth
+    	<include refid="Base_Where_List" />
+    	order by status
+    	<if test="rowNumStart != null">
+    		<if test="pageSize != null">
+    			limit #{rowNumStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    		</if>
+    	</if>
+  </select>
+  <select id="selectCount" parameterType="com.tinypig.newadmin.web.entity.UserXiaozhuAuth" resultType="java.lang.Integer">
+        select 
+        	count(1) 
+        from 
+        	zhu_user.user_xiaozhu_auth
+    	<include refid="Base_Where_List" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from zhu_user.user_xiaozhu_auth
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="checkNickName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_user.user_xiaozhu_auth
+    where nickname = #{nickname,jdbcType=VARCHAR}
+    and isdel = 0 
+    and status = 3
+  </select>
+  <update id="rejectByPrimaryKey" parameterType="java.util.Map" >
+    update zhu_user.user_xiaozhu_auth
+    set status = 2,
+    cause = #{cause,jdbcType=VARCHAR},
+    auditAt = #{auditat,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tinypig.newadmin.web.entity.UserXiaozhuAuthWithBLOBs" >
+    update zhu_user.user_xiaozhu_auth
+    set uid = #{uid,jdbcType=INTEGER},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      authContent = #{authcontent,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      cause = #{cause,jdbcType=VARCHAR},
+      createAt = #{createat,jdbcType=INTEGER},
+      auditAt = #{auditat,jdbcType=INTEGER},
+      authPics = #{authpics,jdbcType=LONGVARCHAR},
+      authURLs = #{authurls,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="java.util.Map" >
+    update zhu_user.user_xiaozhu_auth
+    set status = 3,
+    auditAt = #{auditat,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

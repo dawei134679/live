@@ -1,0 +1,1235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.MemberInfoDao">
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.MemberInfo">
+  	<id column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="nickname" jdbcType="CHAR" property="nickname" />
+    <result column="familyId" jdbcType="INTEGER" property="familyid" />
+    <result column="anchorLevel" jdbcType="INTEGER" property="anchorlevel" />
+    <result column="userLevel" jdbcType="INTEGER" property="userlevel" />
+    <result column="sex" jdbcType="TINYINT" property="sex" />
+    <result column="identity" jdbcType="INTEGER" property="identity" />
+    <result column="headimage" jdbcType="VARCHAR" property="headimage" />
+    <result column="livimage" jdbcType="VARCHAR" property="livimage" />
+    <result column="pcimg1" jdbcType="VARCHAR" property="pcimg1" />
+    <result column="pcimg2" jdbcType="VARCHAR" property="pcimg2" />
+    <result column="birthday" jdbcType="CHAR" property="birthday" />
+    <result column="exp" jdbcType="BIGINT" property="exp" />
+    <result column="phone" jdbcType="CHAR" property="phone" />
+    <result column="province" jdbcType="CHAR" property="province" />
+    <result column="city" jdbcType="CHAR" property="city" />
+    <result column="signature" jdbcType="VARCHAR" property="signature" />
+    <result column="registip" jdbcType="BIGINT" property="registip" />
+    <result column="registtime" jdbcType="INTEGER" property="registtime" />
+    <result column="registchannel" jdbcType="CHAR" property="registchannel" />
+    <result column="subregistchannel" jdbcType="CHAR" property="subregistchannel" />
+    <result column="registos" jdbcType="TINYINT" property="registos" />
+    <result column="registimei" jdbcType="CHAR" property="registimei" />
+    <result column="liveStatus" jdbcType="TINYINT" property="livestatus" />
+    <result column="opentime" jdbcType="INTEGER" property="opentime" />
+    <result column="recommend" jdbcType="INTEGER" property="recommend" />
+    <result column="videoline" jdbcType="INTEGER" property="videoline" />
+    <result column="verified" jdbcType="TINYINT" property="verified" />
+    <result column="verified_reason" jdbcType="VARCHAR" property="verifiedReason" />
+    <result column="contrRq" jdbcType="INTEGER" property="contrrq" />
+    <result column="constellation" jdbcType="VARCHAR" property="constellation" />
+    <result column="hobby" jdbcType="VARCHAR" property="hobby" />
+    <result column="grade" jdbcType="INTEGER" property="grade" />
+    <result column="gameStatus" jdbcType="TINYINT" property="gamestatus" />
+    <result column="gameId" jdbcType="BIGINT" property="gameid" />
+    <result column="accountid" jdbcType="INTEGER" property="accountid" />
+    <result column="accountname" jdbcType="CHAR" property="accountname" />
+    <result column="password" jdbcType="CHAR" property="password" />
+    <result column="authkey" jdbcType="CHAR" property="authkey" />
+    <result column="unionId" jdbcType="VARCHAR" property="unionid" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="wealth" jdbcType="BIGINT" property="wealth" />
+    <result column="credit" jdbcType="INTEGER" property="credit" />
+    <result column="creditTotal" jdbcType="INTEGER" property="credittotal" />
+    <result column="frozenCredit" jdbcType="INTEGER" property="frozencredit" />
+    <result column="salesman_id" jdbcType="BIGINT" property="salesmanId" />
+    <result column="salesman_name" jdbcType="VARCHAR" property="salesmanName" />
+    <result column="salesman_contacts_name" jdbcType="VARCHAR" property="salesmanContactsName" />
+    <result column="salesman_contacts_phone" jdbcType="VARCHAR" property="salesmanContactsPhone" />
+    <result column="agent_user_id" jdbcType="BIGINT" property="agentUserId" />
+    <result column="agent_user_name" jdbcType="VARCHAR" property="agentUserName" />
+    <result column="agent_user_contacts_name" jdbcType="VARCHAR" property="agentUserContactsName" />
+    <result column="agent_user_contacts_phone" jdbcType="VARCHAR" property="agentUserContactsPhone" />
+    <result column="promoters_id" jdbcType="BIGINT" property="promotersId" />
+    <result column="promoters_name" jdbcType="VARCHAR" property="promotersName" />
+    <result column="promoters_contacts_name" jdbcType="VARCHAR" property="promotersContactsName" />
+    <result column="promoters_contacts_phone" jdbcType="VARCHAR" property="promotersContactsPhone" />
+    <result column="extension_center_id" jdbcType="BIGINT" property="extensionCenterId" />
+    <result column="extension_center_name" jdbcType="VARCHAR" property="extensionCenterName" />
+    <result column="extension_center_contacts_name" jdbcType="VARCHAR" property="extensionCenterContactsName" />
+    <result column="extension_center_contacts_phone" jdbcType="VARCHAR" property="extensionCenterContactsPhone" />
+    <result column="strategic_partner_id" jdbcType="BIGINT" property="strategicPartnerId" />
+    <result column="strategic_partner_name" jdbcType="VARCHAR" property="strategicPartnerName" />
+    <result column="strategic_partner_contacts_name" jdbcType="VARCHAR" property="strategicPartnerContactsName" />
+    <result column="strategic_partner_contacts_phone" jdbcType="VARCHAR" property="strategicPartnerContactsPhone" />
+    <result column="money_rmb" jdbcType="DECIMAL" property="moneyRmb" />  
+  </resultMap>
+  <sql id="Base_Column_List" >
+    uid, nickname, familyId, anchorLevel, userLevel, sex, identity, headimage, livimage, 
+    pcimg1, pcimg2, birthday, exp, phone, province, city, signature, registip, registtime, 
+    registchannel, subregistchannel, registos, registimei, liveStatus, opentime, recommend, 
+    videoline, verified, verified_reason, contrRq, constellation, hobby, grade, gameStatus, 
+    gameId, accountid, accountname, password, authkey, unionId, status, money, wealth, 
+    credit, creditTotal, frozenCredit, salesman_id, salesman_name, salesman_contacts_name, 
+    salesman_contacts_phone, agent_user_id, agent_user_name, agent_user_contacts_name, 
+    agent_user_contacts_phone, promoters_id, promoters_name, promoters_contacts_name, 
+    promoters_contacts_phone, extension_center_id, extension_center_name, extension_center_contacts_name, 
+    extension_center_contacts_phone, strategic_partner_id, strategic_partner_name, strategic_partner_contacts_name, 
+    strategic_partner_contacts_phone, money_rmb
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_user.user_info
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zhu_user.user_info
+    where uid = #{uid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.MemberInfo" >
+    insert into zhu_user.user_info (uid, nickname, familyId, 
+      anchorLevel, userLevel, sex, 
+      identity, headimage, livimage, 
+      pcimg1, pcimg2, birthday, 
+      exp, phone, province, city, 
+      signature, registip, registtime, 
+      registchannel, subregistchannel, registos, 
+      registimei, liveStatus, opentime, 
+      recommend, videoline, verified, 
+      verified_reason, contrRq, constellation, 
+      hobby, grade, gameStatus, 
+      gameId, accountid, accountname, 
+      password, authkey, unionId, 
+      status, money, wealth, 
+      credit, creditTotal, frozenCredit, 
+      salesman_id, salesman_name, salesman_contacts_name, 
+      salesman_contacts_phone, agent_user_id, agent_user_name, 
+      agent_user_contacts_name, agent_user_contacts_phone, 
+      promoters_id, promoters_name, promoters_contacts_name, 
+      promoters_contacts_phone, extension_center_id, 
+      extension_center_name, extension_center_contacts_name, 
+      extension_center_contacts_phone, strategic_partner_id, 
+      strategic_partner_name, strategic_partner_contacts_name, 
+      strategic_partner_contacts_phone, money_rmb
+      )
+    values (#{uid,jdbcType=INTEGER}, #{nickname,jdbcType=CHAR}, #{familyid,jdbcType=INTEGER}, 
+      #{anchorlevel,jdbcType=INTEGER}, #{userlevel,jdbcType=INTEGER}, #{sex,jdbcType=TINYINT}, 
+      #{identity,jdbcType=INTEGER}, #{headimage,jdbcType=VARCHAR}, #{livimage,jdbcType=VARCHAR}, 
+      #{pcimg1,jdbcType=VARCHAR}, #{pcimg2,jdbcType=VARCHAR}, #{birthday,jdbcType=CHAR}, 
+      #{exp,jdbcType=BIGINT}, #{phone,jdbcType=CHAR}, #{province,jdbcType=CHAR}, #{city,jdbcType=CHAR}, 
+      #{signature,jdbcType=VARCHAR}, #{registip,jdbcType=BIGINT}, #{registtime,jdbcType=INTEGER}, 
+      #{registchannel,jdbcType=CHAR}, #{subregistchannel,jdbcType=CHAR}, #{registos,jdbcType=TINYINT}, 
+      #{registimei,jdbcType=CHAR}, #{livestatus,jdbcType=TINYINT}, #{opentime,jdbcType=INTEGER}, 
+      #{recommend,jdbcType=INTEGER}, #{videoline,jdbcType=INTEGER}, #{verified,jdbcType=TINYINT}, 
+      #{verifiedReason,jdbcType=VARCHAR}, #{contrrq,jdbcType=INTEGER}, #{constellation,jdbcType=VARCHAR}, 
+      #{hobby,jdbcType=VARCHAR}, #{grade,jdbcType=INTEGER}, #{gamestatus,jdbcType=TINYINT}, 
+      #{gameid,jdbcType=BIGINT}, #{accountid,jdbcType=INTEGER}, #{accountname,jdbcType=CHAR}, 
+      #{password,jdbcType=CHAR}, #{authkey,jdbcType=CHAR}, #{unionid,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{money,jdbcType=INTEGER}, #{wealth,jdbcType=BIGINT}, 
+      #{credit,jdbcType=INTEGER}, #{credittotal,jdbcType=INTEGER}, #{frozencredit,jdbcType=INTEGER}, 
+      #{salesmanId,jdbcType=BIGINT}, #{salesmanName,jdbcType=VARCHAR}, #{salesmanContactsName,jdbcType=VARCHAR}, 
+      #{salesmanContactsPhone,jdbcType=VARCHAR}, #{agentUserId,jdbcType=BIGINT}, #{agentUserName,jdbcType=VARCHAR}, 
+      #{agentUserContactsName,jdbcType=VARCHAR}, #{agentUserContactsPhone,jdbcType=VARCHAR}, 
+      #{promotersId,jdbcType=BIGINT}, #{promotersName,jdbcType=VARCHAR}, #{promotersContactsName,jdbcType=VARCHAR}, 
+      #{promotersContactsPhone,jdbcType=VARCHAR}, #{extensionCenterId,jdbcType=BIGINT}, 
+      #{extensionCenterName,jdbcType=VARCHAR}, #{extensionCenterContactsName,jdbcType=VARCHAR}, 
+      #{extensionCenterContactsPhone,jdbcType=VARCHAR}, #{strategicPartnerId,jdbcType=BIGINT}, 
+      #{strategicPartnerName,jdbcType=VARCHAR}, #{strategicPartnerContactsName,jdbcType=VARCHAR}, 
+      #{strategicPartnerContactsPhone,jdbcType=VARCHAR}, #{moneyRmb,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.MemberInfo" >
+	insert into zhu_user.user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="familyid != null">
+        familyId,
+      </if>
+      <if test="anchorlevel != null">
+        anchorLevel,
+      </if>
+      <if test="userlevel != null">
+        userLevel,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="identity != null">
+        identity,
+      </if>
+      <if test="headimage != null">
+        headimage,
+      </if>
+      <if test="livimage != null">
+        livimage,
+      </if>
+      <if test="pcimg1 != null">
+        pcimg1,
+      </if>
+      <if test="pcimg2 != null">
+        pcimg2,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="exp != null">
+        exp,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="signature != null">
+        signature,
+      </if>
+      <if test="registip != null">
+        registip,
+      </if>
+      <if test="registtime != null">
+        registtime,
+      </if>
+      <if test="registchannel != null">
+        registchannel,
+      </if>
+      <if test="subregistchannel != null">
+        subregistchannel,
+      </if>
+      <if test="registos != null">
+        registos,
+      </if>
+      <if test="registimei != null">
+        registimei,
+      </if>
+      <if test="livestatus != null">
+        liveStatus,
+      </if>
+      <if test="opentime != null">
+        opentime,
+      </if>
+      <if test="recommend != null">
+        recommend,
+      </if>
+      <if test="videoline != null">
+        videoline,
+      </if>
+      <if test="verified != null">
+        verified,
+      </if>
+      <if test="verifiedReason != null">
+        verified_reason,
+      </if>
+      <if test="contrrq != null">
+        contrRq,
+      </if>
+      <if test="constellation != null">
+        constellation,
+      </if>
+      <if test="hobby != null">
+        hobby,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="gamestatus != null">
+        gameStatus,
+      </if>
+      <if test="gameid != null">
+        gameId,
+      </if>
+      <if test="accountid != null">
+        accountid,
+      </if>
+      <if test="accountname != null">
+        accountname,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="authkey != null">
+        authkey,
+      </if>
+      <if test="unionid != null">
+        unionId,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="wealth != null">
+        wealth,
+      </if>
+      <if test="credit != null">
+        credit,
+      </if>
+      <if test="credittotal != null">
+        creditTotal,
+      </if>
+      <if test="frozencredit != null">
+        frozenCredit,
+      </if>
+      <if test="salesmanId != null">
+        salesman_id,
+      </if>
+      <if test="salesmanName != null">
+        salesman_name,
+      </if>
+      <if test="salesmanContactsName != null">
+        salesman_contacts_name,
+      </if>
+      <if test="salesmanContactsPhone != null">
+        salesman_contacts_phone,
+      </if>
+      <if test="agentUserId != null">
+        agent_user_id,
+      </if>
+      <if test="agentUserName != null">
+        agent_user_name,
+      </if>
+      <if test="agentUserContactsName != null">
+        agent_user_contacts_name,
+      </if>
+      <if test="agentUserContactsPhone != null">
+        agent_user_contacts_phone,
+      </if>
+      <if test="promotersId != null">
+        promoters_id,
+      </if>
+      <if test="promotersName != null">
+        promoters_name,
+      </if>
+      <if test="promotersContactsName != null">
+        promoters_contacts_name,
+      </if>
+      <if test="promotersContactsPhone != null">
+        promoters_contacts_phone,
+      </if>
+      <if test="extensionCenterId != null">
+        extension_center_id,
+      </if>
+      <if test="extensionCenterName != null">
+        extension_center_name,
+      </if>
+      <if test="extensionCenterContactsName != null">
+        extension_center_contacts_name,
+      </if>
+      <if test="extensionCenterContactsPhone != null">
+        extension_center_contacts_phone,
+      </if>
+      <if test="strategicPartnerId != null">
+        strategic_partner_id,
+      </if>
+      <if test="strategicPartnerName != null">
+        strategic_partner_name,
+      </if>
+      <if test="strategicPartnerContactsName != null">
+        strategic_partner_contacts_name,
+      </if>
+      <if test="strategicPartnerContactsPhone != null">
+        strategic_partner_contacts_phone,
+      </if>
+      <if test="moneyRmb != null">
+        money_rmb,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=CHAR},
+      </if>
+      <if test="familyid != null">
+        #{familyid,jdbcType=INTEGER},
+      </if>
+      <if test="anchorlevel != null">
+        #{anchorlevel,jdbcType=INTEGER},
+      </if>
+      <if test="userlevel != null">
+        #{userlevel,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="identity != null">
+        #{identity,jdbcType=INTEGER},
+      </if>
+      <if test="headimage != null">
+        #{headimage,jdbcType=VARCHAR},
+      </if>
+      <if test="livimage != null">
+        #{livimage,jdbcType=VARCHAR},
+      </if>
+      <if test="pcimg1 != null">
+        #{pcimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="pcimg2 != null">
+        #{pcimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=CHAR},
+      </if>
+      <if test="exp != null">
+        #{exp,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=CHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=CHAR},
+      </if>
+      <if test="signature != null">
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="registip != null">
+        #{registip,jdbcType=BIGINT},
+      </if>
+      <if test="registtime != null">
+        #{registtime,jdbcType=INTEGER},
+      </if>
+      <if test="registchannel != null">
+        #{registchannel,jdbcType=CHAR},
+      </if>
+      <if test="subregistchannel != null">
+        #{subregistchannel,jdbcType=CHAR},
+      </if>
+      <if test="registos != null">
+        #{registos,jdbcType=TINYINT},
+      </if>
+      <if test="registimei != null">
+        #{registimei,jdbcType=CHAR},
+      </if>
+      <if test="livestatus != null">
+        #{livestatus,jdbcType=TINYINT},
+      </if>
+      <if test="opentime != null">
+        #{opentime,jdbcType=INTEGER},
+      </if>
+      <if test="recommend != null">
+        #{recommend,jdbcType=INTEGER},
+      </if>
+      <if test="videoline != null">
+        #{videoline,jdbcType=INTEGER},
+      </if>
+      <if test="verified != null">
+        #{verified,jdbcType=TINYINT},
+      </if>
+      <if test="verifiedReason != null">
+        #{verifiedReason,jdbcType=VARCHAR},
+      </if>
+      <if test="contrrq != null">
+        #{contrrq,jdbcType=INTEGER},
+      </if>
+      <if test="constellation != null">
+        #{constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null">
+        #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="gamestatus != null">
+        #{gamestatus,jdbcType=TINYINT},
+      </if>
+      <if test="gameid != null">
+        #{gameid,jdbcType=BIGINT},
+      </if>
+      <if test="accountid != null">
+        #{accountid,jdbcType=INTEGER},
+      </if>
+      <if test="accountname != null">
+        #{accountname,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=CHAR},
+      </if>
+      <if test="authkey != null">
+        #{authkey,jdbcType=CHAR},
+      </if>
+      <if test="unionid != null">
+        #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="wealth != null">
+        #{wealth,jdbcType=BIGINT},
+      </if>
+      <if test="credit != null">
+        #{credit,jdbcType=INTEGER},
+      </if>
+      <if test="credittotal != null">
+        #{credittotal,jdbcType=INTEGER},
+      </if>
+      <if test="frozencredit != null">
+        #{frozencredit,jdbcType=INTEGER},
+      </if>
+      <if test="salesmanId != null">
+        #{salesmanId,jdbcType=BIGINT},
+      </if>
+      <if test="salesmanName != null">
+        #{salesmanName,jdbcType=VARCHAR},
+      </if>
+      <if test="salesmanContactsName != null">
+        #{salesmanContactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="salesmanContactsPhone != null">
+        #{salesmanContactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="agentUserId != null">
+        #{agentUserId,jdbcType=BIGINT},
+      </if>
+      <if test="agentUserName != null">
+        #{agentUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentUserContactsName != null">
+        #{agentUserContactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentUserContactsPhone != null">
+        #{agentUserContactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="promotersId != null">
+        #{promotersId,jdbcType=BIGINT},
+      </if>
+      <if test="promotersName != null">
+        #{promotersName,jdbcType=VARCHAR},
+      </if>
+      <if test="promotersContactsName != null">
+        #{promotersContactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="promotersContactsPhone != null">
+        #{promotersContactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="extensionCenterId != null">
+        #{extensionCenterId,jdbcType=BIGINT},
+      </if>
+      <if test="extensionCenterName != null">
+        #{extensionCenterName,jdbcType=VARCHAR},
+      </if>
+      <if test="extensionCenterContactsName != null">
+        #{extensionCenterContactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="extensionCenterContactsPhone != null">
+        #{extensionCenterContactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="strategicPartnerId != null">
+        #{strategicPartnerId,jdbcType=BIGINT},
+      </if>
+      <if test="strategicPartnerName != null">
+        #{strategicPartnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="strategicPartnerContactsName != null">
+        #{strategicPartnerContactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="strategicPartnerContactsPhone != null">
+        #{strategicPartnerContactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyRmb != null">
+        #{moneyRmb,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.MemberInfo" >
+    update zhu_user.user_info
+    <set>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=CHAR},
+      </if>
+      <if test="familyid != null">
+        familyId = #{familyid,jdbcType=INTEGER},
+      </if>
+      <if test="anchorlevel != null">
+        anchorLevel = #{anchorlevel,jdbcType=INTEGER},
+      </if>
+      <if test="userlevel != null">
+        userLevel = #{userlevel,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="identity != null">
+        identity = #{identity,jdbcType=INTEGER},
+      </if>
+      <if test="headimage != null">
+        headimage = #{headimage,jdbcType=VARCHAR},
+      </if>
+      <if test="livimage != null">
+        livimage = #{livimage,jdbcType=VARCHAR},
+      </if>
+      <if test="pcimg1 != null">
+        pcimg1 = #{pcimg1,jdbcType=VARCHAR},
+      </if>
+      <if test="pcimg2 != null">
+        pcimg2 = #{pcimg2,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=CHAR},
+      </if>
+      <if test="exp != null">
+        exp = #{exp,jdbcType=BIGINT},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=CHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=CHAR},
+      </if>
+      <if test="signature != null">
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="registip != null">
+        registip = #{registip,jdbcType=BIGINT},
+      </if>
+      <if test="registtime != null">
+        registtime = #{registtime,jdbcType=INTEGER},
+      </if>
+      <if test="registchannel != null">
+        registchannel = #{registchannel,jdbcType=CHAR},
+      </if>
+      <if test="subregistchannel != null">
+        subregistchannel = #{subregistchannel,jdbcType=CHAR},
+      </if>
+      <if test="registos != null">
+        registos = #{registos,jdbcType=TINYINT},
+      </if>
+      <if test="registimei != null">
+        registimei = #{registimei,jdbcType=CHAR},
+      </if>
+      <if test="livestatus != null">
+        liveStatus = #{livestatus,jdbcType=TINYINT},
+      </if>
+      <if test="opentime != null">
+        opentime = #{opentime,jdbcType=INTEGER},
+      </if>
+      <if test="recommend != null">
+        recommend = #{recommend,jdbcType=INTEGER},
+      </if>
+      <if test="videoline != null">
+        videoline = #{videoline,jdbcType=INTEGER},
+      </if>
+      <if test="verified != null">
+        verified = #{verified,jdbcType=TINYINT},
+      </if>
+      <if test="verifiedReason != null">
+        verified_reason = #{verifiedReason,jdbcType=VARCHAR},
+      </if>
+      <if test="contrrq != null">
+        contrRq = #{contrrq,jdbcType=INTEGER},
+      </if>
+      <if test="constellation != null">
+        constellation = #{constellation,jdbcType=VARCHAR},
+      </if>
+      <if test="hobby != null">
+        hobby = #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="gamestatus != null">
+        gameStatus = #{gamestatus,jdbcType=TINYINT},
+      </if>
+      <if test="gameid != null">
+        gameId = #{gameid,jdbcType=BIGINT},
+      </if>
+      <if test="accountid != null">
+        accountid = #{accountid,jdbcType=INTEGER},
+      </if>
+      <if test="accountname != null">
+        accountname = #{accountname,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=CHAR},
+      </if>
+      <if test="authkey != null">
+        authkey = #{authkey,jdbcType=CHAR},
+      </if>
+      <if test="unionid != null">
+        unionId = #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="wealth != null">
+        wealth = #{wealth,jdbcType=BIGINT},
+      </if>
+      <if test="credit != null">
+        credit = #{credit,jdbcType=INTEGER},
+      </if>
+      <if test="credittotal != null">
+        creditTotal = #{credittotal,jdbcType=INTEGER},
+      </if>
+      <if test="frozencredit != null">
+        frozenCredit = #{frozencredit,jdbcType=INTEGER},
+      </if>
+      <if test="salesmanId != null">
+        salesman_id = #{salesmanId,jdbcType=BIGINT},
+      </if>
+      <if test="salesmanName != null">
+        salesman_name = #{salesmanName,jdbcType=VARCHAR},
+      </if>
+      <if test="salesmanContactsName != null">
+        salesman_contacts_name = #{salesmanContactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="salesmanContactsPhone != null">
+        salesman_contacts_phone = #{salesmanContactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="agentUserId != null">
+        agent_user_id = #{agentUserId,jdbcType=BIGINT},
+      </if>
+      <if test="agentUserName != null">
+        agent_user_name = #{agentUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentUserContactsName != null">
+        agent_user_contacts_name = #{agentUserContactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentUserContactsPhone != null">
+        agent_user_contacts_phone = #{agentUserContactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="promotersId != null">
+        promoters_id = #{promotersId,jdbcType=BIGINT},
+      </if>
+      <if test="promotersName != null">
+        promoters_name = #{promotersName,jdbcType=VARCHAR},
+      </if>
+      <if test="promotersContactsName != null">
+        promoters_contacts_name = #{promotersContactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="promotersContactsPhone != null">
+        promoters_contacts_phone = #{promotersContactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="extensionCenterId != null">
+        extension_center_id = #{extensionCenterId,jdbcType=BIGINT},
+      </if>
+      <if test="extensionCenterName != null">
+        extension_center_name = #{extensionCenterName,jdbcType=VARCHAR},
+      </if>
+      <if test="extensionCenterContactsName != null">
+        extension_center_contacts_name = #{extensionCenterContactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="extensionCenterContactsPhone != null">
+        extension_center_contacts_phone = #{extensionCenterContactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="strategicPartnerId != null">
+        strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+      </if>
+      <if test="strategicPartnerName != null">
+        strategic_partner_name = #{strategicPartnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="strategicPartnerContactsName != null">
+        strategic_partner_contacts_name = #{strategicPartnerContactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="strategicPartnerContactsPhone != null">
+        strategic_partner_contacts_phone = #{strategicPartnerContactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyRmb != null">
+        money_rmb = #{moneyRmb,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.MemberInfo" >
+    update zhu_user.user_info
+    set nickname = #{nickname,jdbcType=CHAR},
+      familyId = #{familyid,jdbcType=INTEGER},
+      anchorLevel = #{anchorlevel,jdbcType=INTEGER},
+      userLevel = #{userlevel,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=TINYINT},
+      identity = #{identity,jdbcType=INTEGER},
+      headimage = #{headimage,jdbcType=VARCHAR},
+      livimage = #{livimage,jdbcType=VARCHAR},
+      pcimg1 = #{pcimg1,jdbcType=VARCHAR},
+      pcimg2 = #{pcimg2,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=CHAR},
+      exp = #{exp,jdbcType=BIGINT},
+      phone = #{phone,jdbcType=CHAR},
+      province = #{province,jdbcType=CHAR},
+      city = #{city,jdbcType=CHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      registip = #{registip,jdbcType=BIGINT},
+      registtime = #{registtime,jdbcType=INTEGER},
+      registchannel = #{registchannel,jdbcType=CHAR},
+      subregistchannel = #{subregistchannel,jdbcType=CHAR},
+      registos = #{registos,jdbcType=TINYINT},
+      registimei = #{registimei,jdbcType=CHAR},
+      liveStatus = #{livestatus,jdbcType=TINYINT},
+      opentime = #{opentime,jdbcType=INTEGER},
+      recommend = #{recommend,jdbcType=INTEGER},
+      videoline = #{videoline,jdbcType=INTEGER},
+      verified = #{verified,jdbcType=TINYINT},
+      verified_reason = #{verifiedReason,jdbcType=VARCHAR},
+      contrRq = #{contrrq,jdbcType=INTEGER},
+      constellation = #{constellation,jdbcType=VARCHAR},
+      hobby = #{hobby,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=INTEGER},
+      gameStatus = #{gamestatus,jdbcType=TINYINT},
+      gameId = #{gameid,jdbcType=BIGINT},
+      accountid = #{accountid,jdbcType=INTEGER},
+      accountname = #{accountname,jdbcType=CHAR},
+      password = #{password,jdbcType=CHAR},
+      authkey = #{authkey,jdbcType=CHAR},
+      unionId = #{unionid,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      money = #{money,jdbcType=INTEGER},
+      wealth = #{wealth,jdbcType=BIGINT},
+      credit = #{credit,jdbcType=INTEGER},
+      creditTotal = #{credittotal,jdbcType=INTEGER},
+      frozenCredit = #{frozencredit,jdbcType=INTEGER},
+      salesman_id = #{salesmanId,jdbcType=BIGINT},
+      salesman_name = #{salesmanName,jdbcType=VARCHAR},
+      salesman_contacts_name = #{salesmanContactsName,jdbcType=VARCHAR},
+      salesman_contacts_phone = #{salesmanContactsPhone,jdbcType=VARCHAR},
+      agent_user_id = #{agentUserId,jdbcType=BIGINT},
+      agent_user_name = #{agentUserName,jdbcType=VARCHAR},
+      agent_user_contacts_name = #{agentUserContactsName,jdbcType=VARCHAR},
+      agent_user_contacts_phone = #{agentUserContactsPhone,jdbcType=VARCHAR},
+      promoters_id = #{promotersId,jdbcType=BIGINT},
+      promoters_name = #{promotersName,jdbcType=VARCHAR},
+      promoters_contacts_name = #{promotersContactsName,jdbcType=VARCHAR},
+      promoters_contacts_phone = #{promotersContactsPhone,jdbcType=VARCHAR},
+      extension_center_id = #{extensionCenterId,jdbcType=BIGINT},
+      extension_center_name = #{extensionCenterName,jdbcType=VARCHAR},
+      extension_center_contacts_name = #{extensionCenterContactsName,jdbcType=VARCHAR},
+      extension_center_contacts_phone = #{extensionCenterContactsPhone,jdbcType=VARCHAR},
+      strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+      strategic_partner_name = #{strategicPartnerName,jdbcType=VARCHAR},
+      strategic_partner_contacts_name = #{strategicPartnerContactsName,jdbcType=VARCHAR},
+      strategic_partner_contacts_phone = #{strategicPartnerContactsPhone,jdbcType=VARCHAR},
+      money_rmb = #{moneyRmb,jdbcType=DECIMAL}
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+  
+    <update id="updateStrategicPartnerInfo" parameterType="com.tinypig.newadmin.web.entity.MemberInfoParentParamDto" >
+  	update zhu_user.user_info
+    set 
+    strategic_partner_name = #{strategicPartnerName,jdbcType=VARCHAR},
+    strategic_partner_contacts_name = #{strategicPartnerContactsName,jdbcType=VARCHAR},
+    strategic_partner_contacts_phone = #{strategicPartnerContactsPhone,jdbcType=VARCHAR}
+    where strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateExtensionCenterAndParentInfo" parameterType="com.tinypig.newadmin.web.entity.MemberInfoParentParamDto" >
+  	update zhu_user.user_info
+    set 
+    strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+    strategic_partner_name = #{strategicPartnerName,jdbcType=VARCHAR},
+    strategic_partner_contacts_name = #{strategicPartnerContactsName,jdbcType=VARCHAR},
+    strategic_partner_contacts_phone = #{strategicPartnerContactsPhone,jdbcType=VARCHAR},
+    extension_center_name = #{extensionCenterName,jdbcType=VARCHAR},
+    extension_center_contacts_name = #{extensionCenterContactsName,jdbcType=VARCHAR},
+    extension_center_contacts_phone = #{extensionCenterContactsPhone,jdbcType=VARCHAR}
+    where extension_center_id = #{extensionCenterId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updatePromotersAndParentInfo" parameterType="com.tinypig.newadmin.web.entity.MemberInfoParentParamDto" >
+  	update zhu_user.user_info
+    set 
+    strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+    strategic_partner_name = #{strategicPartnerName,jdbcType=VARCHAR},
+    strategic_partner_contacts_name = #{strategicPartnerContactsName,jdbcType=VARCHAR},
+    strategic_partner_contacts_phone = #{strategicPartnerContactsPhone,jdbcType=VARCHAR},
+    extension_center_id = #{extensionCenterId,jdbcType=BIGINT},
+    extension_center_name = #{extensionCenterName,jdbcType=VARCHAR},
+    extension_center_contacts_name = #{extensionCenterContactsName,jdbcType=VARCHAR},
+    extension_center_contacts_phone = #{extensionCenterContactsPhone,jdbcType=VARCHAR},
+    promoters_name = #{promotersName,jdbcType=VARCHAR},
+    promoters_contacts_name = #{promotersContactsName,jdbcType=VARCHAR},
+    promoters_contacts_phone = #{promotersContactsPhone,jdbcType=VARCHAR}
+    where promoters_id = #{promotersId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateAgentUserAndParentInfo" parameterType="com.tinypig.newadmin.web.entity.MemberInfoParentParamDto" >
+  	update zhu_user.user_info
+    set 
+    strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+    strategic_partner_name = #{strategicPartnerName,jdbcType=VARCHAR},
+    strategic_partner_contacts_name = #{strategicPartnerContactsName,jdbcType=VARCHAR},
+    strategic_partner_contacts_phone = #{strategicPartnerContactsPhone,jdbcType=VARCHAR},
+    extension_center_id = #{extensionCenterId,jdbcType=BIGINT},
+    extension_center_name = #{extensionCenterName,jdbcType=VARCHAR},
+    extension_center_contacts_name = #{extensionCenterContactsName,jdbcType=VARCHAR},
+    extension_center_contacts_phone = #{extensionCenterContactsPhone,jdbcType=VARCHAR},
+    promoters_id = #{promotersId,jdbcType=BIGINT},
+    promoters_name = #{promotersName,jdbcType=VARCHAR},
+    promoters_contacts_name = #{promotersContactsName,jdbcType=VARCHAR},
+    promoters_contacts_phone = #{promotersContactsPhone,jdbcType=VARCHAR},
+    agent_user_name = #{agentUserName,jdbcType=VARCHAR},
+    agent_user_contacts_name = #{agentUserContactsName,jdbcType=VARCHAR},
+    agent_user_contacts_phone = #{agentUserContactsPhone,jdbcType=VARCHAR}
+    where agent_user_id = #{agentUserId,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateSalesmanAndParentInfo" parameterType="com.tinypig.newadmin.web.entity.MemberInfoParentParamDto" >
+  	update zhu_user.user_info
+    set 
+    strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+    strategic_partner_name = #{strategicPartnerName,jdbcType=VARCHAR},
+    strategic_partner_contacts_name = #{strategicPartnerContactsName,jdbcType=VARCHAR},
+    strategic_partner_contacts_phone = #{strategicPartnerContactsPhone,jdbcType=VARCHAR},
+    extension_center_id = #{extensionCenterId,jdbcType=BIGINT},
+    extension_center_name = #{extensionCenterName,jdbcType=VARCHAR},
+    extension_center_contacts_name = #{extensionCenterContactsName,jdbcType=VARCHAR},
+    extension_center_contacts_phone = #{extensionCenterContactsPhone,jdbcType=VARCHAR},
+    promoters_id = #{promotersId,jdbcType=BIGINT},
+    promoters_name = #{promotersName,jdbcType=VARCHAR},
+    promoters_contacts_name = #{promotersContactsName,jdbcType=VARCHAR},
+    promoters_contacts_phone = #{promotersContactsPhone,jdbcType=VARCHAR},
+    agent_user_id = #{agentUserId,jdbcType=BIGINT},
+    agent_user_name = #{agentUserName,jdbcType=VARCHAR},
+    agent_user_contacts_name = #{agentUserContactsName,jdbcType=VARCHAR},
+    agent_user_contacts_phone = #{agentUserContactsPhone,jdbcType=VARCHAR},
+    salesman_name = #{salesmanName,jdbcType=VARCHAR},
+    salesman_contacts_name = #{salesmanContactsName,jdbcType=VARCHAR},
+    salesman_contacts_phone = #{salesmanContactsPhone,jdbcType=VARCHAR}
+    where salesman_id = #{salesmanId,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateUserAndParentInfo" parameterType="com.tinypig.newadmin.web.entity.MemberInfoParentParamDto" >
+  	update zhu_user.user_info
+    set 
+    strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+    strategic_partner_name = #{strategicPartnerName,jdbcType=VARCHAR},
+    strategic_partner_contacts_name = #{strategicPartnerContactsName,jdbcType=VARCHAR},
+    strategic_partner_contacts_phone = #{strategicPartnerContactsPhone,jdbcType=VARCHAR},
+    extension_center_id = #{extensionCenterId,jdbcType=BIGINT},
+    extension_center_name = #{extensionCenterName,jdbcType=VARCHAR},
+    extension_center_contacts_name = #{extensionCenterContactsName,jdbcType=VARCHAR},
+    extension_center_contacts_phone = #{extensionCenterContactsPhone,jdbcType=VARCHAR},
+    promoters_id = #{promotersId,jdbcType=BIGINT},
+    promoters_name = #{promotersName,jdbcType=VARCHAR},
+    promoters_contacts_name = #{promotersContactsName,jdbcType=VARCHAR},
+    promoters_contacts_phone = #{promotersContactsPhone,jdbcType=VARCHAR},
+    agent_user_id = #{agentUserId,jdbcType=BIGINT},
+    agent_user_name = #{agentUserName,jdbcType=VARCHAR},
+    agent_user_contacts_name = #{agentUserContactsName,jdbcType=VARCHAR},
+    agent_user_contacts_phone = #{agentUserContactsPhone,jdbcType=VARCHAR},
+    salesman_id = #{salesmanId,jdbcType=BIGINT},
+    salesman_name = #{salesmanName,jdbcType=VARCHAR},
+    salesman_contacts_name = #{salesmanContactsName,jdbcType=VARCHAR},
+    salesman_contacts_phone = #{salesmanContactsPhone,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+	<select id="getMemberListPage" resultType="com.tinypig.newadmin.web.entity.MemberInfo" parameterType="com.tinypig.newadmin.web.entity.MemberParamDto">
+		SELECT 
+		  a.uid,
+		  a.sex,
+		  a.nickname,
+		  a.phone,
+		  a.headimage,
+		  a.livimage,
+		  a.userLevel,
+		  a.anchorLevel,
+		  a.signature,
+		  a.hobby,
+		  a.money,
+		  a.registtime,
+		  CASE WHEN a.registtime = 0 THEN '' ELSE 
+		  FROM_UNIXTIME(a.registtime,'%Y-%m-%d %H:%i:%s') END registtimeStr,
+		  a.status,
+		  a.salesman_id salesmanId,
+		  a.salesman_name salesmanName,
+		  a.salesman_contacts_phone salesmanContactsPhone,
+		  a.agent_user_id agentUserId,
+		  a.agent_user_name agentUserName,
+		  a.agent_user_name agentUserContactsName,
+		  a.agent_user_contacts_phone agentUserContactsPhone,
+		  a.promoters_id promotersId,
+		  a.promoters_name promotersName,
+		  a.promoters_contacts_name promotersContactsName,
+		  a.promoters_contacts_phone promotersContactsPhone,
+		  a.extension_center_id extensionCenterId,
+		  a.extension_center_name extensionCenterName,
+		  a.extension_center_contacts_name extensionCenterContactsName,
+		  a.extension_center_contacts_phone extensionCenterContactsPhone, 
+		  a.strategic_partner_name strategicPartnerName,
+		  a.strategic_partner_contacts_name strategicPartnerContactsName,
+		  a.strategic_partner_contacts_phone strategicPartnerContactsPhone,
+	      IF(h.id IS NULL,'0','1') supportUserFlag,
+		  IFNULL(a.money_rmb,0) moneyRmb
+		FROM
+		  zhu_user.user_info a
+		  LEFT JOIN zhu_user.support_user_list h ON a.uid=h.uid AND h.status=1
+		WHERE 1=1
+		  <if test="uid != null and uid!=0" >
+		  	and a.uid =  #{uid}
+		  </if>
+		  <if test="phone != null and phone !=''" >
+		  	and a.phone = #{phone}
+		  </if>
+		   <if test="salesmanId != null and salesmanId" >
+		  	and a.salesman_id = #{salesmanId}
+		  </if>
+		  <if test="salesmanName != null and salesmanName !=''" >
+		  	and a.salesman_name like concat("%",#{salesmanName},"%")
+		  </if>
+		  <if test="agentUserId != null and agentUserId" >
+		  	and a.agent_user_id = #{agentUserId}
+		  </if>
+		  <if test="agentUserName != null and agentUserName !=''" >
+		  	and a.agent_user_name like concat("%",#{agentUserName},"%")
+		  </if>
+		   <if test="promotersId != null and promotersId" >
+		  	and a.promoters_id = #{promotersId}
+		  </if>
+		  <if test="promotersName != null and promotersName !=''" >
+		  	and a.promoters_name like concat("%",#{promotersName},"%")
+		  </if>
+		  <if test="extensionCenterId != null and extensionCenterId" >
+		  	and a.extension_center_id = #{extensionCenterId}
+		  </if>
+		  <if test="extensionCenterContactsName != null and extensionCenterContactsName !=''" >
+		  	and a.extension_center_name like concat("%",#{extensionCenterContactsName},"%")
+		  </if>
+		   <if test="strategicPartnerId != null and strategicPartnerId" >
+		  	and a.strategic_partner_id = #{strategicPartnerId}
+		  </if>
+		  <if test="strategicPartnerContactsName != null and strategicPartnerContactsName !=''" >
+		  	and a.strategic_partner_name like concat("%",#{strategicPartnerContactsName},"%")
+		  </if>
+		  <if test="supportUserFlag != null" >
+		  	<if test="supportUserFlag == 0">
+		  		and h.id is null
+		  	</if>
+		  	<if test="supportUserFlag == 1">
+		  		and h.id is not null
+		  	</if>
+		  </if>
+		  <if test="startRegisterTime!=null and startRegisterTime!=''">
+			<![CDATA[ and a.registtime >=UNIX_TIMESTAMP(#{startRegisterTime})]]>     
+		  </if> 
+		  <if test="endRegisterTime!=null and endRegisterTime!=''">
+			<![CDATA[ and a.registtime <=UNIX_TIMESTAMP(CONCAT(#{endRegisterTime},' 23:59:59'))]]>     
+		  </if>
+		  <if test="sort != null and sort !=''" >
+		  	 order by ${sort} 
+			  <if test="order != null and order !=''" >
+			  	 ${order}
+			  </if>
+		  </if>
+		limit #{startIndex},#{pageSize}
+	</select>
+	<select id="getAllMemberList" resultType="java.util.Map" parameterType="com.tinypig.newadmin.web.entity.MemberParamDto">
+		SELECT 
+		  a.uid,
+		  a.nickname,
+		  a.phone,
+		  a.headimage,
+		  a.userLevel,
+		  a.anchorLevel,
+		  a.money,
+		  a.registtime,
+		  CASE WHEN a.registtime = 0 THEN '' ELSE 
+		  FROM_UNIXTIME(a.registtime,'%Y-%m-%d %H:%i:%s') END registtimeStr,
+		  a.status,
+		  IF(a.status=0,'是','否') statusName,
+		  a.salesman_id salesmanId,
+		  a.salesman_name salesmanName,
+		  a.salesman_contacts_phone salesmanContactsPhone,
+		  a.agent_user_id agentUserId,
+		  a.agent_user_name agentUserName,
+		  a.agent_user_name agentUserContactsName,
+		  a.agent_user_contacts_phone agentUserContactsPhone,
+		  a.promoters_id promotersId,
+		  a.promoters_name promotersName,
+		  a.promoters_contacts_name promotersContactsName,
+		  a.promoters_contacts_phone promotersContactsPhone,
+		  a.extension_center_id extensionCenterId,
+		  a.extension_center_name extensionCenterName,
+		  a.extension_center_contacts_name extensionCenterContactsName,
+		  a.extension_center_contacts_phone extensionCenterContactsPhone, 
+		  a.strategic_partner_name strategicPartnerName,
+		  a.strategic_partner_contacts_name strategicPartnerContactsName,
+		  a.strategic_partner_contacts_phone strategicPartnerContactsPhone,
+		  IF(h.id IS NULL,'否','是') supportUserFlag,
+		  IFNULL(a.money_rmb,0) moneyRmb
+		FROM
+		  zhu_user.user_info a
+		  LEFT JOIN zhu_user.support_user_list h ON a.uid=h.uid AND h.status=1
+		WHERE 1=1
+		  <if test="uid != null and uid!=0" >
+		  	and a.uid =  #{uid}
+		  </if>
+		  <if test="phone != null and phone !=''" >
+		  	and a.phone = #{phone}
+		  </if>
+		   <if test="salesmanId != null and salesmanId" >
+		  	and a.salesman_id = #{salesmanId}
+		  </if>
+		  <if test="salesmanName != null and salesmanName !=''" >
+		  	and a.salesman_name like concat("%",#{salesmanName},"%")
+		  </if>
+		  <if test="agentUserId != null and agentUserId" >
+		  	and a.agent_user_id = #{agentUserId}
+		  </if>
+		  <if test="agentUserName != null and agentUserName !=''" >
+		  	and a.agent_user_name like concat("%",#{agentUserName},"%")
+		  </if>
+		   <if test="promotersId != null and promotersId" >
+		  	and a.promoters_id = #{promotersId}
+		  </if>
+		  <if test="promotersName != null and promotersName !=''" >
+		  	and a.promoters_name like concat("%",#{promotersName},"%")
+		  </if>
+		  <if test="extensionCenterId != null and extensionCenterId" >
+		  	and a.extension_center_id = #{extensionCenterId}
+		  </if>
+		  <if test="extensionCenterContactsName != null and extensionCenterContactsName !=''" >
+		  	and a.extension_center_name like concat("%",#{extensionCenterContactsName},"%")
+		  </if>
+		   <if test="strategicPartnerId != null and strategicPartnerId" >
+		  	and a.strategic_partner_id = #{strategicPartnerId}
+		  </if>
+		  <if test="strategicPartnerContactsName != null and strategicPartnerContactsName !=''" >
+		  	and a.strategic_partner_name like concat("%",#{strategicPartnerContactsName},"%")
+		  </if>
+		  <if test="supportUserFlag != null" >
+		  	<if test="supportUserFlag == 0">
+		  		and h.id is null
+		  	</if>
+		  	<if test="supportUserFlag == 1">
+		  		and h.id is not null
+		  	</if>
+		  </if>
+		  <if test="startRegisterTime!=null and startRegisterTime!=''">
+			<![CDATA[ and a.registtime >=UNIX_TIMESTAMP(#{startRegisterTime})]]>     
+		  </if> 
+		  <if test="endRegisterTime!=null and endRegisterTime!=''">
+			<![CDATA[ and a.registtime <=UNIX_TIMESTAMP(CONCAT(#{endRegisterTime},' 23:59:59'))]]>     
+		  </if>
+		  <if test="sort != null and sort !=''" >
+		  	 order by ${sort} 
+			  <if test="order != null and order !=''" >
+			  	 ${order}
+			  </if>
+		  </if>
+	</select>
+	<select id="getMemberTotal" resultType="java.lang.Integer" parameterType="com.tinypig.newadmin.web.entity.MemberParamDto">
+		SELECT 
+		 count(a.uid) total
+		FROM
+		  zhu_user.user_info a
+		  LEFT JOIN zhu_user.support_user_list h ON a.uid=h.uid AND h.status=1
+		WHERE 1=1
+		  <if test="uid != null and uid!=0" >
+		  	and a.uid =  #{uid}
+		  </if>
+		  <if test="phone != null and phone !=''" >
+		  	and a.phone = #{phone}
+		  </if>
+		   <if test="salesmanId != null and salesmanId" >
+		  	and a.salesman_id = #{salesmanId}
+		  </if>
+		  <if test="salesmanName != null and salesmanName !=''" >
+		  	and a.salesman_name like concat("%",#{salesmanName},"%")
+		  </if>
+		  <if test="agentUserId != null and agentUserId" >
+		  	and a.agent_user_id = #{agentUserId}
+		  </if>
+		  <if test="agentUserName != null and agentUserName !=''" >
+		  	and a.agent_user_name like concat("%",#{agentUserName},"%")
+		  </if>
+		   <if test="promotersId != null and promotersId" >
+		  	and a.promoters_id = #{promotersId}
+		  </if>
+		  <if test="promotersName != null and promotersName !=''" >
+		  	and a.promoters_name like concat("%",#{promotersName},"%")
+		  </if>
+		  <if test="extensionCenterId != null and extensionCenterId" >
+		  	and a.extension_center_id = #{extensionCenterId}
+		  </if>
+		  <if test="extensionCenterContactsName != null and extensionCenterContactsName !=''" >
+		  	and a.extension_center_name like concat("%",#{extensionCenterContactsName},"%")
+		  </if>
+		   <if test="strategicPartnerId != null and strategicPartnerId" >
+		  	and a.strategic_partner_id = #{strategicPartnerId}
+		  </if>
+		  <if test="strategicPartnerContactsName != null and strategicPartnerContactsName !=''" >
+		  	and a.strategic_partner_name like concat("%",#{strategicPartnerContactsName},"%")
+		  </if>
+		  <if test="supportUserFlag != null" >
+		  	<if test="supportUserFlag == 0">
+		  		and h.id is null
+		  	</if>
+		  	<if test="supportUserFlag == 1">
+		  		and h.id is not null
+		  	</if>
+		  </if>
+		  <if test="startRegisterTime!=null and startRegisterTime!=''">
+			<![CDATA[ and a.registtime >=UNIX_TIMESTAMP(#{startRegisterTime})]]>     
+		  </if> 
+		  <if test="endRegisterTime!=null and endRegisterTime!=''">
+			<![CDATA[ and a.registtime <=UNIX_TIMESTAMP(CONCAT(#{endRegisterTime},' 23:59:59'))]]>     
+		  </if>
+	</select>
+	
+	<select id="getMemberInfoById" resultType="com.tinypig.newadmin.web.entity.MemberInfo">
+		SELECT 
+		  a.uid,
+		  a.nickname,
+		  a.phone,
+		  a.headimage,
+		  a.userLevel,
+		  a.anchorLevel,
+		  cc.money,
+		  a.registtime,
+		  b.salesman_id salesmanId,
+		  c.name salesmanName,
+		  c.contacts_phone salesmanContactsPhone,
+		  b.agent_user_id agentUserId,
+		  d.name agentUserName,
+		  d.contacts agentUserContactsName,
+		  d.contacts_phone agentUserContactsPhone,
+		  b.promoters_id promotersId,
+		  e.name promotersName,
+		  e.contacts promotersContactsName,
+		  e.contacts_phone promotersContactsPhone,
+		  b.extension_center_id extensionCenterId,
+		  f.name extensionCenterName,
+		  f.contacts extensionCenterContactsName,
+		  f.contacts_phone extensionCenterContactsPhone,
+		  g.name strategicPartnerName,
+		  g.contacts strategicPartnerContactsName,
+		  g.contacts_phone strategicPartnerContactsPhone 
+		FROM
+		  zhu_user.user_base_info_${suffix} a 
+		  left join zhu_user.user_account_${suffix} bb on a.uid=bb.uid
+		  left join zhu_user.user_asset_${suffix} cc on a.uid =cc.uid
+		  LEFT JOIN zhu_admin.t_user_org_relation b ON a.`uid` = b.`uid` 
+		  LEFT JOIN zhu_admin.t_salesman c ON b.`salesman_id` =c.`id` AND c.status=0
+		  LEFT JOIN zhu_admin.t_agent_user d ON b.`agent_user_id`=d.`id` AND d.status=0
+		  LEFT JOIN zhu_admin.t_promoters e ON b.`promoters_id` = e.`id` AND e.`status`=0
+		  LEFT JOIN zhu_admin.t_extension_center f ON b.`extension_center_id`=f.`id`  AND f.`status`=0
+		  LEFT JOIN zhu_admin.t_strategic_partner g ON b.`strategic_partner_id`=g.`id`  AND g.`status`=0
+	  	  where a.uid =  #{uid}
+</select>
+</mapper>

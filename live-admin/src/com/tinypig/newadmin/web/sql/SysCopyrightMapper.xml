@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.SysCopyrightDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.SysCopyright" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="copyright_data" property="copyrightData" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, copyright_data
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.sys_copyright
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zhu_admin.sys_copyright
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.SysCopyright" >
+    insert into zhu_admin.sys_copyright (id, copyright_data)
+    values (#{id,jdbcType=INTEGER}, #{copyrightData,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.SysCopyright" >
+    insert into zhu_admin.sys_copyright
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="copyrightData != null" >
+        copyright_data,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="copyrightData != null" >
+        #{copyrightData,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.SysCopyright" >
+    update zhu_admin.sys_copyright
+    <set >
+      <if test="copyrightData != null" >
+        copyright_data = #{copyrightData,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.SysCopyright" >
+    update zhu_admin.sys_copyright
+    set copyright_data = #{copyrightData,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+   <select id="getSysCopyright" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.sys_copyright
+  </select>
+</mapper>

@@ -1,0 +1,22 @@
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>2.0</jsp-version>
+	<short-name>custom tld</short-name>
+	<tag>
+		<name>auth</name>
+		<tag-class>com.tinypig.admin.web.tag.AuthTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>action</name>
+			<required>true</required>
+			<type>java.lang.String</type>
+			<description>url或者action</description>
+		</attribute>
+		<attribute>
+			<name>show</name>
+			<required>false</required>
+			<type>java.lang.String</type>
+			<description>true或者false</description>
+		</attribute>
+	</tag>
+</taglib>

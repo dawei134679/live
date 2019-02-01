@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.SupportUserDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.SupportUser" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, notes, status, create_time, create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_user.support_user_list
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="findExistByUid" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_user.support_user_list
+    where 1=1
+    <if test="uid != null">
+    	and uid = #{uid,jdbcType=INTEGER}
+    </if>
+    <if test="excludeId != null">
+    	and id != #{excludeId,jdbcType=BIGINT}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from zhu_user.support_user_list
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.SupportUser" >
+    insert into zhu_user.support_user_list (id, uid, notes, 
+      status, create_time, create_user_id, 
+      update_time, update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=INTEGER}, #{notes,jdbcType=VARCHAR}, 
+      #{status,jdbcType=BIT}, #{createTime,jdbcType=BIGINT}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=BIGINT}, #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.SupportUser" >
+    insert into zhu_user.support_user_list
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="notes != null" >
+        notes,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.SupportUser" >
+    update zhu_user.support_user_list
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="notes != null" >
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.SupportUser" >
+    update zhu_user.support_user_list
+    set uid = #{uid,jdbcType=INTEGER},
+      notes = #{notes,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getSupportUserList" resultType="com.tinypig.newadmin.web.entity.SupportUserDto" parameterType="com.tinypig.newadmin.web.entity.SupportUserParamDto">
+		select
+		  a.id, 
+		  a.uid, 
+		  a.notes, 
+		  a.status, 
+		  a.create_time createTime, 
+		  a.create_user_id createUserId,
+		  a.update_time updateTime,
+		  a.update_user_id updateUserId,
+		  b.salesman_id salesmanId,
+		  c.name salesmanName,
+		  c.contacts_phone salesmanContactsPhone,
+		  b.agent_user_id agentUserId,
+		  d.name agentUserName,
+		  d.contacts agentUserContactsName,
+		  d.contacts_phone agentUserContactsPhone,
+		  b.promoters_id promotersId,
+		  e.name promotersName,
+		  e.contacts promotersContactsName,
+		  e.contacts_phone promotersContactsPhone,
+		  b.extension_center_id extensionCenterId,
+		  f.name extensionCenterName,
+		  f.contacts extensionCenterContactsName,
+		  f.contacts_phone extensionCenterContactsPhone, 
+		  g.name strategicPartnerName,
+		  g.contacts strategicPartnerContactsName,
+		  g.contacts_phone strategicPartnerContactsPhone
+		from zhu_user.support_user_list a
+		  LEFT JOIN zhu_admin.t_user_org_relation b ON b.uid = a.uid 
+		  LEFT JOIN zhu_admin.t_salesman c ON b.salesman_id=c.id 
+		  LEFT JOIN zhu_admin.t_agent_user d ON b.agent_user_id = d.id 
+		  LEFT JOIN zhu_admin.t_promoters e ON b.promoters_id= e.id
+		  LEFT JOIN zhu_admin.t_extension_center f ON b.extension_center_id=f.id
+		  LEFT JOIN zhu_admin.t_strategic_partner g ON b.strategic_partner_id=g.id
+		  LEFT JOIN zhu_user.user_ration_info i ON b.uid=i.uid
+		WHERE c.status=0
+		  AND d.status=0
+		  AND e.status=0
+		  AND f.status=0
+		  AND g.status=0
+		<if test="uid!=null and uid!=''">
+			and a.uid = #{uid}
+		</if>
+		<if test="status!=null and status!=-1">
+			and a.status=#{status}
+		</if>
+		<if test="agentUserId != null and agentUserId" >
+		  	and d.id = #{agentUserId}
+		</if>
+		<if test="agentUserName != null and agentUserName !=''" >
+			and d.name like concat("%",#{agentUserName},"%")
+		</if>
+		<if test="strategicPartnerId != null and strategicPartnerId" >
+			and g.id = #{strategicPartnerId}
+		</if>
+		<if test="strategicPartnerContactsName != null and strategicPartnerContactsName !=''" >
+			and g.name like concat("%",#{strategicPartnerContactsName},"%")
+		</if>
+		<if test="extensionCenterId != null and extensionCenterId" >
+			and f.id = #{extensionCenterId}
+		</if>
+		<if test="extensionCenterContactsName != null and extensionCenterContactsName !=''" >
+			and f.name like concat("%",#{extensionCenterContactsName},"%")
+		</if>
+		<if test="promotersId != null and promotersId" >
+			and e.id = #{promotersId}
+		</if>
+		<if test="promotersName != null and promotersName !=''" >
+			and e.name like concat("%",#{promotersName},"%")
+		</if>
+		<if test="salesmanId != null and salesmanId" >
+			and c.id = #{salesmanId}
+		</if>
+		<if test="salesmanName != null and salesmanName !=''" >
+			and c.name like concat("%",#{salesmanName},"%")
+		</if>
+		<if test="startRegisterTime!=null and startRegisterTime!=''">
+			<![CDATA[ and a.create_time >=UNIX_TIMESTAMP(#{startRegisterTime}) * 1000 ]]>     
+		</if> 
+		<if test="endRegisterTime!=null and endRegisterTime!=''">
+			<![CDATA[ and a.create_time <=UNIX_TIMESTAMP(CONCAT(#{endRegisterTime},' 23:59:59')) * 1000]]>     
+		</if>
+		order by a.create_time desc limit #{startIndex},#{pageSize}
+  </select>
+  <select id="getAllSupportUserList" resultType="java.util.Map" parameterType="com.tinypig.newadmin.web.entity.SupportUserParamDto">
+		select
+		  a.id, 
+		  a.uid, 
+		  a.notes, 
+		  IF(a.status=1,'启用','禁用') status,
+		  CASE WHEN a.create_time = 0 THEN '' ELSE FROM_UNIXTIME(a.create_time/1000,'%Y-%m-%d %H:%i:%s') END create_time,
+		  a.create_user_id, 
+		  a.update_time, 
+		  a.update_user_id,
+		  b.salesman_id salesmanId,
+		  c.name salesmanName,
+		  c.contacts_phone salesmanContactsPhone,
+		  b.agent_user_id agentUserId,
+		  d.name agentUserName,
+		  d.contacts agentUserContactsName,
+		  d.contacts_phone agentUserContactsPhone,
+		  b.promoters_id promotersId,
+		  e.name promotersName,
+		  e.contacts promotersContactsName,
+		  e.contacts_phone promotersContactsPhone,
+		  b.extension_center_id extensionCenterId,
+		  f.name extensionCenterName,
+		  f.contacts extensionCenterContactsName,
+		  f.contacts_phone extensionCenterContactsPhone, 
+		  g.name strategicPartnerName,
+		  g.contacts strategicPartnerContactsName,
+		  g.contacts_phone strategicPartnerContactsPhone
+		from zhu_user.support_user_list a
+		  LEFT JOIN zhu_admin.t_user_org_relation b ON b.uid = a.uid 
+		  LEFT JOIN zhu_admin.t_salesman c ON b.salesman_id=c.id 
+		  LEFT JOIN zhu_admin.t_agent_user d ON b.agent_user_id = d.id 
+		  LEFT JOIN zhu_admin.t_promoters e ON b.promoters_id= e.id
+		  LEFT JOIN zhu_admin.t_extension_center f ON b.extension_center_id=f.id
+		  LEFT JOIN zhu_admin.t_strategic_partner g ON b.strategic_partner_id=g.id
+		  LEFT JOIN zhu_user.support_user_list h ON b.uid=h.uid and h.status=1
+		  LEFT JOIN zhu_user.user_ration_info i ON b.uid=i.uid
+		WHERE c.status=0
+		  AND d.status=0
+		  AND e.status=0
+		  AND f.status=0
+		  AND g.status=0
+		<if test="uid!=null and uid!=''">
+			and a.uid = #{uid}
+		</if>
+		<if test="status!=null and status!=-1">
+			and a.status=#{status}
+		</if>
+		<if test="agentUserId != null and agentUserId" >
+		  	and d.id = #{agentUserId}
+		</if>
+		<if test="agentUserName != null and agentUserName !=''" >
+			and d.name like concat("%",#{agentUserName},"%")
+		</if>
+		<if test="strategicPartnerId != null and strategicPartnerId" >
+			and g.id = #{strategicPartnerId}
+		</if>
+		<if test="strategicPartnerContactsName != null and strategicPartnerContactsName !=''" >
+			and g.name like concat("%",#{strategicPartnerContactsName},"%")
+		</if>
+		<if test="extensionCenterId != null and extensionCenterId" >
+			and f.id = #{extensionCenterId}
+		</if>
+		<if test="extensionCenterContactsName != null and extensionCenterContactsName !=''" >
+			and f.name like concat("%",#{extensionCenterContactsName},"%")
+		</if>
+		<if test="promotersId != null and promotersId" >
+			and e.id = #{promotersId}
+		</if>
+		<if test="promotersName != null and promotersName !=''" >
+			and e.name like concat("%",#{promotersName},"%")
+		</if>
+		<if test="salesmanId != null and salesmanId" >
+			and c.id = #{salesmanId}
+		</if>
+		<if test="salesmanName != null and salesmanName !=''" >
+			and c.name like concat("%",#{salesmanName},"%")
+		</if>
+		<if test="startRegisterTime!=null and startRegisterTime!=''">
+			<![CDATA[ and a.create_time >=UNIX_TIMESTAMP(#{startRegisterTime})  * 1000]]>     
+		</if> 
+		<if test="endRegisterTime!=null and endRegisterTime!=''">
+			<![CDATA[ and a.create_time <=UNIX_TIMESTAMP(CONCAT(#{endRegisterTime},' 23:59:59'))  * 1000]]>     
+		</if>
+		order by a.create_time desc
+  </select>
+  <select id="getSupportUsersTotal" resultType="java.lang.Integer" parameterType="com.tinypig.newadmin.web.entity.SupportUserParamDto">
+    select 
+   	count(*) total
+	from zhu_user.support_user_list a
+	  LEFT JOIN zhu_admin.t_user_org_relation b ON b.uid = a.uid 
+	  LEFT JOIN zhu_admin.t_salesman c ON b.salesman_id=c.id 
+	  LEFT JOIN zhu_admin.t_agent_user d ON b.agent_user_id = d.id 
+	  LEFT JOIN zhu_admin.t_promoters e ON b.promoters_id= e.id
+	  LEFT JOIN zhu_admin.t_extension_center f ON b.extension_center_id=f.id
+	  LEFT JOIN zhu_admin.t_strategic_partner g ON b.strategic_partner_id=g.id
+	  LEFT JOIN zhu_user.support_user_list h ON b.uid=h.uid and h.status=1
+	  LEFT JOIN zhu_user.user_ration_info i ON b.uid=i.uid
+	WHERE c.status=0
+	  AND d.status=0
+	  AND e.status=0
+	  AND f.status=0
+	  AND g.status=0
+	<if test="uid!=null and uid!=''">
+		and a.uid = #{uid}
+	</if>
+	<if test="status!=null and status!=-1">
+		and a.status=#{status}
+	</if>
+	<if test="agentUserId != null and agentUserId" >
+	  	and d.id = #{agentUserId}
+	</if>
+	<if test="agentUserName != null and agentUserName !=''" >
+		and d.name like concat("%",#{agentUserName},"%")
+	</if>
+	<if test="strategicPartnerId != null and strategicPartnerId" >
+		and g.id = #{strategicPartnerId}
+	</if>
+	<if test="strategicPartnerContactsName != null and strategicPartnerContactsName !=''" >
+		and g.name like concat("%",#{strategicPartnerContactsName},"%")
+	</if>
+	<if test="extensionCenterId != null and extensionCenterId" >
+		and f.id = #{extensionCenterId}
+	</if>
+	<if test="extensionCenterContactsName != null and extensionCenterContactsName !=''" >
+		and f.name like concat("%",#{extensionCenterContactsName},"%")
+	</if>
+	<if test="promotersId != null and promotersId" >
+		and e.id = #{promotersId}
+	</if>
+	<if test="promotersName != null and promotersName !=''" >
+		and e.name like concat("%",#{promotersName},"%")
+	</if>
+	<if test="salesmanId != null and salesmanId" >
+		and c.id = #{salesmanId}
+	</if>
+	<if test="salesmanName != null and salesmanName !=''" >
+		and c.name like concat("%",#{salesmanName},"%")
+	</if>
+	<if test="startRegisterTime!=null and startRegisterTime!=''">
+		<![CDATA[ and a.create_time >=UNIX_TIMESTAMP(#{startRegisterTime})  * 1000]]>     
+	</if> 
+	<if test="endRegisterTime!=null and endRegisterTime!=''">
+		<![CDATA[ and a.create_time <=UNIX_TIMESTAMP(CONCAT(#{endRegisterTime},' 23:59:59'))  * 1000]]>     
+	</if>
+  </select>
+  <update id="doValid">
+		update zhu_user.support_user_list set
+		status=#{status},update_time=#{updateTime},update_user_id=#{updateUserId}
+		where id=#{id}
+ </update>
+</mapper>

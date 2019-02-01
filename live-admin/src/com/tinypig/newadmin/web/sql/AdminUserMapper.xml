@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.AdminUserDao" >
+  <insert id="insertSelective" parameterType="com.tinypig.admin.model.AdminUser" >
+    insert into zhu_admin.admin_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="role_id != null" >
+        role_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="reg_time != null" >
+        reg_time,
+      </if>
+      <if test="login_time != null" >
+        login_time,
+      </if>
+      <if test="createUid != null" >
+        createUid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="role_id != null" >
+        #{role_id,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="reg_time != null" >
+        #{reg_time,jdbcType=INTEGER},
+      </if>
+      <if test="login_time != null" >
+        #{login_time,jdbcType=INTEGER},
+      </if>
+      <if test="createUid != null" >
+        #{createUid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

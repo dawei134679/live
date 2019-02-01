@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.GiftStaDao">
+	<resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.vo.GiftStaHistoryVo" >
+		<result column="srcuid" property="srcuid" jdbcType="BIGINT" />
+		<result column="srcnickname" property="srcnickname" jdbcType="VARCHAR" />
+		<result column="dstuid" property="dstuid" jdbcType="BIGINT" />
+		<result column="dstnickname" property="dstnickname" jdbcType="VARCHAR" />
+		<result column="addtime" property="addtime" jdbcType="BIGINT" />
+		<result column="gid" property="gid" jdbcType="BIGINT" />
+		<result column="gname" property="gname" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="INTEGER" />
+		<result column="count" property="count" jdbcType="INTEGER" />
+		<result column="gflag" property="gflag" jdbcType="INTEGER" />
+		<result column="supportUserFlag" property="supportUserFlag" jdbcType="INTEGER" />
+  	</resultMap>
+
+	<select id="giftHistorySta" resultMap="BaseResultMap" parameterType="com.tinypig.newadmin.web.entity.GiftHistoryStaDto">
+		SELECT 
+			t.srcuid,t.srcnickname,t.dstuid,t.dstnickname,t.addtime,t.gid,t.price,t.count,t.gflag,
+			tcg.gname,
+			IF(h.id IS NULL,'0','1') supportUserFlag
+		FROM (
+		<foreach collection="tableNames" open=" " close=" " item="table_name" separator="UNION ALL">
+            SELECT srcuid,srcnickname,dstuid,dstnickname,`addtime`,gid,price,`count`,gflag FROM `zhu_bill`.bill_${table_name} where 1=1
+            <if test="gflag!=null">
+				and gflag = #{gflag}
+			</if>
+ 			<if test="startTime!=null and startTime!=''">
+				<![CDATA[ and addtime >=UNIX_TIMESTAMP(#{startTime})]]>     
+			</if> 
+			<if test="endTime!=null and endTime!=''">
+				<![CDATA[ and addtime <=UNIX_TIMESTAMP(CONCAT(#{endTime},' 23:59:59'))]]>     
+			</if>
+        </foreach>
+		)t
+		LEFT JOIN `zhu_config`.`config_giftlist` tcg ON t.gid=tcg.gid
+		LEFT JOIN zhu_admin.t_user_org_relation b ON b.uid = t.srcuid
+		LEFT JOIN zhu_admin.t_salesman c ON b.salesman_id=c.id 
+		LEFT JOIN zhu_admin.t_agent_user d ON b.agent_user_id = d.id 
+		LEFT JOIN zhu_admin.t_promoters e ON b.promoters_id= e.id
+		LEFT JOIN zhu_admin.t_extension_center f ON b.extension_center_id=f.id
+		LEFT JOIN zhu_admin.t_strategic_partner g ON b.strategic_partner_id=g.id
+		LEFT JOIN zhu_user.support_user_list h ON t.srcuid=h.uid and h.status=1
+		where 1=1
+		
+		<if test="gname != null and gname !=''" >
+			and tcg.gname like concat("%",#{gname},"%")			
+		</if>		
+		<if test="srcuid != null and srcuid !=''" >
+			and t.srcuid = #{srcuid}
+		</if>
+		<if test="dstuid != null and dstuid !=''" >
+		  	and t.dstuid = #{dstuid}
+		</if>
+		<if test="salesmanId != null and salesmanId !=''" >
+			and c.id = #{salesmanId}
+		</if>
+		<if test="agentUserId != null and agentUserId !=''" >
+		  	and d.id = #{agentUserId}
+		</if>
+		<if test="strategicPartnerId != null and strategicPartnerId !=''" >
+			and g.id = #{strategicPartnerId}
+		</if>
+		<if test="extensionCenterId != null and extensionCenterId !=''" >
+			and f.id = #{extensionCenterId}
+		</if>
+		<if test="promotersId != null and promotersId !=''" >
+			and e.id = #{promotersId}
+		</if>
+		
+		<if test="supportUserFlag != null" >
+		  	<if test="supportUserFlag == 0">
+		  		and h.id is null
+		  	</if>
+		  	<if test="supportUserFlag == 1">
+		  		and h.id is not null
+		  	</if>
+		</if>
+		order by t.addtime desc
+		limit #{startIndex},#{pageSize}
+	</select>
+
+	<select id="giftAllHistorySta" resultType="java.util.Map" parameterType="com.tinypig.newadmin.web.entity.GiftHistoryStaDto">
+		SELECT 
+			t.srcuid,t.srcnickname,t.dstuid,t.dstnickname,t.gid,t.price,t.count,
+			FROM_UNIXTIME(t.addtime,'%Y-%m-%d %H:%i:%s') `addtime`,
+			(case t.gflag when 0 then '非背包' when 1 then '背包' when 2 then '非背包（pk）' when 3 then '背包（pk）' end) gflag,
+			tcg.gname,
+			IF(h.id IS NULL,'否','是') supportUserFlag,
+			b.salesman_id salesmanId,
+			c.name salesmanName,
+			c.contacts_phone salesmanContactsPhone,
+			b.agent_user_id agentUserId,
+			d.name agentUserName,
+			d.contacts agentUserContactsName,
+			d.contacts_phone agentUserContactsPhone,
+			b.promoters_id promotersId,
+			e.name promotersName,
+			e.contacts promotersContactsName,
+			e.contacts_phone promotersContactsPhone,
+			b.extension_center_id extensionCenterId,
+			f.name extensionCenterName,
+			f.contacts extensionCenterContactsName,
+			f.contacts_phone extensionCenterContactsPhone, 
+			g.name strategicPartnerName,
+			g.contacts strategicPartnerContactsName,
+			g.contacts_phone strategicPartnerContactsPhone
+		FROM (
+		<foreach collection="tableNames" open=" " close=" " item="table_name" separator="UNION ALL">
+            SELECT srcuid,srcnickname,dstuid,dstnickname,`addtime`,gid,price,`count`,gflag FROM `zhu_bill`.bill_${table_name} where 1=1
+            <if test="gflag!=null">
+				and gflag = #{gflag}
+			</if>
+ 			<if test="startTime!=null and startTime!=''">
+				<![CDATA[ and addtime >=UNIX_TIMESTAMP(#{startTime})]]>     
+			</if> 
+			<if test="endTime!=null and endTime!=''">
+				<![CDATA[ and addtime <=UNIX_TIMESTAMP(CONCAT(#{endTime},' 23:59:59'))]]>     
+			</if>
+        </foreach>
+		)t
+		LEFT JOIN `zhu_config`.`config_giftlist` tcg ON t.gid=tcg.gid
+		LEFT JOIN zhu_admin.t_user_org_relation b ON b.uid = t.srcuid
+		LEFT JOIN zhu_admin.t_salesman c ON b.salesman_id=c.id 
+		LEFT JOIN zhu_admin.t_agent_user d ON b.agent_user_id = d.id 
+		LEFT JOIN zhu_admin.t_promoters e ON b.promoters_id= e.id
+		LEFT JOIN zhu_admin.t_extension_center f ON b.extension_center_id=f.id
+		LEFT JOIN zhu_admin.t_strategic_partner g ON b.strategic_partner_id=g.id
+		LEFT JOIN zhu_user.support_user_list h ON t.srcuid=h.uid and h.status=1
+		where 1=1
+		
+		<if test="gname != null and gname !=''" >
+			and tcg.gname like concat("%",#{gname},"%")
+		</if>		
+		<if test="srcuid != null and srcuid !=''" >
+			and t.srcuid = #{srcuid}
+		</if>
+		<if test="dstuid != null and dstuid !=''" >
+		  	and t.dstuid = #{dstuid}
+		</if>
+		<if test="salesmanId != null and salesmanId !=''" >
+			and c.id = #{salesmanId}
+		</if>
+		<if test="agentUserId != null and agentUserId !=''" >
+		  	and d.id = #{agentUserId}
+		</if>
+		<if test="strategicPartnerId != null and strategicPartnerId !=''" >
+			and g.id = #{strategicPartnerId}
+		</if>
+		<if test="extensionCenterId != null and extensionCenterId !=''" >
+			and f.id = #{extensionCenterId}
+		</if>
+		<if test="promotersId != null and promotersId !=''" >
+			and e.id = #{promotersId}
+		</if>
+		
+		<if test="supportUserFlag != null" >
+		  	<if test="supportUserFlag == 0">
+		  		and h.id is null
+		  	</if>
+		  	<if test="supportUserFlag == 1">
+		  		and h.id is not null
+		  	</if>
+		</if>
+		order by t.addtime desc
+	</select>
+
+	<select id="giftHistoryTotalCount" resultType="java.lang.Long" parameterType="com.tinypig.newadmin.web.entity.GiftHistoryStaDto">
+		SELECT 
+			count(*)
+		FROM (
+		<foreach collection="tableNames" open=" " close=" " item="table_name" separator="UNION ALL">
+            SELECT srcuid,srcnickname,dstuid,dstnickname,`addtime`,gid,price,`count`,gflag FROM `zhu_bill`.bill_${table_name} where 1=1
+            <if test="gflag!=null">
+				and gflag = #{gflag}
+			</if>
+ 			<if test="startTime!=null and startTime!=''">
+				<![CDATA[ and addtime >=UNIX_TIMESTAMP(#{startTime})]]>     
+			</if> 
+			<if test="endTime!=null and endTime!=''">
+				<![CDATA[ and addtime <=UNIX_TIMESTAMP(CONCAT(#{endTime},' 23:59:59'))]]>     
+			</if>
+        </foreach>
+		)t
+		LEFT JOIN `zhu_config`.`config_giftlist` tcg ON t.gid=tcg.gid
+		LEFT JOIN zhu_admin.t_user_org_relation b ON b.uid = t.srcuid
+		LEFT JOIN zhu_admin.t_salesman c ON b.salesman_id=c.id 
+		LEFT JOIN zhu_admin.t_agent_user d ON b.agent_user_id = d.id 
+		LEFT JOIN zhu_admin.t_promoters e ON b.promoters_id= e.id
+		LEFT JOIN zhu_admin.t_extension_center f ON b.extension_center_id=f.id
+		LEFT JOIN zhu_admin.t_strategic_partner g ON b.strategic_partner_id=g.id
+		LEFT JOIN zhu_user.support_user_list h ON t.srcuid=h.uid and h.status=1
+		where 1=1
+		
+		<if test="gname != null and gname !=''" >
+			and tcg.gname like concat("%",#{gname},"%")
+		</if>		
+		<if test="srcuid != null and srcuid !=''" >
+			and t.srcuid = #{srcuid}
+		</if>
+		<if test="dstuid != null and dstuid !=''" >
+		  	and t.dstuid = #{dstuid}
+		</if>
+		<if test="salesmanId != null and salesmanId !=''" >
+			and c.id = #{salesmanId}
+		</if>
+		<if test="agentUserId != null and agentUserId !=''" >
+		  	and d.id = #{agentUserId}
+		</if>
+		<if test="strategicPartnerId != null and strategicPartnerId !=''" >
+			and g.id = #{strategicPartnerId}
+		</if>
+		<if test="extensionCenterId != null and extensionCenterId !=''" >
+			and f.id = #{extensionCenterId}
+		</if>
+		<if test="promotersId != null and promotersId !=''" >
+			and e.id = #{promotersId}
+		</if>
+		
+		<if test="supportUserFlag != null" >
+		  	<if test="supportUserFlag == 0">
+		  		and h.id is null
+		  	</if>
+		  	<if test="supportUserFlag == 1">
+		  		and h.id is not null
+		  	</if>
+		</if>
+	</select>
+	
+	<select id="getGiftTotal" resultType="java.util.HashMap"  parameterType="com.tinypig.newadmin.web.entity.GiftHistoryStaDto">
+		SELECT 
+			SUM(t.price*t.count) priceTotal,SUM(t.count) countTotal
+		FROM (
+		<foreach collection="tableNames" open=" " close=" " item="table_name" separator="UNION ALL">
+            SELECT srcuid,srcnickname,dstuid,dstnickname,`addtime`,gid,price,`count`,gflag FROM `zhu_bill`.bill_${table_name} where 1=1
+            <if test="gflag!=null">
+				and gflag = #{gflag}
+			</if>
+ 			<if test="startTime!=null and startTime!=''">
+				<![CDATA[ and addtime >=UNIX_TIMESTAMP(#{startTime})]]>     
+			</if> 
+			<if test="endTime!=null and endTime!=''">
+				<![CDATA[ and addtime <=UNIX_TIMESTAMP(CONCAT(#{endTime},' 23:59:59'))]]>     
+			</if>
+        </foreach>
+		)t
+		LEFT JOIN `zhu_config`.`config_giftlist` tcg ON t.gid=tcg.gid
+		LEFT JOIN zhu_admin.t_user_org_relation b ON b.uid = t.srcuid
+		LEFT JOIN zhu_admin.t_salesman c ON b.salesman_id=c.id 
+		LEFT JOIN zhu_admin.t_agent_user d ON b.agent_user_id = d.id 
+		LEFT JOIN zhu_admin.t_promoters e ON b.promoters_id= e.id
+		LEFT JOIN zhu_admin.t_extension_center f ON b.extension_center_id=f.id
+		LEFT JOIN zhu_admin.t_strategic_partner g ON b.strategic_partner_id=g.id
+		LEFT JOIN zhu_user.support_user_list h ON t.srcuid=h.uid and h.status=1
+		where 1=1
+		
+		<if test="gname != null and gname !=''" >
+			and tcg.gname like concat("%",#{gname},"%")
+		</if>
+		<if test="srcuid != null and srcuid !=''" >
+			and t.srcuid = #{srcuid}
+		</if>
+		<if test="dstuid != null and dstuid !=''" >
+		  	and t.dstuid = #{dstuid}
+		</if>
+		<if test="salesmanId != null and salesmanId !=''" >
+			and c.id = #{salesmanId}
+		</if>
+		<if test="agentUserId != null and agentUserId !=''" >
+		  	and d.id = #{agentUserId}
+		</if>
+		<if test="strategicPartnerId != null and strategicPartnerId !=''" >
+			and g.id = #{strategicPartnerId}
+		</if>
+		<if test="extensionCenterId != null and extensionCenterId !=''" >
+			and f.id = #{extensionCenterId}
+		</if>
+		<if test="promotersId != null and promotersId !=''" >
+			and e.id = #{promotersId}
+		</if>
+		
+		<if test="supportUserFlag != null" >
+		  	<if test="supportUserFlag == 0">
+		  		and h.id is null
+		  	</if>
+		  	<if test="supportUserFlag == 1">
+		  		and h.id is not null
+		  	</if>
+		</if>
+	</select>
+	
+
+</mapper>

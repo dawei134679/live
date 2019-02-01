@@ -1,0 +1,114 @@
+body,html{margin:0; padding:0;}
+
+/*整体包裹区*/
+.warp{width:100%;height:100%;position: absolute;}
+
+/******************************************************
+ * 爪子公共样式
+ *****************************************************/
+/*顶部包裹区*/
+.warp .topwarp{}
+.warp .topwarp .base{}
+.warp .topwarp .vertical_line{}
+
+/*线包裹区*/
+.warp .linewarp{}
+
+/*爪子包裹区*/
+.warp .hookwarp{}
+.warp .hookwarp .hous{width: 100%; height: 40%;}
+.warp .hookwarp .lefts{width: 50%; height: 60%;float: left; margin-left: -15%; margin-top: -20%;transform-origin:top right;}
+.warp .hookwarp .rights{width: 50%; height: 60%;float: right;margin-right: -15%; margin-top: -20%;transform-origin:top left;}
+.warp .hookwarp .jiangpin{width: 100%; height: 60%;position: absolute;}
+.warp .hookwarp .jiangpin .bigchild{width: 100%;height: 100%;display: block;}
+.warp .hookwarp .jiangpin .bigchild .bj{width: 100%;position: absolute;}
+.warp .hookwarp .jiangpin .bigchild .bj img{width: 100%;}
+.warp .hookwarp .jiangpin .bigchild .gs{position:absolute; bottom: -53.5%; right: 30%; font-size: 10px; color: #fff;}
+.warp .hookwarp .donghua{transition:all 0.5s ease-in;}
+
+/******************************************************
+ * 第一个爪子
+ *****************************************************/
+/*顶部包裹区*/
+.warp .topwarp1{width:100%;height:5%;position: absolute;top:0;z-index:4;}
+.warp .topwarp1 .base{height:150%;width:20%;margin:0px auto;/*background:#fff;*/ background: url(../img/zheadone.png); background-size:100% 100%}
+.warp .topwarp1 .vertical_line{height:50%;width:1%;margin:0px auto;background:#eee;}
+
+
+/*线包裹区*/
+.warp .linewarp1{width:1%;height:80%;margin-top: 10%;margin-left:50%;left:-0.5%;position:absolute;text-align:center;z-index:3;top:-72%;
+background: url(../img/lineone.png); background-size:100% 100%;}
+
+/*爪子包裹区*/
+.warp .hookwarp1{width:14%;height:12%;margin:0px auto;position: absolute;top:13%;left:50%;margin-left:-7%;z-index: 3;}
+.warp .hookwarp1 .hous{background: url('../img/zzt1.png');background-size:100% 100%;}
+.warp .hookwarp1 .lefts{background: url('../img/zzl1.png');background-size:100% 100%;}
+.warp .hookwarp1 .rights{background: url('../img/zzr1.png');background-size:100% 100%;}
+
+/******************************************************
+ * 第二个爪子
+ *****************************************************/
+/*顶部包裹区*/
+.warp .topwarp2{width:100%;height:5%;position: absolute;top:0;z-index:4;}
+.warp .topwarp2 .base{height:200%;width:20%;margin:0px auto;/*background:#fff;*/ background: url(../img/zheadtwo.png); background-size:100% 100%}
+.warp .topwarp2 .vertical_line{height:50%;width:1%;margin:0px auto;background:#eee;}
+
+/*线包裹区*/
+.warp .linewarp2{width:1%;height:80%;margin-top: 10%;margin-left:50%;left:-0.5%;position:absolute;text-align:center;z-index:3;top:-72%;
+background: url(../img/linetwo.png); background-size:100% 100%;}
+
+/*爪子包裹区*/
+.warp .hookwarp2{width:14%;height:12%;margin:0px auto;position: absolute;top:13%;left:50%;margin-left:-7%;z-index:3;}
+.warp .hookwarp2 .hous{background: url('../img/zzt2.png');background-size:100% 100%;}
+.warp .hookwarp2 .lefts{background: url('../img/zzl2.png');background-size:100% 100%;}
+.warp .hookwarp2 .rights{background: url('../img/zzr2.png');background-size:100% 100%;}
+
+/******************************************************
+ * 第三个爪子
+ *****************************************************/
+/*顶部包裹区*/
+.warp .topwarp3{width:100%;height:5%;position: absolute;top:0;z-index:4;}
+.warp .topwarp3 .base{height:100%;width:30%;margin:0px auto;/*background:#fff;*/ background: url(../img/zheadthree.png); background-size:100% 100%}
+.warp .topwarp3 .vertical_line{height:50%;width:1%;margin:0px auto;background:#eee;}
+
+/*线包裹区*/
+.warp .linewarp3{width:1%;height:80%;margin-top: 10%;margin-left:50%;left:-0.5%;position:absolute;text-align:center;z-index:3;top:-72%;background: url(../img/linethree.png); background-size:100% 100%;}
+
+/*爪子包裹区*/
+.warp .hookwarp3{width:14%;height:12%;margin:0px auto;position: absolute;top:13%;left:50%;margin-left:-7%;z-index: 3;}
+.warp .hookwarp3 .hous{background:url('../img/zzt3.png');background-size:100% 100%;z-index: 3;}
+.warp .hookwarp3 .lefts{background:url('../img/zzl3.png');background-size:100% 100%;z-index: 3;}
+.warp .hookwarp3 .rights{background:url('../img/zzr3.png');background-size:100% 100%;z-index: 3;}
+
+/************************** 爪子结束 *********************/
+
+/*娃娃包裹区*/
+.warp .childwarp{background: url(../img/bkg.png); background-size: 100% 100%; width:100%;height:40%;position: absolute;bottom:0;z-index:1;}
+.warp .childwarp .turntop{/*background:#ff00ff;*/height:50%;width:100%; position: relative;overflow: hidden;} 
+.warp .childwarp .turntop .littlechild{height:100%;width:20%; position: absolute;transition:all 2s linear;}
+.warp .childwarp .turntop .littlechild:nth-child(2n){/*background:#555;*/}
+.warp .childwarp .turntop .littlechild:nth-child(2n-1){/*background:#555;*/}
+.warp .childwarp .turntop .littlechild .bj{width: 100%; height: 100%;text-align: center;}
+.warp .childwarp .turntop .littlechild .bj img{width: 60%; height: 50%; position: relative;top: 30%;}
+.warp .childwarp .turntop .littlechild .gs{position:absolute; top:70%; right: 30%; font-size: 6px; color: #fff;}
+
+.warp .childwarp .turndown{/*background:#00ffff;*/height:50%;width:100%;position: relative;overflow: hidden;}
+.warp .childwarp .turndown .bigchild{height:100%;position:absolute;transition:all 2s linear;}
+.warp .childwarp .turndown .bigchild:nth-child(2n-1){/*background:#333;*/}
+.warp .childwarp .turndown .bigchild:nth-child(2n-2){/*background:#333;*/}
+.warp .childwarp .turndown .bigchild .bj{width: 100%; height: 100%;text-align: center;}
+.warp .childwarp .turndown .bigchild .bj img{width: 55%; height: 60%;}
+.warp .childwarp .turndown .bigchild .gs{position:absolute; top:48%; right: 30%; font-size: 10px; color: #fff;}
+
+.warp .bottom{width: 100%; height: 5%; position:fixed; bottom: 0; z-index: 9;}
+.warp .bottom .marys{width: 30%; height: 100%; float: left;}
+.warp .bottom .mimas{width: 70%; height: 100%; float: right;}
+.warp .bottom .mimas .bag,.sdone,.sdtwo{width: 13%; height: 100%; float: left;margin-left: 2%;}
+/*.warp .bottom .mimas .bag{background: url(../img/赌注选中.png); background-size:100% 100%;}*/
+.warp .bottom .mimas .go{width: 38%; height: 100%; float:left; margin-left: 2%;}
+
+/**结果提示*/
+.resuld{position: absolute;top: 0; z-index: 999; /*background-color: #000;*/ width: 100%; height: 100%;background: rgba(0,0,0,0.8); text-align: center;display:none;}
+.resuld .ways{width: 90%; position: relative; top: 15%;}
+.resuld .nous{width: 60%; margin-top:5%;}
+.resuld span{position: relative; top: 2%; font-size: 14px; color: #fff; font-weight: bold;}

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Expires" CONTENT="0">
+        <meta http-equiv="Cache-Control" CONTENT="no-cache">
+        <meta http-equiv="Pragma" CONTENT="no-cache">
+		<meta name="format-detection" content="telephone=no, email=no">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<script type="text/javascript" src="../assets/js/fastclick.min.js"></script>
+		<script type="text/javascript" src="../assets/js/jquery-1.11.0.js"></script>
+		<script type="text/javascript" src="../assets/js/crypto-js-3.1.9-1/crypto-js.js"></script>
+		<script type="text/javascript" src="../assets/js/webToast/alertPopShow.js"></script>
+		<script type="text/javascript" src="js/easing.js"></script>
+		<link rel="stylesheet" href="../assets/js/webToast/webToast.css"/>
+		<link rel="stylesheet" href="css/huanle6xuan3.css?a=8"/>
+		<title>欢乐6选3</title>
+	</head>
+	<body oncontextmenu="return false;" onselectstart="return false">
+		<div class="back">
+			<div class="top">
+				<div class="explain">
+					<img src="img/game_comment.png" id="imgBtnYxsm"/>
+				</div>
+				<div class="speed">	
+				    <!-- <progress max="100" value="100" times="40" id="speedPro" class="pro"></progress> -->
+				    <div class="bacj">
+		                 <div class="bacj2">
+			                  <img value="100" times="40" id="speedPro" src="img/jindutiao.png" style="width:100%;height:100%;margin-left:0%;top:0;position:relative;"/>
+		                 </div>
+		            </div>
+				    <div class="f">
+				    	<img src="img/0.png">
+				    	<img src="img/s.png">
+				    </div>
+				</div>
+				<div class="record" id="imgBtnYxjl">
+					<img src="img/game_record.png" />
+				</div>
+			</div>
+			<!--押注页面div开始-->
+			<div class="centent">
+				<div class="fruits1">
+					<img src="img/test_caomei.png" style="width:92%;" />
+					<span class="a">总压注额</span>
+					<div class="mary">
+						20981
+					</div>
+					<div class="but">
+						<span>0</span>
+					</div>
+				</div>
+				<div class="fruits2">
+					<img src="img/test_xigua.png" style="width:92%;" />
+					<span class="a">总压注额</span>
+					<div class="mary">
+						209816
+					</div>
+					<div class="but">
+						<span>0</span>
+					</div>
+				</div>
+				<div class="fruits3">
+					<img src="img/test_yingtao.png" style="width: 92%;" />
+					<span class="a">总压注额</span>
+					<div class="mary">
+						209816
+					</div>
+					<div class="but">
+						<span>0</span>
+					</div>
+				</div>
+				<div class="fruits4">
+					<img src="img/test_xiyou.png" style="width: 92%;" />
+					<span class="a">总压注额</span>
+					<div class="mary">
+						209800
+					</div>
+					<div class="but">
+						<span>0</span>
+					</div>
+				</div>
+				<div class="fruits5">
+					<img src="img/test_xiangjiao.png" style="width: 92%;" />
+					<span class="a">总压注额</span>
+					<div class="mary">
+						209816
+					</div>
+					<div class="but">
+						<span>0</span>
+					</div>
+				</div>
+				<div class="fruits6">
+					<img src="img/test_pingguo.png" style="width: 92%;" />
+					<span class="a">总压注额</span>
+					<div class="mary">
+						209816
+					</div>
+					<div class="but">
+						<span>0</span>
+					</div>
+				</div>
+			</div>
+			<!--押注页面结束-->
+			<!--开奖页面开始-->
+			<div class="open">
+				<div class="op1">
+					<img src="img/test_caomei.png" />
+				</div>
+                <div class="op2">
+                	<img src="img/test_yingtao.png" />
+                </div>
+                <div class="op3">
+                	<img src="img/test_xigua.png">
+                </div>
+                <div class="open-text">
+                	<ul>
+                		<li><span style="color: #fff;" id="open_tb">投币:0</span></li>
+                	    <li><span style="color: #fff;" id="open_zj">中奖:0</span></li>
+                	</ul>
+                </div>
+			</div>
+			<!--开奖页面结束-->
+			<!--摇奖页面开始-->
+			<div class="centent-two">
+				<div class="gt1">
+					<div class="tu num">
+					    <img src="img/test_yingtao.png"><img src="img/test_caomei.png"><img src="img/test_xiangjiao.png">
+					    <img src="img/test_xigua.png"><img src="img/test_xiyou.png"><img src="img/test_pingguo.png">
+					</div>
+				</div>
+				<div class="gt2">
+					<div class="tu2 num">
+					    <img src="img/test_yingtao.png"><img src="img/test_caomei.png"><img src="img/test_xiangjiao.png">
+					    <img src="img/test_xigua.png"><img src="img/test_xiyou.png"><img src="img/test_pingguo.png">
+					</div>
+				</div>
+				<div class="gt3">
+					<div class="tu3 num">
+					    <img src="img/test_yingtao.png"><img src="img/test_caomei.png"><img src="img/test_xiangjiao.png">
+					    <img src="img/test_xigua.png"><img src="img/test_xiyou.png"><img src="img/test_pingguo.png">
+					</div>
+				</div>
+			</div>
+			<!--摇奖页面结束-->
+			<!--游戏说明开始-->
+			<div class="spak">
+				<img src="img/btn_back.png" style="width: 10%; float: left;" id="spakBtnBack"/>
+				<img src="img/was.png" style="width: 50%; margin-left: 50%; left: -25%; position:relative; top: -35px;"/>
+				<img src="img/yxsm.png" style="width: 20%; position: relative; margin-left: 20px; top: -30px;" />
+				<div style="color:#fff; font-size:12px; margin-left: 24px; margin-right: 20px; position:relative; top: -30px; text-shadow: 1px 1px 1px #333333;height:40%;overflow-y:scroll;-webkit-overflow-scrolling: touch;">
+					麦芽直播启用一对一终端实验,精英团队制定完备的营销策略,进行实战操练,通过总结经验方法,为合作商家铺路,做业界的先行者,帮助业务模式走向更加高效和成熟。<br/>
+					<h2>游戏介绍</h2>
+					<p>欢乐6选3游戏的游戏色彩绚丽，玩法新颖，游戏玩家可以在游戏中尽情体会无限乐趣。</p>
+					<h2>游戏规则</h2>
+					<p>玩家可以和主播一起押每一场游戏中的水果</p>
+					<h2>计分倍率</h2>
+					<p>
+						草莓：压注筹码5倍<br/>
+						西瓜：压注筹码5倍<br/>
+						柚子：压注筹码5倍<br/>
+						苹果：压注筹码5倍<br/>
+						香蕉：压注筹码20倍<br/>
+						樱桃：压注筹码20倍<br/>
+					</p>
+				</div>
+			</div>
+			<!--游戏说明结束-->
+			<!--游戏记录开始-->
+			<div class="webl">
+				<img src="img/btn_back.png" style="width: 10%; float: left;" id="weblBtnBack"/>
+				<div class="kj-top">
+					<img src="img/kjjl_y.png" dval="1" dsel="1" style="width:50%; float:left; position: relative; top: -35px;"/>
+					<img src="img/yzjl_h.png" dval="2" dsel="0" style="width:50%; float: right; position: relative; top: -35px;"/>
+				</div>
+				<div class="kjjl">
+					<table style="width: 100%; color: #fff; display: none;" id="yazhutable">
+						<tbody></tbody>
+						<tfoot>
+							<tr>
+								<td colspan="4" pageNo="0" style="text-align:center;" onclick="loadYzjl($(this).attr('pageNo'));">更多</td>
+							</tr>
+						</tfoot>
+					</table>
+					<table style="width: 90%; color: #fff; margin-left:5%;" id="kaijiangtable">
+						<tbody></tbody>
+						<tfoot>
+							<tr>
+								<td colspan="4" pageNo="0" style="text-align:center;" onclick="loadKjjl($(this).attr('pageNo'));">更多</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+			<!--游戏记录结束-->
+			<div class="bottom">
+				<div class="recharge">
+					<img src="img/Coin_icon.png" class="coinicon"/>
+					<div class="brown">
+						0
+					</div>
+					<img src="img/recharge.png" style="width: 25px; position: relative; top:9px; margin-left: 2px;" id="recharge"/>
+				</div>
+				<div class="moey">
+					<img src="img/gold_10.png" dval="10" dsel="1"/>
+					<img src="img/gold_100_h.png" dval="100" dsel="0"/>
+					<img src="img/gold_500_h.png" dval="500" dsel="0"/>
+					<img src="img/gold_1000_h.png" dval="1000" dsel="0"/>
+			    </div>
+				
+			</div>
+		</div>
+		<script type="text/javascript" src="js/huanle6xuan3.js?a=17"></script>
+	</body>
+</html>

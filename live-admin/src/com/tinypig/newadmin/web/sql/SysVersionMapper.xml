@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.SysVersionDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.SysVersion" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sys" property="sys" jdbcType="INTEGER" />
+    <result column="ver" property="ver" jdbcType="VARCHAR" />
+    <result column="isforce" property="isforce" jdbcType="INTEGER" />
+    <result column="describtion" property="describtion" jdbcType="VARCHAR" />
+    <result column="upload_url" property="uploadUrl" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, sys, ver, isforce, describtion, upload_url, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.sys_version
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zhu_admin.sys_version
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.SysVersion" >
+    insert into zhu_admin.sys_version (id, sys, ver, isforce, 
+      describtion, upload_url, update_time, 
+      update_user_id)
+    values (#{id,jdbcType=INTEGER}, #{sys,jdbcType=INTEGER}, #{ver,jdbcType=VARCHAR}, #{isforce,jdbcType=INTEGER}, 
+      #{describtion,jdbcType=VARCHAR}, #{uploadUrl,jdbcType=VARCHAR}, #{updateTime,jdbcType=INTEGER}, 
+      #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.SysVersion" >
+    insert into zhu_admin.sys_version
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sys != null" >
+        sys,
+      </if>
+      <if test="ver != null" >
+        ver,
+      </if>
+      <if test="isforce != null" >
+        isforce,
+      </if>
+      <if test="describtion != null" >
+        describtion,
+      </if>
+      <if test="uploadUrl != null" >
+        upload_url,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sys != null" >
+        #{sys,jdbcType=INTEGER},
+      </if>
+      <if test="ver != null" >
+        #{ver,jdbcType=VARCHAR},
+      </if>
+      <if test="isforce != null" >
+        #{isforce,jdbcType=INTEGER},
+      </if>
+      <if test="describtion != null" >
+        #{describtion,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadUrl != null" >
+        #{uploadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.SysVersion" >
+    update zhu_admin.sys_version
+    <set >
+      <if test="sys != null" >
+        sys = #{sys,jdbcType=INTEGER},
+      </if>
+      <if test="ver != null" >
+        ver = #{ver,jdbcType=VARCHAR},
+      </if>
+      <if test="isforce != null" >
+        isforce = #{isforce,jdbcType=INTEGER},
+      </if>
+      <if test="describtion != null" >
+        describtion = #{describtion,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadUrl != null" >
+        upload_url = #{uploadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.SysVersion" >
+    update zhu_admin.sys_version
+    set sys = #{sys,jdbcType=INTEGER},
+      ver = #{ver,jdbcType=VARCHAR},
+      isforce = #{isforce,jdbcType=INTEGER},
+      describtion = #{describtion,jdbcType=VARCHAR},
+      upload_url = #{uploadUrl,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getVersionList" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.sys_version
+    order by sys, update_time desc
+  </select>
+</mapper>

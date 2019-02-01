@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.UserOrgRelationDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.UserOrgRelation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="CHAR" />
+    <result column="registtime" property="registtime" jdbcType="BIGINT" />
+    <result column="strategic_partner_id" property="strategicPartnerId" jdbcType="BIGINT" />
+    <result column="extension_center_id" property="extensionCenterId" jdbcType="BIGINT" />
+    <result column="promoters_id" property="promotersId" jdbcType="BIGINT" />
+    <result column="agent_user_id" property="agentUserId" jdbcType="BIGINT" />
+    <result column="salesman_id" property="salesmanId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="create_user" property="createUser" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+    <result column="update_user" property="updateUser" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, phone, registtime,strategic_partner_id, extension_center_id, promoters_id, agent_user_id, salesman_id, 
+    create_time, create_user, update_time, update_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.t_user_org_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from zhu_admin.t_user_org_relation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.UserOrgRelation" >
+    insert into zhu_admin.t_user_org_relation (id, uid, phone, registtime, 
+      strategic_partner_id,extension_center_id, promoters_id, agent_user_id, 
+      salesman_id, create_time, create_user, 
+      update_time, update_user)
+    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=INTEGER}, #{phone,jdbcType=CHAR}, #{registtime,jdbcType=BIGINT}, #{strategicPartnerId,jdbcType=BIGINT},
+      #{extensionCenterId,jdbcType=BIGINT}, #{promotersId,jdbcType=BIGINT}, #{agentUserId,jdbcType=BIGINT}, 
+      #{salesmanId,jdbcType=BIGINT}, #{createTime,jdbcType=BIGINT}, #{createUser,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=BIGINT}, #{updateUser,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.UserOrgRelation" >
+    insert into zhu_admin.t_user_org_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="registtime != null" >
+        registtime,
+      </if>
+      <if test="strategicPartnerId != null" >
+        strategic_partner_id,
+      </if>
+      <if test="extensionCenterId != null" >
+        extension_center_id,
+      </if>
+      <if test="promotersId != null" >
+        promoters_id,
+      </if>
+      <if test="agentUserId != null" >
+        agent_user_id,
+      </if>
+      <if test="salesmanId != null" >
+        salesman_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="registtime != null" >
+        #{registtime,jdbcType=BIGINT},
+      </if>
+      <if test="strategicPartnerId != null" >
+        #{strategicPartnerId,jdbcType=BIGINT},
+      </if>
+      <if test="extensionCenterId != null" >
+        #{extensionCenterId,jdbcType=BIGINT},
+      </if>
+      <if test="promotersId != null" >
+        #{promotersId,jdbcType=BIGINT},
+      </if>
+      <if test="agentUserId != null" >
+        #{agentUserId,jdbcType=BIGINT},
+      </if>
+      <if test="salesmanId != null" >
+        #{salesmanId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.UserOrgRelation" >
+    update zhu_admin.t_user_org_relation
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="registtime != null" >
+        registtime = #{registtime,jdbcType=BIGINT},
+      </if>
+      <if test="strategicPartnerId != null" >
+        strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+      </if>
+      <if test="extensionCenterId != null" >
+        extension_center_id = #{extensionCenterId,jdbcType=BIGINT},
+      </if>
+      <if test="promotersId != null" >
+        promoters_id = #{promotersId,jdbcType=BIGINT},
+      </if>
+      <if test="agentUserId != null" >
+        agent_user_id = #{agentUserId,jdbcType=BIGINT},
+      </if>
+      <if test="salesmanId != null" >
+        salesman_id = #{salesmanId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.UserOrgRelation" >
+    update zhu_admin.t_user_org_relation
+    set uid = #{uid,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=CHAR},
+      registtime = #{registtime,jdbcType=BIGINT},
+      strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+      extension_center_id = #{extensionCenterId,jdbcType=BIGINT},
+      promoters_id = #{promotersId,jdbcType=BIGINT},
+      agent_user_id = #{agentUserId,jdbcType=BIGINT},
+      salesman_id = #{salesmanId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      create_user = #{createUser,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      update_user = #{updateUser,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <update id="updateByPrimaryUidSelective" parameterType="com.tinypig.newadmin.web.entity.UserOrgRelation" >
+    update zhu_admin.t_user_org_relation
+    <set >
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=CHAR},
+      </if>
+      <if test="registtime != null" >
+        registtime = #{registtime,jdbcType=BIGINT},
+      </if>
+      <if test="strategicPartnerId != null" >
+        strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+      </if>
+      <if test="extensionCenterId != null" >
+        extension_center_id = #{extensionCenterId,jdbcType=BIGINT},
+      </if>
+      <if test="promotersId != null" >
+        promoters_id = #{promotersId,jdbcType=BIGINT},
+      </if>
+      <if test="agentUserId != null" >
+        agent_user_id = #{agentUserId,jdbcType=BIGINT},
+      </if>
+      <if test="salesmanId != null" >
+        salesman_id = #{salesmanId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=BIGINT},
+      </if>
+    </set>
+    where  uid = #{uid,jdbcType=INTEGER}
+  </update>
+  <update id="updateParentsByPromoters">
+    update zhu_admin.t_user_org_relation
+    set 
+    strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+    extension_center_id = #{extensionCenterId,jdbcType=BIGINT}
+    where promoters_id = #{promotersId,jdbcType=BIGINT}
+  </update> 
+  <update id="updateParentsByAgentUser">
+    update zhu_admin.t_user_org_relation
+    set 
+    strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+    extension_center_id = #{extensionCenterId,jdbcType=BIGINT},
+    promoters_id = #{promotersId,jdbcType=BIGINT}
+    where agent_user_id = #{agentUserId,jdbcType=BIGINT}
+  </update>    
+  <update id="updateParentsBySalesman">
+    update zhu_admin.t_user_org_relation
+    set 
+    strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT},
+    extension_center_id = #{extensionCenterId,jdbcType=BIGINT},
+    promoters_id = #{promotersId,jdbcType=BIGINT},
+    agent_user_id = #{agentUserId,jdbcType=BIGINT}
+    where salesman_id=#{salesmanId,jdbcType=BIGINT}
+  </update>
+  <update id="updateParentsByExtensionCenter">
+    update zhu_admin.t_user_org_relation
+    set 
+    strategic_partner_id = #{strategicPartnerId,jdbcType=BIGINT}
+    where extension_center_id = #{extensionCenterId,jdbcType=BIGINT}
+  </update>
+</mapper>

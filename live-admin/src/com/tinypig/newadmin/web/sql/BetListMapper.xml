@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.BetListDao">
+	<resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.BetRecord">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="anchor_id" jdbcType="BIGINT" property="anchorId" />
+		<result column="uid" jdbcType="BIGINT" property="uid" />
+		<result column="bet_total" jdbcType="BIGINT" property="betTotal" />
+		<result column="capital_total" jdbcType="BIGINT" property="capitalTotal" />
+		<result column="aw_total" jdbcType="BIGINT" property="awTotal" />
+		<result column="commission" jdbcType="DOUBLE" property="commission" />
+		<result column="commission_total" jdbcType="BIGINT" property="commissionTotal" />
+		<result column="deserved_total" jdbcType="BIGINT" property="deservedTotal" />
+		<result column="periods" jdbcType="BIGINT" property="periods" />
+		<result column="status" jdbcType="BIT" property="status" />
+	</resultMap>
+	<select id="getBetList" resultMap="BaseResultMap">
+		SELECT 
+		  t.anchor_id anchorId,
+		  t.uid,
+		  t.periods,
+		  t.bet_total betTotal,
+		  t.capital_total capitalTotal,
+		  t.aw_total awTotal,
+		  t.commission,
+		  t.commission_total commissionTotal,
+		  t.deserved_total deservedTotal 
+		FROM
+		  live_game.all_bet_record t 
+		<where>
+			<if test="periods!=null">
+				t.periods = #{periods}
+			</if>
+			<if test="anchorId!=null">
+				and t.anchor_id = #{anchorId}
+			</if>
+			<if test="uid!=null">
+				and t.uid = #{uid}
+			</if>
+		</where>
+		order by id desc
+		<if test="startIndex!=null and rows!=null ">
+			limit #{startIndex},#{rows}
+		</if>
+	</select>
+	<select id="getBetTotalCount" resultType="java.lang.Long">
+		SELECT 
+		  count(id)
+		FROM
+		  live_game.all_bet_record t 
+		<where>
+			<if test="periods!=null">
+				t.periods = #{periods}
+			</if>
+			<if test="anchorId!=null">
+				and t.anchor_id = #{anchorId}
+			</if>
+			<if test="uid!=null">
+				and t.uid = #{uid}
+			</if>
+		</where>
+	</select>
+	<select id="getBetTotal" resultMap="BaseResultMap">
+		SELECT 
+		  IFNULL(SUM(t.bet_total), 0) betTotal,
+		  IFNULL(SUM(t.capital_total), 0) capitalTotal,
+		  IFNULL(SUM(t.aw_total), 0) awTotal,
+		  IFNULL(SUM(t.commission), 0),
+		  IFNULL(SUM(t.commission_total), 0) commissionTotal,
+		  IFNULL(SUM(t.deserved_total), 0) deservedTotal 
+		FROM
+		  live_game.all_bet_record t 
+		<where>
+			<if test="periods!=null">
+				t.periods = #{periods}
+			</if>
+			<if test="anchorId!=null">
+				and t.anchor_id = #{anchorId}
+			</if>
+			<if test="uid!=null">
+				and t.uid = #{uid}
+			</if>
+		</where>
+	</select>
+</mapper>

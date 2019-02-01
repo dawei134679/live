@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.GameDollDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.GameDoll" >
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="image_url" jdbcType="VARCHAR" property="imageUrl" />
+    <result column="probability" jdbcType="DOUBLE" property="probability" />
+    <result column="multiple" jdbcType="DOUBLE" property="multiple" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, image_url, probability, multiple, sort, status, create_time, create_user_id, 
+    update_time, update_user_id
+  </sql>
+  <select id="getDollList" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from live_game.game_graspdoll_config
+  	<where>
+		<if test="name!=null and name!=''">
+			name like concat("%",#{name},"%")
+		</if>
+		<if test="status!=null and status!=-1">
+			and status=#{status}
+		</if>
+	</where>
+  	order by create_time limit #{startIndex},#{pageSize}
+  </select>
+  <select id="getAllDollList" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from live_game.game_graspdoll_config  where status=1
+  </select>
+  <update id="doValid">
+		update live_game.game_graspdoll_config set
+		status=#{status},update_time=#{updateTime},update_user_id=#{updateUserId}
+		where id=#{id}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from live_game.game_graspdoll_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from live_game.game_graspdoll_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.GameDoll" >
+    insert into live_game.game_graspdoll_config(id, name, image_url, 
+      probability, multiple, sort, 
+      status, create_time, create_user_id, 
+      update_time, update_user_id)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, 
+      #{probability,jdbcType=DOUBLE}, #{multiple,jdbcType=DOUBLE}, #{sort,jdbcType=INTEGER}, 
+      #{status,jdbcType=BIT}, #{createTime,jdbcType=BIGINT}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=BIGINT}, #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.GameDoll" >
+    insert into live_game.game_graspdoll_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="imageUrl != null">
+        image_url,
+      </if>
+      <if test="probability != null">
+        probability,
+      </if>
+      <if test="multiple != null">
+        multiple,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null">
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="probability != null">
+        #{probability,jdbcType=DOUBLE},
+      </if>
+      <if test="multiple != null">
+        #{multiple,jdbcType=DOUBLE},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.GameDoll" >
+    update live_game.game_graspdoll_config
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null">
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="probability != null">
+        probability = #{probability,jdbcType=DOUBLE},
+      </if>
+      <if test="multiple != null">
+        multiple = #{multiple,jdbcType=DOUBLE},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.GameDoll" >
+    update live_game.game_graspdoll_config
+    set name = #{name,jdbcType=VARCHAR},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      probability = #{probability,jdbcType=DOUBLE},
+      money = #{money,jdbcType=DOUBLE},
+      multiple = #{multiple,jdbcType=DOUBLE},
+      gid = #{gid,jdbcType=INTEGER},
+      gname = #{gname,jdbcType=VARCHAR},
+      gtype = #{gtype,jdbcType=BIT},
+      type = #{type,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      status = #{status,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

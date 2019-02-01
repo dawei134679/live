@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.VerifyCodeDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.VerifyCode" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="verifyCode" property="verifyCode" jdbcType="VARCHAR" />
+    <result column="takeEffectTime" property="takeEffectTime" jdbcType="BIGINT" />
+    <result column="expiryTime" property="expiryTime" jdbcType="BIGINT" />
+    <result column="createTime" property="createTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, mobile, type, verifyCode, takeEffectTime, expiryTime, createTime
+  </sql>
+  <select id="getVerifyCodeListPage" resultMap="BaseResultMap" parameterType="com.tinypig.newadmin.web.entity.VerifyCodeParamDto">
+		select
+		t.*
+		from zhu_admin.t_verify_code t
+		where 1=1
+		<if test="mobile!=null and mobile!=''">
+			and t.mobile like concat("%",#{mobile},"%")
+		</if>
+		order by t.createTime desc
+		limit #{startIndex},#{pageSize}
+  </select>
+  <select id="getVerifyCodeTotal" resultType="java.lang.Integer" parameterType="com.tinypig.newadmin.web.entity.VerifyCodeParamDto">
+		SELECT 
+		  COUNT(t.id) total 
+		from zhu_admin.t_verify_code t
+		where 1=1
+		<if test="mobile!=null and mobile!=''">
+			and t.mobile like concat("%",#{mobile},"%")
+		</if>
+		order by t.createTime desc
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_verify_code
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_verify_code
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.VerifyCode" >
+    insert into t_verify_code (id, mobile, type, 
+      verifyCode, takeEffectTime, expiryTime, 
+      createTime)
+    values (#{id,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{verifycode,jdbcType=VARCHAR}, #{takeeffecttime,jdbcType=BIGINT}, #{expirytime,jdbcType=BIGINT}, 
+      #{createtime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.VerifyCode" >
+    insert into t_verify_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="verifycode != null" >
+        verifyCode,
+      </if>
+      <if test="takeeffecttime != null" >
+        takeEffectTime,
+      </if>
+      <if test="expirytime != null" >
+        expiryTime,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="verifycode != null" >
+        #{verifycode,jdbcType=VARCHAR},
+      </if>
+      <if test="takeeffecttime != null" >
+        #{takeeffecttime,jdbcType=BIGINT},
+      </if>
+      <if test="expirytime != null" >
+        #{expirytime,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.VerifyCode" >
+    update t_verify_code
+    <set >
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="verifycode != null" >
+        verifyCode = #{verifycode,jdbcType=VARCHAR},
+      </if>
+      <if test="takeeffecttime != null" >
+        takeEffectTime = #{takeeffecttime,jdbcType=BIGINT},
+      </if>
+      <if test="expirytime != null" >
+        expiryTime = #{expirytime,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.VerifyCode" >
+    update t_verify_code
+    set mobile = #{mobile,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      verifyCode = #{verifycode,jdbcType=VARCHAR},
+      takeEffectTime = #{takeeffecttime,jdbcType=BIGINT},
+      expiryTime = #{expirytime,jdbcType=BIGINT},
+      createTime = #{createtime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

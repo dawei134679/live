@@ -1,0 +1,46 @@
+{
+	"groups": [
+		{
+			"keys": "six_bg_1_png,six_bg_2_png,six_bg_3_png,six_btns_png,sixRes_json",
+			"name": "gameKey_001"
+		},
+		{
+			"keys": "wawaRes_json",
+			"name": "gameKey_002"
+		}
+	],
+	"resources": [
+		{
+			"url": "wawa/wawaRes.json",
+			"type": "sheet",
+			"name": "wawaRes_json",
+			"subkeys": "wa_cg_png,wa_ctab1_png,wa_ctab1_s_png,wa_ctab2_png,wa_ctab2_s_png,wa_ctab3_png,wa_ctab3_s_png,wa_newbg_png,wa_pay_png,wa_resa_png,wa_startt_png,wa_zzl_1_png,wa_zzl_2_png,wa_zzl_3_png,wa_zzt_1_png,wa_zzt_2_png,wa_zzt_3_png,wa_zzz_1_png,wa_zzz_2_png,wa_zzz_3_png"
+		},
+		{
+			"url": "six/six_bg_1.png",
+			"type": "image",
+			"name": "six_bg_1_png"
+		},
+		{
+			"url": "six/six_bg_2.png",
+			"type": "image",
+			"name": "six_bg_2_png"
+		},
+		{
+			"url": "six/six_bg_3.png",
+			"type": "image",
+			"name": "six_bg_3_png"
+		},
+		{
+			"url": "six/six_btns.png",
+			"type": "image",
+			"name": "six_btns_png"
+		},
+		{
+			"url": "six/sixRes.json",
+			"type": "sheet",
+			"name": "sixRes_json",
+			"subkeys": "six_btn_back_png,six_gold_10000_h_png,six_gold_10000_png,six_gold_1000_h_png,six_gold_1000_png,six_gold_100_h_png,six_gold_100_png,six_gold_50_h_png,six_gold_50_png,six_jindutiao_png,six_kjjl_h_png,six_kjjl_png,six_status_1_png,six_status_2_png,six_status_3_png,six_title_png,six_yzjl_h_png,six_yzjl_png"
+		}
+	]
+}

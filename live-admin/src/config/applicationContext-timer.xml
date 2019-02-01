@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+		
+	<bean id="taskJob" class="com.tinypig.admin.TimerTask.TimeService" />
+	<bean id="taskJob1" class="com.tinypig.admin.TimerTask.TimeService" />
+	<bean id="taskGiveWeekStar" class="com.tinypig.admin.TimerTask.TimeService" />
+	<bean id="taskGetCollect" class="com.tinypig.admin.TimerTask.TimeService" />
+	<bean id="taskGetNewRegistser" class="com.tinypig.admin.TimerTask.TimeService" />
+	<bean id="taskGetRemain" class="com.tinypig.admin.TimerTask.TimeService" />
+	<bean id="taskGetWages" class="com.tinypig.admin.TimerTask.TimeService" />
+	<bean id="taskGetGiftSends" class="com.tinypig.admin.TimerTask.TimeService" />
+	<bean id="taskGetSmashingEggs" class="com.tinypig.admin.TimerTask.TimeService" />
+	<bean id="taskGetRedenve" class="com.tinypig.admin.TimerTask.TimeService" />
+	<bean id="taskGetRoomChat" class="com.tinypig.admin.TimerTask.TimeService" />
+	<bean id="taskRefreshGiftAct" class="com.tinypig.admin.TimerTask.TimeService" />
+	
+	<bean id="taskGetUnionSupport" class="com.tinypig.admin.TimerTask.ConsumeTimeService" />
+	<bean id="taskSetRoomSort" class="com.tinypig.admin.TimerTask.RoomSortService" />
+	
+	<!-- 周星任务 每周一凌晨 0秒执行-->
+	<bean id="executeWeekStarJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskJob" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="executeWeekStar" /> 
+	</bean>
+	<bean id="executeWeekStarJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeWeekStarJobDetail" />  
+	    <property name="cronExpression" value="0 0 0 ? * MON " />  
+	</bean>
+	
+	<!-- 上周周星 发放 每周一凌晨 5点执行-->
+	<bean id="executeWeekStarGiveDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskGiveWeekStar" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="giveWeekReward" /> 
+	</bean>
+	<bean id="executeWeekStarGive" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeWeekStarGiveDetail" />  
+	    <property name="cronExpression" value="0 0 5 ? * MON " />  
+	</bean>
+	
+	<bean id="executeMinusExpOfUserGuard" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskJob1" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="minusExpOfUserGuard" /> 
+	</bean>
+	<bean id="executeMinusExpOfUserGuardJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeMinusExpOfUserGuard" />  
+	    <property name="cronExpression" value="0 5 0 * * ? *" />  
+	</bean>
+	
+	<!-- 设备新增激活，新增注册，充值金额，充值人数 每天 4 点执行-->
+	<bean id="executeGetCollectDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskGetCollect" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="getCollect" /> 
+	</bean>
+	<bean id="executeGetCollect" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeGetCollectDetail" />  
+	    <property name="cronExpression" value="0 0 4 * * ? *" />  
+	</bean>
+	
+	<!-- 新增用户 每天 4 点执行-->
+	<bean id="executeGetNewRegistserDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskGetNewRegistser" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="getNewRegistser" /> 
+	</bean>
+	<bean id="executeGetNewRegistser" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeGetNewRegistserDetail" />  
+	    <property name="cronExpression" value="0 10 4 * * ? *" />  
+	</bean>
+	
+	<!-- 留存数据 每天 4:30 点执行-->
+	<bean id="executeGetRemainDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskGetRemain" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="getRemain" /> 
+	</bean>
+	<bean id="executeGetRemain" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeGetRemainDetail" />  
+	    <property name="cronExpression" value="0 30 4 * * ? *" />  
+	</bean>
+	
+	<bean id="executeGetWagesDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskGetWages" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="getWages" /> 
+	</bean>
+	<bean id="executeGetWages" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeGetWagesDetail" />  
+	    <property name="cronExpression" value="0 45 4 * * ? *" />  
+	</bean>
+	
+	<bean id="executeGetGiftSendsDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskGetGiftSends" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="getGiftSendS" /> 
+	</bean>
+	<bean id="executeGetGiftSends" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeGetGiftSendsDetail" />  
+	    <property name="cronExpression" value="0 50 4 * * ? *" />  
+	</bean>
+	
+	<bean id="executeGetSmashingEggsDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskGetSmashingEggs" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="getSmashingEggs" /> 
+	</bean>
+	<bean id="executeGetSmashingEggs" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeGetSmashingEggsDetail" />  
+	    <property name="cronExpression" value="0 15 5 * * ? *" />
+	</bean>
+	
+	<!-- 红包 系统自动回收机制  每5小时 执行一次 -->
+	<bean id="executeGetRedenveDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskGetRedenve" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="getRedenve" /> 
+	</bean>
+	<bean id="executeGetRedenve" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeGetRedenveDetail" />  
+	    <property name="cronExpression" value="0 0 0/5 * * ? *" />  
+	</bean>
+	
+	<!-- 直播间 公告推送 5分钟 执行一次 -->
+	<bean id="executeGetRoomChatDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskGetRoomChat" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="pushRoomChat" /> 
+	</bean>
+	<bean id="executeGetRoomChat" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeGetRoomChatDetail" />  
+	    <property name="cronExpression" value="0 0/5 * * * ?" />  
+	</bean>
+	
+	<!-- 扶持号 每天零点5分 执行 -->
+	<bean id="executeGetUnionSupportDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskGetUnionSupport" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="getUnionSupport" /> 
+	</bean>
+	<bean id="executeGetUnionSupport" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeGetUnionSupportDetail" />  
+	    <property name="cronExpression" value="0 5 0 * * ? *" />  
+	</bean>
+	
+	<!-- 房间人数  每隔1分 执行 -->
+	<bean id="executeSetRoomSortDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskSetRoomSort" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="setRoomSort" /> 
+	</bean>
+	<bean id="executeSetRoomSort" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="executeSetRoomSortDetail" />  
+	    <property name="cronExpression" value="0 0/1 * * * ? *" />  
+	</bean>
+	
+	
+	<!-- 公会统计上月总消耗任务 -->
+<!-- 	<bean id="addLastMonthTotalMoneyForUnionJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskJob" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="addYestodayTotalMoneyForUnion" /> 
+	</bean>
+	<bean id="addLastMonthTotalMoneyForUnionJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="addLastMonthTotalMoneyForUnionJobDetail" />  
+	    <property name="cronExpression" value="0 10 0 1 * ? " />  
+	</bean> -->
+	
+	<!-- 公会主播统计上月总消耗任务 -->
+<!-- 	<bean id="addLastMonthTotalMoneyForAnchorJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="taskJob" />
+		</property>
+		<property name="concurrent" value="false" />  
+		<property name="targetMethod" value="addLastMonthTotalMoneyForAnchor" /> 
+	</bean>
+	<bean id="addLastMonthTotalMoneyForAnchorJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="addLastMonthTotalMoneyForAnchorJobDetail" />  
+	    <property name="cronExpression" value="0 20 0 1 * ? " />  
+	</bean> -->
+	<!-- 所有任务调度 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="executeWeekStarJob" />
+				<ref bean="executeMinusExpOfUserGuardJob"/>
+				<ref bean="executeWeekStarGive"/>
+				<ref bean="executeGetCollect"/>
+				<ref bean="executeGetNewRegistser"/>
+				<ref bean="executeGetRemain"/>
+				<ref bean="executeGetWages"/>
+				<ref bean="executeGetGiftSends"/>
+				<ref bean="executeGetSmashingEggs"/>
+				<ref bean="executeGetRedenve"/>
+				<ref bean="executeGetRoomChat"/>
+				<ref bean="executeGetUnionSupport"/>
+				<ref bean="executeSetRoomSort"/>
+				<!-- 
+				<ref bean="addLastMonthTotalMoneyForUnionJob" />
+				<ref bean="addLastMonthTotalMoneyForAnchorJob" /> -->
+			</list>
+		</property>
+	</bean>
+</beans>

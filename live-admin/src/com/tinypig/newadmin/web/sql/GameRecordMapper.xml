@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.GameRecordDao">
+	<resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.vo.GameRecordVo">
+		<result column="uid" property="uid" jdbcType="BIGINT" />
+		<result column="roomId" property="roomId" jdbcType="BIGINT" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="money" property="money" jdbcType="BIGINT" />
+		<result column="profit" property="profit" jdbcType="BIGINT" />
+		<result column="ctime" property="ctime" jdbcType="BIGINT" />
+	</resultMap>
+
+	<select id="gameRecordSta" resultMap="BaseResultMap"
+		parameterType="com.tinypig.newadmin.web.entity.GameRecordStaDto">
+		SELECT t.uid,t.roomId,t.type,t.money,t.profit,t.ctime
+		FROM
+			live_game.t_game_record t,
+			zhu_admin.t_user_org_relation b,
+		  	zhu_admin.t_salesman c,
+		  	zhu_admin.t_agent_user d,
+		  	zhu_admin.t_promoters e,
+		  	zhu_admin.t_extension_center f,
+		  	zhu_admin.t_strategic_partner g
+		WHERE 
+		  	t.uid = b.uid 
+		  	and b.salesman_id = c.id
+			and b.agent_user_id = d.id 
+			and b.promoters_id = e.id 
+			and b.extension_center_id = f.id
+			and b.strategic_partner_id= g.id
+		<if test="uid!=null">
+			and t.uid = #{uid}
+		</if>
+		<if test="roomId!=null">
+			and t.roomId = #{roomId}
+		</if>
+		<if test="gtype!=null">
+			and t.type = #{gtype}
+		</if>
+		<if test="spid != null and spid!=0" >
+		  	and b.strategic_partner_id =  #{spid}
+		</if>
+		<if test="ecid != null and ecid!=0" >
+		  	and b.extension_center_id =  #{ecid}
+		</if>
+		<if test="pid != null and pid!=0" >
+		  	and b.promoters_id =  #{pid}
+		</if>
+		<if test="auid != null and auid!=0" >
+		  	and b.agent_user_id  =  #{auid}
+		</if>
+		<if test="sid != null and sid!=0" >
+		  	and b.salesman_id =  #{sid}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			<![CDATA[ and t.ctime >=UNIX_TIMESTAMP(#{startDate})]]>     
+		</if> 
+		<if test="endDate!=null and endDate!=''">
+			<![CDATA[ and t.ctime <=UNIX_TIMESTAMP(CONCAT(#{endDate},' 23:59:59'))]]>     
+		</if>
+		order by t.ctime desc
+		limit #{startIndex},#{pageSize}
+		
+	</select>
+
+	<select id="gameRecordCount" resultType="java.lang.Long"
+		parameterType="com.tinypig.newadmin.web.entity.GameRecordStaDto">
+		SELECT
+		count(t.id)
+		FROM
+			live_game.t_game_record t,
+			zhu_admin.t_user_org_relation b,
+		  	zhu_admin.t_salesman c,
+		  	zhu_admin.t_agent_user d,
+		  	zhu_admin.t_promoters e,
+		  	zhu_admin.t_extension_center f,
+		  	zhu_admin.t_strategic_partner g
+		WHERE 
+		  	t.uid = b.uid 
+		  	and b.salesman_id = c.id
+			and b.agent_user_id = d.id 
+			and b.promoters_id = e.id 
+			and b.extension_center_id = f.id
+			and b.strategic_partner_id= g.id
+		<if test="uid!=null">
+			and t.uid = #{uid}
+		</if>
+		<if test="roomId!=null">
+			and t.roomId = #{roomId}
+		</if>
+		<if test="gtype!=null">
+			and t.type = #{gtype}
+		</if>
+		<if test="spid != null and spid!=0" >
+		  	and b.strategic_partner_id =  #{spid}
+		</if>
+		<if test="ecid != null and ecid!=0" >
+		  	and b.extension_center_id =  #{ecid}
+		</if>
+		<if test="pid != null and pid!=0" >
+		  	and b.promoters_id =  #{pid}
+		</if>
+		<if test="auid != null and auid!=0" >
+		  	and b.agent_user_id  =  #{auid}
+		</if>
+		<if test="sid != null and sid!=0" >
+		  	and b.salesman_id =  #{sid}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			<![CDATA[ and t.ctime >=UNIX_TIMESTAMP(#{startDate})]]>     
+		</if> 
+		<if test="endDate!=null and endDate!=''">
+			<![CDATA[ and t.ctime <=UNIX_TIMESTAMP(CONCAT(#{endDate},' 23:59:59'))]]>     
+		</if>
+	</select>
+
+	<select id="getGameRecordTotal" resultType="java.util.HashMap"
+		parameterType="com.tinypig.newadmin.web.entity.GameRecordStaDto">
+		SELECT SUM(t.money) priceTotal,SUM(t.profit) profitTotal
+		FROM
+			live_game.t_game_record t,
+			zhu_admin.t_user_org_relation b,
+		  	zhu_admin.t_salesman c,
+		  	zhu_admin.t_agent_user d,
+		  	zhu_admin.t_promoters e,
+		  	zhu_admin.t_extension_center f,
+		  	zhu_admin.t_strategic_partner g
+		WHERE 
+		  	t.uid = b.uid 
+		  	and b.salesman_id = c.id
+			and b.agent_user_id = d.id 
+			and b.promoters_id = e.id 
+			and b.extension_center_id = f.id
+			and b.strategic_partner_id= g.id
+		<if test="uid!=null">
+			and t.uid = #{uid}
+		</if>
+		<if test="roomId!=null">
+			and t.roomId = #{roomId}
+		</if>
+		<if test="gtype!=null">
+			and t.type = #{gtype}
+		</if>
+		<if test="spid != null and spid!=0" >
+		  	and b.strategic_partner_id =  #{spid}
+		</if>
+		<if test="ecid != null and ecid!=0" >
+		  	and b.extension_center_id =  #{ecid}
+		</if>
+		<if test="pid != null and pid!=0" >
+		  	and b.promoters_id =  #{pid}
+		</if>
+		<if test="auid != null and auid!=0" >
+		  	and b.agent_user_id  =  #{auid}
+		</if>
+		<if test="sid != null and sid!=0" >
+		  	and b.salesman_id =  #{sid}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			<![CDATA[ and t.ctime >=UNIX_TIMESTAMP(#{startDate})]]>     
+		</if> 
+		<if test="endDate!=null and endDate!=''">
+			<![CDATA[ and t.ctime <=UNIX_TIMESTAMP(CONCAT(#{endDate},' 23:59:59'))]]>     
+		</if>
+	</select>
+
+	<select id="gameAllRecordSta" resultType="java.util.Map" parameterType="com.tinypig.newadmin.web.entity.GameRecordStaDto">
+	  	SELECT t.uid,t.roomId,
+	  		t.type,
+		  		CASE WHEN t.type = 1 THEN '开心敲敲乐'
+				WHEN t.type = 2 THEN '欢乐6选3'
+				WHEN t.type= 3 THEN '抓娃娃'
+				ELSE '' END typeStr,
+	  		t.money,t.profit,
+	  		t.ctime,
+	  		CASE WHEN t.ctime = 0 THEN '' ELSE 
+		 	FROM_UNIXTIME(t.ctime,'%Y-%m-%d %H:%i:%s') END ctimeAtStr,
+		 	b.salesman_id salesmanId,
+		  c.name salesmanName,
+		  c.contacts_phone salesmanContactsPhone,
+		  b.agent_user_id agentUserId,
+		  d.name agentUserName,
+		  d.contacts agentUserContactsName,
+		  d.contacts_phone agentUserContactsPhone,
+		  b.promoters_id promotersId,
+		  e.name promotersName,
+		  e.contacts promotersContactsName,
+		  e.contacts_phone promotersContactsPhone,
+		  b.extension_center_id extensionCenterId,
+		  f.name extensionCenterName,
+		  f.contacts extensionCenterContactsName,
+		  f.contacts_phone extensionCenterContactsPhone,
+		  b.strategic_partner_id strategicPartnerId,
+		  g.name strategicPartnerName,
+		  g.contacts strategicPartnerContactsName,
+		  g.contacts_phone strategicPartnerContactsPhone 
+			FROM
+			live_game.t_game_record t,
+			zhu_admin.t_user_org_relation b,
+		  	zhu_admin.t_salesman c,
+		  	zhu_admin.t_agent_user d,
+		  	zhu_admin.t_promoters e,
+		  	zhu_admin.t_extension_center f,
+		  	zhu_admin.t_strategic_partner g
+		WHERE 
+		  	t.uid = b.uid 
+		  	and b.salesman_id = c.id
+			and b.agent_user_id = d.id 
+			and b.promoters_id = e.id 
+			and b.extension_center_id = f.id
+			and b.strategic_partner_id= g.id
+		<if test="uid!=null">
+			and t.uid = #{uid}
+		</if>
+		<if test="roomId!=null">
+			and t.roomId = #{roomId}
+		</if>
+		<if test="gtype!=null">
+			and t.type = #{gtype}
+		</if>
+		<if test="spid != null and spid!=0" >
+		  	and b.strategic_partner_id =  #{spid}
+		</if>
+		<if test="ecid != null and ecid!=0" >
+		  	and b.extension_center_id =  #{ecid}
+		</if>
+		<if test="pid != null and pid!=0" >
+		  	and b.promoters_id =  #{pid}
+		</if>
+		<if test="auid != null and auid!=0" >
+		  	and b.agent_user_id  =  #{auid}
+		</if>
+		<if test="sid != null and sid!=0" >
+		  	and b.salesman_id =  #{sid}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+			<![CDATA[ and t.ctime >=UNIX_TIMESTAMP(#{startDate})]]>     
+		</if> 
+		<if test="endDate!=null and endDate!=''">
+			<![CDATA[ and t.ctime <=UNIX_TIMESTAMP(CONCAT(#{endDate},' 23:59:59'))]]>     
+		</if>
+		order by t.ctime desc
+  </select>
+</mapper>

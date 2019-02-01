@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.SalesmanDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.Salesman" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="contacts_phone" property="contactsPhone" jdbcType="VARCHAR" />
+    <result column="strategic_partner" property="strategicPartner" jdbcType="BIGINT" />
+    <result column="extension_center" property="extensionCenter" jdbcType="BIGINT" />
+    <result column="promoters" property="promoters" jdbcType="BIGINT" />
+    <result column="agent_user" property="agentUser" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="qrcode" property="qrcode" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="BIGINT" />
+    <result column="modify_user" property="modifyUser" jdbcType="BIGINT" />
+  </resultMap>
+    <resultMap id="BaseResultMapDto" type="com.tinypig.newadmin.web.entity.SalesmanDto" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="contacts_phone" property="contactsPhone" jdbcType="VARCHAR" />
+	<result column="strategic_partner" property="strategicPartner" jdbcType="BIGINT" />
+    <result column="extension_center" property="extensionCenter" jdbcType="BIGINT" />
+    <result column="promoters" property="promoters" jdbcType="BIGINT" />
+    <result column="agent_user" property="agentUser" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="qrcode" property="qrcode" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="BIGINT" />
+    <result column="modify_user" property="modifyUser" jdbcType="BIGINT" />
+    
+    <result column="strategicPartnerName" property="strategicPartnerName" jdbcType="VARCHAR" />
+    <result column="strategicPartnerContacts" property="strategicPartnerContacts" jdbcType="VARCHAR" />
+    <result column="strategicPartnerContactsPhone" property="strategicPartnerContactsPhone" jdbcType="VARCHAR" />
+    <result column="promotersName" property="promotersName" jdbcType="VARCHAR" />
+    <result column="promotersContacts" property="promotersContacts" jdbcType="VARCHAR" />
+    <result column="promotersContactsPhone" property="promotersContactsPhone" jdbcType="VARCHAR" />
+    <result column="extensionCenterName" property="extensionCenterName" jdbcType="VARCHAR" />
+    <result column="extensionCenterContacts" property="extensionCenterContacts" jdbcType="VARCHAR" />
+    <result column="extensionCenterContactsPhone" property="extensionCenterContactsPhone" jdbcType="VARCHAR" />
+    <result column="agentUserName" property="agentUserName" jdbcType="VARCHAR" />
+    <result column="agentUserContacts" property="agentUserContacts" jdbcType="VARCHAR" />
+    <result column="agentUserContactsPhone" property="agentUserContactsPhone" jdbcType="VARCHAR" />
+    <result column="anchorNum" property="anchorNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, contacts, contacts_phone,strategic_partner, extension_center, promoters, agent_user, status,qrcode, 
+    create_user,create_time, modify_time, modify_user
+  </sql>
+  <select id="getSalesmanListPage" resultMap="BaseResultMapDto" parameterType="com.tinypig.newadmin.web.entity.SalesmanParamDto">
+		select
+		t.*,
+		tsp.name strategicPartnerName,tsp.contacts strategicPartnerContacts,tsp.contacts_phone strategicPartnerContactsPhone,
+		tec.name extensionCenterName,tec.contacts extensionCenterContacts,tec.contacts_phone extensionCenterContactsPhone,
+		tp.name promotersName,tp.contacts promotersContacts,tp.contacts_phone promotersContactsPhone,
+		tau.name agentUserName,tau.contacts agentUserContacts,tau.contacts_phone agentUserContactsPhone,
+		(SELECT COUNT(DISTINCT tuo.phone) FROM zhu_admin.t_user_org_relation tuo WHERE tuo.salesman_id=t.id) anchorNum
+		from zhu_admin.t_salesman t
+		left join zhu_admin.t_strategic_partner tsp on t.strategic_partner=tsp.id
+		left join zhu_admin.t_extension_center tec on t.extension_center=tec.id
+		left join zhu_admin.t_promoters tp on t.promoters=tp.id
+		left join zhu_admin.t_agent_user tau on t.agent_user=tau.id
+		where t.status=0
+		<if test="name!=null and name!=''">
+			and t.name like concat("%",#{name},"%")
+		</if>
+		<if test="contactsPhone!=null and contactsPhone!=''">
+			and t.contacts_phone like concat("%",#{contactsPhone},"%")
+		</if>
+		<if test="strategicPartnerName!=null and strategicPartnerName!=''">
+			and tsp.name like concat("%",#{strategicPartnerName},"%")
+		</if>
+		<if test="extensionCenterName!=null and extensionCenterName!=''">
+			and tec.name like concat("%",#{extensionCenterName},"%")
+		</if>
+		<if test="promotersName!=null and promotersName!=''">
+			and tp.name like concat("%",#{promotersName},"%")
+		</if>
+		<if test="agentName!=null and agentName!=''">
+			and tau.name like concat("%",#{agentName},"%")
+		</if>
+		<if test="stime!=null and stime!=''">
+			and t.create_time &gt;=#{stime}
+		</if> 
+		<if test="etime!=null and etime!=''">
+			and t.create_time &lt;=#{etime}
+		</if>
+		<if test="strategicPartnerId!=null and strategicPartnerId!=''">
+			and t.strategic_partner=#{strategicPartnerId}
+		</if>
+		<if test="extensionCenterId!=null and extensionCenterId!=''">
+			and t.extension_center=#{extensionCenterId}
+		</if>
+		<if test="promotersId!=null and promotersId!=''">
+			and t.promoters=#{promotersId}
+		</if>
+		<if test="agentUserId!=null and agentUserId!=''">
+			and t.agent_user=#{agentUserId}
+		</if>
+		<if test="salesmanId!=null and salesmanId!=''">
+			and t.id=#{salesmanId}
+		</if>
+		<if test="orderBy!=null and orderBy!=''">
+			order by   ${orderBy}
+			<if test="orderSort!=null and orderSort!=''">
+				 ${orderSort}
+			</if>
+		</if>
+		<if test="orderBy==null or orderBy==''">
+			order by t.create_time desc
+		</if>
+		limit #{startIndex},#{pageSize}
+  </select>
+  <select id="getSalesmanTotal" resultType="java.lang.Integer" parameterType="com.tinypig.newadmin.web.entity.SalesmanParamDto">
+		select
+			count(*) total
+		from zhu_admin.t_salesman t
+		left join zhu_admin.t_strategic_partner tsp on t.strategic_partner=tsp.id
+		left join zhu_admin.t_extension_center tec on t.extension_center=tec.id
+		left join zhu_admin.t_promoters tp on t.promoters=tp.id
+		left join zhu_admin.t_agent_user tau on t.agent_user=tau.id
+		where t.status=0
+		<if test="name!=null and name!=''">
+			and t.name like concat("%",#{name},"%")
+		</if>
+		<if test="contactsPhone!=null and contactsPhone!=''">
+			and t.contacts_phone like concat("%",#{contactsPhone},"%")
+		</if>
+		<if test="strategicPartnerName!=null and strategicPartnerName!=''">
+			and tsp.name like concat("%",#{strategicPartnerName},"%")
+		</if>
+		<if test="extensionCenterName!=null and extensionCenterName!=''">
+			and tec.name like concat("%",#{extensionCenterName},"%")
+		</if>
+		<if test="promotersName!=null and promotersName!=''">
+			and tp.name like concat("%",#{promotersName},"%")
+		</if>
+		<if test="agentName!=null and agentName!=''">
+			and tau.name like concat("%",#{agentName},"%")
+		</if>
+		<if test="stime!=null and stime!=''">
+			and t.create_time &gt;=#{stime}
+		</if> 
+		<if test="etime!=null and etime!=''">
+			and t.create_time &lt;=#{etime}
+		</if>
+		<if test="strategicPartnerId!=null and strategicPartnerId!=''">
+			and t.strategic_partner=#{strategicPartnerId}
+		</if>
+		<if test="extensionCenterId!=null and extensionCenterId!=''">
+			and t.extension_center=#{extensionCenterId}
+		</if>
+		<if test="promotersId!=null and promotersId!=''">
+			and t.promoters=#{promotersId}
+		</if>
+		<if test="agentUserId!=null and agentUserId!=''">
+			and t.agent_user=#{agentUserId}
+		</if>
+		<if test="salesmanId!=null and salesmanId!=''">
+			and t.id=#{salesmanId}
+		</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.t_salesman
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="getSalesmanById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.t_salesman
+    where id = #{id,jdbcType=BIGINT} and status=0
+  </select>
+  <select id="getSalesmanByPhone" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.t_salesman
+    where contacts_phone = #{phone}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    update zhu_admin.t_salesman set status=1
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.Salesman" useGeneratedKeys="true" keyProperty="id">
+    insert into zhu_admin.t_salesman (name, contacts, 
+      contacts_phone, strategic_partner,extension_center, promoters, 
+      agent_user,status, create_user, create_time, 
+      modify_time, modify_user)
+    values (#{name,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, 
+      #{contactsPhone,jdbcType=VARCHAR}, #{strategicPartner,jdbcType=BIGINT}, #{extensionCenter,jdbcType=BIGINT}, #{promoters,jdbcType=BIGINT}, 
+      #{agentUser,jdbcType=BIGINT},#{status,jdbcType=TINYINT}, #{createUser,jdbcType=BIGINT}, #{createTime,jdbcType=BIGINT}, 
+      #{modifyTime,jdbcType=BIGINT}, #{modifyUser,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.Salesman" useGeneratedKeys="true" keyProperty="id">
+    insert into zhu_admin.t_salesman
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="contacts != null" >
+        contacts,
+      </if>
+      <if test="contactsPhone != null" >
+        contacts_phone,
+      </if>
+      <if test="strategicPartner != null" >
+        strategic_partner,
+      </if>
+      <if test="extensionCenter != null" >
+        extension_center,
+      </if>
+      <if test="promoters != null" >
+        promoters,
+      </if>
+      <if test="agentUser != null" >
+        agent_user,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="qrcode != null" >
+        qrcode,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="modifyUser != null" >
+        modify_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null" >
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsPhone != null" >
+        #{contactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="strategicPartner != null" >
+        #{strategicPartner,jdbcType=BIGINT},
+      </if>
+      <if test="extensionCenter != null" >
+        #{extensionCenter,jdbcType=BIGINT},
+      </if>
+      <if test="promoters != null" >
+        #{promoters,jdbcType=BIGINT},
+      </if>
+      <if test="agentUser != null" >
+        #{agentUser,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="qrcode != null" >
+        #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyUser != null" >
+        #{modifyUser,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.Salesman" >
+    update zhu_admin.t_salesman
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null" >
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsPhone != null" >
+        contacts_phone = #{contactsPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="strategicPartner != null" >
+        strategic_partner = #{strategicPartner,jdbcType=BIGINT},
+      </if>
+      <if test="extensionCenter != null" >
+        extension_center = #{extensionCenter,jdbcType=BIGINT},
+      </if>
+      <if test="promoters != null" >
+        promoters = #{promoters,jdbcType=BIGINT},
+      </if>
+      <if test="agentUser != null" >
+        agent_user = #{agentUser,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="qrcode != null" >
+        qrcode = #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyUser != null" >
+        modify_user = #{modifyUser,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.Salesman" >
+    update zhu_admin.t_salesman
+    set name = #{name,jdbcType=VARCHAR},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      contacts_phone = #{contactsPhone,jdbcType=VARCHAR},
+      strategic_partner = #{strategicPartner,jdbcType=BIGINT},
+      extension_center = #{extensionCenter,jdbcType=BIGINT},
+      promoters = #{promoters,jdbcType=BIGINT},
+      agent_user = #{agentUser,jdbcType=BIGINT},
+      status = #{status,jdbcType=TINYINT},
+      qrcode = #{qrcode,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=BIGINT},
+      modify_user = #{modifyUser,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateParentsByPromoters">
+    update zhu_admin.t_salesman
+    set 
+    strategic_partner = #{strategicPartnerId,jdbcType=BIGINT},
+    extension_center = #{extensionCenterId,jdbcType=BIGINT}
+    where promoters = #{promotersId,jdbcType=BIGINT}
+  </update>  
+  <update id="updateParentsByAgentUser">
+    update zhu_admin.t_salesman
+    set 
+    strategic_partner = #{strategicPartnerId,jdbcType=BIGINT},
+    extension_center = #{extensionCenterId,jdbcType=BIGINT},
+    promoters = #{promotersId,jdbcType=BIGINT}
+    where agent_user = #{agentUserId,jdbcType=BIGINT}
+  </update>  
+  <update id="updateParentsByExtensionCenter">
+    update zhu_admin.t_salesman
+    set 
+    strategic_partner = #{strategicPartnerId,jdbcType=BIGINT}
+    where extension_center = #{extensionCenterId,jdbcType=BIGINT}
+  </update>  
+  <select id="countSalesmanByAgentUserId" resultType="java.lang.Integer" parameterType="java.lang.Long">  
+  	select count(*) from zhu_admin.t_salesman where status=0 and agent_user=#{agentUserId}
+  </select>
+  <update id="invalidQrcode" parameterType="java.util.List">
+    update zhu_admin.t_salesman
+    set qrcode=''
+    where id in (
+    <foreach collection="ids" open=" " close=" " item="tid" separator=",">
+		#{tid,jdbcType=BIGINT}
+    </foreach>
+    )
+  </update>   
+</mapper>

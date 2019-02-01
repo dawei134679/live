@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.UserTransactionHisStaMapper" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.UserTransactionHisSta" >
+    <result column="trans_type" property="transType" jdbcType="INTEGER" />
+     <result column="transTypeStr" property="transTypeStr" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="money" property="money" jdbcType="BIGINT" />
+    <result column="createTime" property="createTime" jdbcType="BIGINT" />
+    <result column="refId" property="refId" jdbcType="VARCHAR" />
+    <result column="dataType" property="dataType" jdbcType="INTEGER" />
+    <result column="dataTypeStr" property="dataTypeStr" jdbcType="VARCHAR" />
+    <result column="registtime" property="registtime" jdbcType="INTEGER" />
+    <result column="registtimeStr" property="registtimeStr" jdbcType="VARCHAR" />
+   <result column="salesmanName" property="salesmanName" jdbcType="VARCHAR" />
+   <result column="salesmanContactsPhone" property="salesmanContactsPhone" jdbcType="VARCHAR" />
+   <result column="promotersName" property="promotersName" jdbcType="VARCHAR" />
+   <result column="promotersContactsName" property="promotersContactsName" jdbcType="VARCHAR" />
+   <result column="promotersContactsPhone" property="promotersContactsPhone" jdbcType="VARCHAR" />
+   <result column="extensionCenterName" property="extensionCenterName" jdbcType="VARCHAR" />
+   <result column="extensionCenterContactsName" property="extensionCenterContactsName" jdbcType="VARCHAR" />
+   <result column="extensionCenterContactsPhone" property="extensionCenterContactsPhone" jdbcType="VARCHAR" />
+   <result column="strategicPartnerName" property="strategicPartnerName" jdbcType="VARCHAR" />
+   <result column="strategicPartnerContactsName" property="strategicPartnerContactsName" jdbcType="VARCHAR" />
+   <result column="strategicPartnerContactsPhone" property="strategicPartnerContactsPhone" jdbcType="VARCHAR" />
+   <result column="agentUserName" property="agentUserName" jdbcType="VARCHAR" />
+   <result column="agentUserContactsName" property="agentUserContactsName" jdbcType="VARCHAR" />
+   <result column="agentUserContactsPhone" property="agentUserContactsPhone" jdbcType="VARCHAR" />
+   <result column="agentUserId" property="agentUserId" jdbcType="BIGINT" />
+   <result column="strategicPartnerId" property="strategicPartnerId" jdbcType="BIGINT" />
+   <result column="extensionCenterId" property="extensionCenterId" jdbcType="BIGINT" />
+   <result column="promotersId" property="promotersId" jdbcType="BIGINT" />
+   <result column="salesmanId" property="salesmanId" jdbcType="BIGINT" />
+  </resultMap>
+  <select id="getUserTransactionHisListPage" resultType="com.tinypig.newadmin.web.entity.UserTransactionHisSta" parameterType="com.tinypig.newadmin.web.entity.UserTransactionHisStaParam">
+		select  x.uid,
+				x.amount,
+				x.money,
+				x.dataType,
+				x.dataTypeStr,
+				x.transType,
+				x.transTypeStr,
+				x.createTime,
+				x.createTimeStr,
+			  y.registtime,
+			  y.registtimeStr,
+			  y.salesmanId,
+			  y.salesmanName,
+			  y.salesmanContactsPhone,
+			  y.agentUserId,
+			  y.agentUserName,
+			  y.agentUserContactsName,
+			  y.agentUserContactsPhone,
+			  y.promotersId,
+			  y.promotersName,
+			  y.promotersContactsName,
+			  y.promotersContactsPhone,
+			  y.extensionCenterId,
+			  y.extensionCenterName,
+			  y.extensionCenterContactsName,
+			  y.extensionCenterContactsPhone,
+			  y.strategicPartnerId,
+			  y.strategicPartnerName,
+			  y.strategicPartnerContactsName,
+			  y.strategicPartnerContactsPhone
+ 		from (SELECT 
+			  t.uid,
+			  SUM(t.amount) amount,
+			  SUM(t.money) money,
+			  t.data_type dataType,
+			  CASE WHEN t.data_type=1 THEN '真实数据'
+			  WHEN t.data_type=2 THEN '虚拟数据' 
+			  ELSE '' END  dataTypeStr,
+			  t.trans_type transType,
+			  CASE
+			    WHEN t.trans_type = 1 
+			    THEN '欢乐六选三下注' 
+			    WHEN t.trans_type = 2 
+			    THEN '欢乐六选三胜出' 
+			    WHEN t.trans_type = 3 
+			    THEN '欢乐六选三手续费' 
+			    WHEN t.trans_type = 4 
+			    THEN '抓娃娃下注' 
+			    WHEN t.trans_type = 5 
+			    THEN '抓娃娃胜出' 
+			    WHEN t.trans_type = 7 
+			    THEN '开心敲敲乐下注' 
+			    WHEN t.trans_type = 8 
+			    THEN '开心敲敲乐胜出' 
+			    WHEN t.trans_type = 10 
+			    THEN '获得礼物' 
+			    WHEN t.trans_type = 11 
+			    THEN '赠送礼物' 
+			    WHEN t.trans_type = 12 
+			    THEN '金币充值' 
+			    WHEN t.trans_type = 13 
+			    THEN '购买守护' 
+			    WHEN t.trans_type = 14 
+			    THEN '购买VIP' 
+			    WHEN t.trans_type = 15 
+			    THEN '购买座驾' 
+			  END transTypeStr,
+			  t.create_time createTime,
+			  CASE WHEN t.create_time = 0 THEN '' 
+			  ELSE FROM_UNIXTIME( t.create_time/1000,'%Y-%m-%d %H:%i:%s') END createTimeStr
+			FROM
+			  zhu_bill.user_transaction_his t
+			WHERE  1=1
+				 <if test="dataType != null and dataType!=0" >
+				  	and t.data_type =  #{dataType}
+				  </if>
+				  <if test="transType != null and transType!=0" >
+				  	and t.trans_type =  #{transType}
+				  </if>
+				  <if test="uid != null and uid!=0" >
+				  	and t.uid =  #{uid}
+				  </if>
+				  <if test="startTime and startTime !=''">
+					<![CDATA[ and t.create_time >=UNIX_TIMESTAMP(#{startTime})*1000]]>     
+				  </if> 
+				  <if test="endTime and endTime !=''">
+					<![CDATA[ and t.create_time <=(UNIX_TIMESTAMP(#{endTime})*1000)+999]]>     
+				  </if>
+      			  GROUP BY t.uid,t.trans_type ) x  
+ 		LEFT JOIN (select  
+				 b.uid,
+				 b.registtime registtime,
+				 CASE WHEN b.registtime = 0 THEN ''
+				 ELSE FROM_UNIXTIME( b.registtime, '%Y-%m-%d %H:%i:%s' )
+				 END registtimeStr,
+				 b.salesman_id salesmanId,
+				 c.NAME salesmanName,
+				 c.contacts_phone salesmanContactsPhone,
+				 b.agent_user_id agentUserId,
+				 d.NAME agentUserName,
+				 d.contacts agentUserContactsName,
+				 d.contacts_phone agentUserContactsPhone,
+				 b.promoters_id promotersId,
+				 e.NAME promotersName,
+				 e.contacts promotersContactsName,
+				 e.contacts_phone promotersContactsPhone,
+				 b.extension_center_id extensionCenterId,
+				 f.NAME extensionCenterName,
+				 f.contacts extensionCenterContactsName,
+				 f.contacts_phone extensionCenterContactsPhone,
+				 b.strategic_partner_id strategicPartnerId,
+				 g.NAME strategicPartnerName,
+				 g.contacts strategicPartnerContactsName,
+				 g.contacts_phone strategicPartnerContactsPhone
+		from
+		zhu_admin.t_user_org_relation b 
+		left JOIN zhu_admin.t_salesman c on  b.salesman_id = c.id and c.status = 0
+		left JOIN zhu_admin.t_agent_user d on b.agent_user_id = d.id    AND d.status = 0 
+		left JOIN zhu_admin.t_promoters e on b.promoters_id = e.id  AND e.status = 0 
+		left JOIN zhu_admin.t_extension_center f on b.extension_center_id = f.id  AND f.status = 0 
+		left JOIN zhu_admin.t_strategic_partner g on b.strategic_partner_id = g.id AND g.status = 0
+		where 1=1
+			<if test="agentUserId != null and agentUserId != 0" >
+			  	and d.id = #{agentUserId}
+			  </if>
+			  <if test="strategicPartnerId != null and strategicPartnerId != 0" >
+			  	and g.id = #{strategicPartnerId}
+			  </if>
+			  <if test="extensionCenterId != null and extensionCenterId != 0" >
+			  	and f.id = #{extensionCenterId}
+			  </if>
+			  <if test="promotersId != null and promotersId !=0" >
+			  	and e.id = #{promotersId}
+			  </if>
+			  <if test="salesmanId != null and salesmanId !=0" >
+			  	and c.id = #{salesmanId}
+			  </if>
+		) y on x.uid=y.uid
+		where 1=1
+		<if test="agentUserId != null and agentUserId != 0" >
+		  	and agentUserId = #{agentUserId}
+		  </if>
+		  <if test="strategicPartnerId != null and strategicPartnerId != 0" >
+		  	and strategicPartnerId = #{strategicPartnerId}
+		  </if>
+		  <if test="extensionCenterId != null and extensionCenterId != 0" >
+		  	and extensionCenterId = #{extensionCenterId}
+		  </if>
+		  <if test="promotersId != null and promotersId !=0" >
+		  	and promotersId = #{promotersId}
+		  </if>
+		  <if test="salesmanId != null and salesmanId !=0" >
+		  	and salesmanId = #{salesmanId}
+		  </if>
+		order by createTime DESC
+		limit #{startIndex},#{pageSize}
+	</select>
+	<select id="getserTransactionHisTotalCount" resultType="java.lang.Integer" parameterType="com.tinypig.newadmin.web.entity.UserTransactionHisStaParam">
+		select count(*) total from(SELECT count(t.uid) totalCount
+		    FROM zhu_bill.user_transaction_his t 
+		    left JOIN zhu_admin.t_user_org_relation b on t.uid=b.uid 
+		WHERE 1=1
+		  <if test="dataType != null and dataType!=0" >
+		  	and t.data_type =  #{dataType}
+		  </if>
+		  <if test="transType != null and transType!=0" >
+		  	and t.trans_type =  #{transType}
+		  </if>
+		  <if test="uid != null and uid!=0" >
+		  	and t.uid =  #{uid}
+		  </if>
+		  <if test="agentUserId != null and agentUserId != 0" >
+		  	and b.agent_user_id = #{agentUserId}
+		  </if>
+		  <if test="strategicPartnerId != null and strategicPartnerId != 0" >
+		  	and b.strategic_partner_id = #{strategicPartnerId}
+		  </if>
+		  <if test="extensionCenterId != null and extensionCenterId != 0" >
+		  	and b.extension_center_id = #{extensionCenterId}
+		  </if>
+		  <if test="promotersId != null and promotersId !=0" >
+		  	and b.promoters_id = #{promotersId}
+		  </if>
+		  <if test="salesmanId != null and salesmanId !=0" >
+		  	and b.salesman_id = #{salesmanId}
+		  </if>
+		  <if test="startTime and startTime !=''">
+			<![CDATA[ and t.create_time >=UNIX_TIMESTAMP(#{startTime})*1000]]>     
+		  </if> 
+		  <if test="endTime and endTime !=''">
+			<![CDATA[ and t.create_time <=(UNIX_TIMESTAMP(#{endTime})*1000)+999]]>     
+		  </if>
+		  GROUP BY t.uid,t.trans_type) as t
+	</select>
+	<select id="getUserTransactionHisTotal" resultType="java.util.HashMap" parameterType="com.tinypig.newadmin.web.entity.UserTransactionHisStaParam">
+		SELECT  ifnull(SUM(t.amount),0) amount,ifnull(SUM(t.money),0) money
+		    FROM zhu_bill.user_transaction_his t 
+		      left JOIN  zhu_admin.t_user_org_relation b on t.uid=b.uid 
+		WHERE 1=1
+		  <if test="dataType != null and dataType!=0" >
+		  	and t.data_type =  #{dataType}
+		  </if>
+		  <if test="transType != null and transType!=0" >
+		  	and t.trans_type =  #{transType}
+		  </if>
+		  <if test="agentUserId != null and agentUserId != 0" >
+		  	and b.agent_user_id = #{agentUserId}
+		  </if>
+		  <if test="strategicPartnerId != null and strategicPartnerId != 0" >
+		  	and b.strategic_partner_id = #{strategicPartnerId}
+		  </if>
+		  <if test="extensionCenterId != null and extensionCenterId != 0" >
+		  	and b.extension_center_id = #{extensionCenterId}
+		  </if>
+		  <if test="promotersId != null and promotersId !=0" >
+		  	and b.promoters_id = #{promotersId}
+		  </if>
+		  <if test="salesmanId != null and salesmanId !=0" >
+		  	and b.salesman_id = #{salesmanId}
+		  </if>
+		  <if test="uid != null and uid!=0" >
+		  	and t.uid =  #{uid}
+		  </if>
+		  <if test="startTime and startTime !=''">
+			<![CDATA[ and t.create_time >=UNIX_TIMESTAMP(#{startTime})*1000]]>     
+		  </if> 
+		  <if test="endTime and endTime !=''">
+			<![CDATA[ and t.create_time <=(UNIX_TIMESTAMP(#{endTime})*1000)+999]]>     
+		  </if>
+	</select>
+	<select id="getUserTransactionHisList" resultType="com.tinypig.newadmin.web.entity.UserTransactionHisSta" parameterType="com.tinypig.newadmin.web.entity.UserTransactionHisStaParam">
+		select  x.uid,
+				x.amount,
+				x.money,
+				x.dataType,
+				x.dataTypeStr,
+				x.transType,
+				x.transTypeStr,
+				x.createTime,
+				x.createTimeStr,
+			  y.registtime,
+			  y.registtimeStr,
+			  y.salesmanId,
+			  y.salesmanName,
+			  y.salesmanContactsPhone,
+			  y.agentUserId,
+			  y.agentUserName,
+			  y.agentUserContactsName,
+			  y.agentUserContactsPhone,
+			  y.promotersId,
+			  y.promotersName,
+			  y.promotersContactsName,
+			  y.promotersContactsPhone,
+			  y.extensionCenterId,
+			  y.extensionCenterName,
+			  y.extensionCenterContactsName,
+			  y.extensionCenterContactsPhone,
+			  y.strategicPartnerId,
+			  y.strategicPartnerName,
+			  y.strategicPartnerContactsName,
+			  y.strategicPartnerContactsPhone
+ 		from (SELECT 
+			  t.uid,
+			  SUM(t.amount) amount,
+			  SUM(t.money) money,
+			  t.data_type dataType,
+			  CASE WHEN t.data_type=1 THEN '真实数据'
+			  WHEN t.data_type=2 THEN '虚拟数据' 
+			  ELSE '' END  dataTypeStr,
+			  t.trans_type transType,
+			  CASE
+			    WHEN t.trans_type = 1 
+			    THEN '欢乐六选三下注' 
+			    WHEN t.trans_type = 2 
+			    THEN '欢乐六选三胜出' 
+			    WHEN t.trans_type = 3 
+			    THEN '欢乐六选三手续费' 
+			    WHEN t.trans_type = 4 
+			    THEN '抓娃娃下注' 
+			    WHEN t.trans_type = 5 
+			    THEN '抓娃娃胜出' 
+			    WHEN t.trans_type = 7 
+			    THEN '开心敲敲乐下注' 
+			    WHEN t.trans_type = 8 
+			    THEN '开心敲敲乐胜出' 
+			    WHEN t.trans_type = 10 
+			    THEN '获得礼物' 
+			    WHEN t.trans_type = 11 
+			    THEN '赠送礼物' 
+			    WHEN t.trans_type = 12 
+			    THEN '金币充值' 
+			    WHEN t.trans_type = 13 
+			    THEN '购买守护' 
+			    WHEN t.trans_type = 14 
+			    THEN '购买VIP' 
+			    WHEN t.trans_type = 15 
+			    THEN '购买座驾' 
+			  END transTypeStr,
+			  t.create_time createTime,
+			  CASE WHEN t.create_time = 0 THEN '' 
+			  ELSE FROM_UNIXTIME( t.create_time/1000,'%Y-%m-%d %H:%i:%s') END createTimeStr
+			FROM
+			  zhu_bill.user_transaction_his t
+			WHERE  1=1
+				 <if test="dataType != null and dataType!=0" >
+				  	and t.data_type =  #{dataType}
+				  </if>
+				  <if test="transType != null and transType!=0" >
+				  	and t.trans_type =  #{transType}
+				  </if>
+				  <if test="uid != null and uid!=0" >
+				  	and t.uid =  #{uid}
+				  </if>
+				  <if test="startTime and startTime !=''">
+					<![CDATA[ and t.create_time >=UNIX_TIMESTAMP(#{startTime})*1000]]>     
+				  </if> 
+				  <if test="endTime and endTime !=''">
+					<![CDATA[ and t.create_time <=(UNIX_TIMESTAMP(#{endTime})*1000)+999]]>     
+				  </if>
+      			  GROUP BY t.uid,t.trans_type ) x  
+ 		LEFT JOIN (select  
+				 b.uid ,
+				 b.registtime registtime,
+				 CASE WHEN b.registtime = 0 THEN ''
+				 ELSE FROM_UNIXTIME( b.registtime, '%Y-%m-%d %H:%i:%s' )
+				 END registtimeStr,
+				 b.salesman_id salesmanId,
+				 c.NAME salesmanName,
+				 c.contacts_phone salesmanContactsPhone,
+				 b.agent_user_id agentUserId,
+				 d.NAME agentUserName,
+				 d.contacts agentUserContactsName,
+				 d.contacts_phone agentUserContactsPhone,
+				 b.promoters_id promotersId,
+				 e.NAME promotersName,
+				 e.contacts promotersContactsName,
+				 e.contacts_phone promotersContactsPhone,
+				 b.extension_center_id extensionCenterId,
+				 f.NAME extensionCenterName,
+				 f.contacts extensionCenterContactsName,
+				 f.contacts_phone extensionCenterContactsPhone,
+				 b.strategic_partner_id strategicPartnerId,
+				 g.NAME strategicPartnerName,
+				 g.contacts strategicPartnerContactsName,
+				 g.contacts_phone strategicPartnerContactsPhone
+		from
+		zhu_admin.t_user_org_relation b 
+		left JOIN zhu_admin.t_salesman c on  b.salesman_id = c.id and c.status = 0
+		left JOIN zhu_admin.t_agent_user d on b.agent_user_id = d.id    AND d.status = 0 
+		left JOIN zhu_admin.t_promoters e on b.promoters_id = e.id  AND e.status = 0 
+		left JOIN zhu_admin.t_extension_center f on b.extension_center_id = f.id  AND f.status = 0 
+		left JOIN zhu_admin.t_strategic_partner g on b.strategic_partner_id = g.id AND g.status = 0
+		where 1=1
+			<if test="agentUserId != null and agentUserId != 0" >
+			  	and d.id = #{agentUserId}
+			  </if>
+			  <if test="strategicPartnerId != null and strategicPartnerId != 0" >
+			  	and g.id = #{strategicPartnerId}
+			  </if>
+			  <if test="extensionCenterId != null and extensionCenterId != 0" >
+			  	and f.id = #{extensionCenterId}
+			  </if>
+			  <if test="promotersId != null and promotersId !=0" >
+			  	and e.id = #{promotersId}
+			  </if>
+			  <if test="salesmanId != null and salesmanId !=0" >
+			  	and c.id = #{salesmanId}
+			  </if>
+		) y on x.uid=y.uid
+		where 1=1
+		<if test="agentUserId != null and agentUserId != 0" >
+		  	and agentUserId = #{agentUserId}
+		  </if>
+		  <if test="strategicPartnerId != null and strategicPartnerId != 0" >
+		  	and strategicPartnerId = #{strategicPartnerId}
+		  </if>
+		  <if test="extensionCenterId != null and extensionCenterId != 0" >
+		  	and extensionCenterId = #{extensionCenterId}
+		  </if>
+		  <if test="promotersId != null and promotersId !=0" >
+		  	and promotersId = #{promotersId}
+		  </if>
+		  <if test="salesmanId != null and salesmanId !=0" >
+		  	and salesmanId = #{salesmanId}
+		  </if>
+		order by createTime DESC
+	</select>
+</mapper>

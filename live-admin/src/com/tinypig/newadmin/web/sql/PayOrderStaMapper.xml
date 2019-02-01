@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.PayOrderStaDao">
+	<resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.PayOrderSta">
+	    <result column="orderId" property="orderId" jdbcType="CHAR" />
+	    <result column="srcuid" property="srcuid" jdbcType="INTEGER" />
+        <result column="srcnickname" property="srcnickname" jdbcType="VARCHAR" />
+	    <result column="amount" property="amount" jdbcType="DOUBLE" />
+	    <result column="zhutou" property="zhutou" jdbcType="INTEGER" />
+	    <result column="creatAt" property="creatAt" jdbcType="INTEGER" />
+	    <result column="creatAtStr" property="creatAtStr" jdbcType="VARCHAR" />
+	    <result column="paytime" property="paytime" jdbcType="INTEGER" />
+	    <result column="paytimeStr" property="paytimeStr" jdbcType="VARCHAR" />
+	    <result column="paytype" property="paytype" jdbcType="CHAR" />
+	    <result column="status" property="status" jdbcType="INTEGER" />
+	    <result column="statusStr" property="statusStr" jdbcType="VARCHAR" />
+	    <result column="inpourNo" property="inpourNo" jdbcType="VARCHAR" />
+	    <result column="inpourNo" property="inpourNo" jdbcType="VARCHAR" />
+	    <result column="dataType" property="dataType" jdbcType="TINYINT" />
+        <result column="dataTypeStr" property="dataTypeStr" jdbcType="VARCHAR" />
+        <result column="registtime" property="registtime" jdbcType="INTEGER" />
+        <result column="registtimeStr" property="registtimeStr" jdbcType="VARCHAR" />
+	    <result column="salesmanName" property="salesmanName" jdbcType="VARCHAR" />
+	    <result column="salesmanContactsPhone" property="salesmanContactsPhone" jdbcType="VARCHAR" />
+	    <result column="promotersName" property="promotersName" jdbcType="VARCHAR" />
+	    <result column="promotersContactsName" property="promotersContactsName" jdbcType="VARCHAR" />
+	    <result column="promotersContactsPhone" property="promotersContactsPhone" jdbcType="VARCHAR" />
+	    <result column="extensionCenterName" property="extensionCenterName" jdbcType="VARCHAR" />
+	    <result column="extensionCenterContactsName" property="extensionCenterContactsName" jdbcType="VARCHAR" />
+	    <result column="extensionCenterContactsPhone" property="extensionCenterContactsPhone" jdbcType="VARCHAR" />
+	    <result column="strategicPartnerName" property="strategicPartnerName" jdbcType="VARCHAR" />
+	    <result column="strategicPartnerContactsName" property="strategicPartnerContactsName" jdbcType="VARCHAR" />
+	    <result column="strategicPartnerContactsPhone" property="strategicPartnerContactsPhone" jdbcType="VARCHAR" />
+	    <result column="agentUserName" property="agentUserName" jdbcType="VARCHAR" />
+	    <result column="agentUserContactsName" property="agentUserContactsName" jdbcType="VARCHAR" />
+	    <result column="agentUserContactsPhone" property="agentUserContactsPhone" jdbcType="VARCHAR" />
+	    <result column="agentUserId" property="agentUserId" jdbcType="BIGINT" />
+	    <result column="strategicPartnerId" property="strategicPartnerId" jdbcType="BIGINT" />
+	    <result column="extensionCenterId" property="extensionCenterId" jdbcType="BIGINT" />
+	    <result column="promotersId" property="promotersId" jdbcType="BIGINT" />
+	    <result column="salesmanId" property="salesmanId" jdbcType="BIGINT" />
+	</resultMap>
+	<select id="getPayOrderListPage" resultType="com.tinypig.newadmin.web.entity.PayOrderSta" parameterType="com.tinypig.newadmin.web.entity.PayOrderStaParam">
+		SELECT 
+			  t.order_id orderId,
+			  t.srcuid,
+			  t.amount,
+			  t.zhutou,
+			  t.creatAt,
+			   CASE WHEN t.creatAt = 0 THEN '' ELSE 
+			  FROM_UNIXTIME(t.creatAt,'%Y-%m-%d %H:%i:%s') END creatAtStr,
+			  t.paytime,
+			  CASE WHEN t.paytime = 0 THEN '' ELSE 
+			  FROM_UNIXTIME(t.paytime,'%Y-%m-%d %H:%i:%s') END paytimeStr,
+			  t.paytype,
+			  t.status,	  
+			  CASE WHEN t.status = 0 THEN '生成订单'
+			  WHEN t.status = 1 THEN '等待支付'
+			  WHEN t.status = 2 THEN '已支付'
+			  WHEN t.status = 3 THEN '取消'
+			  ELSE '' END statusStr,
+			  t.inpour_no inpourNo,
+			  t.data_type dataType,
+			  CASE WHEN t.data_type=1 THEN '真实数据'
+			  WHEN t.data_type=2 THEN '虚拟数据' 
+			  ELSE '' END  dataTypeStr,
+			  t.registtime,
+			  CASE WHEN t.registtime = 0 THEN '' ELSE 
+			  FROM_UNIXTIME(t.registtime,'%Y-%m-%d %H:%i:%s') END registtimeStr,
+			  a.nickname srcnickname,
+			  a.salesman_id salesmanId,
+			  a.salesman_name salesmanName,
+			  a.salesman_contacts_phone salesmanContactsPhone,
+			  a.agent_user_id agentUserId,
+			  a.agent_user_name agentUserName,
+			  a.agent_user_contacts_name agentUserContactsName,
+			  a.agent_user_contacts_phone agentUserContactsPhone,
+			  a.promoters_id promotersId,
+			  a.promoters_name promotersName,
+			  a.promoters_contacts_name promotersContactsName,
+			  a.promoters_contacts_phone promotersContactsPhone,
+			  a.extension_center_id extensionCenterId,
+			  a.extension_center_name extensionCenterName,
+			  a.extension_center_contacts_name extensionCenterContactsName,
+			  a.extension_center_contacts_phone extensionCenterContactsPhone,
+			  a.strategic_partner_id strategicPartnerId,
+			  a.strategic_partner_name strategicPartnerName,
+			  a.strategic_partner_contacts_name strategicPartnerContactsName,
+			  a.strategic_partner_contacts_phone strategicPartnerContactsPhone   
+			FROM
+			  zhu_pay.pay_order t,
+			  zhu_user.user_info a
+			WHERE  t.srcuid=a.uid AND  t.flag=1
+		  <if test="status != null" >
+		  	and t.status =  #{status}
+		  </if>
+		  <if test="dataType != null and dataType!=0" >
+		  	and t.data_type =  #{dataType}
+		  </if>
+		  <if test="srcuid != null and srcuid!=0" >
+		  	and t.srcuid =  #{srcuid}
+		  </if>
+		  <if test="agentUserId != null and agentUserId != 0" >
+		  	and a.agent_user_id = #{agentUserId}
+		  </if>
+		  <if test="strategicPartnerId != null and strategicPartnerId != 0" >
+		  	and a.strategic_partner_id = #{strategicPartnerId}
+		  </if>
+		  <if test="extensionCenterId != null and extensionCenterId != 0" >
+		  	and a.extension_center_id = #{extensionCenterId}
+		  </if>
+		  <if test="promotersId != null and promotersId !=0" >
+		  	and a.promoters_id = #{promotersId}
+		  </if>
+		  <if test="salesmanId != null and salesmanId !=0" >
+		  	and a.salesman_id = #{salesmanId}
+		  </if>
+		   <if test="paytype and paytype !=''">
+		  	and t.paytype =  #{paytype} 
+		  </if>
+		  <if test="startTime and startTime !=''">
+			<![CDATA[ and t.paytime >=UNIX_TIMESTAMP(#{startTime})]]>     
+		  </if> 
+		  <if test="endTime and endTime !=''">
+			<![CDATA[ and t.paytime <=UNIX_TIMESTAMP(#{endTime})]]>     
+		  </if>
+<!-- 		  <if test="sort != null and sort !=''" > -->
+<!-- 		  	 order by ${sort}  -->
+<!-- 			  <if test="order != null and order !=''" > -->
+<!-- 			  	 ${order} -->
+<!-- 			  </if> -->
+<!-- 		  </if> -->
+		order by t.paytime desc
+		limit #{startIndex},#{pageSize}
+	</select>
+	<select id="getPayOrderTotal" resultType="java.lang.Integer" parameterType="com.tinypig.newadmin.web.entity.PayOrderStaParam">
+		SELECT 
+			  count(t.order_id) total
+			FROM
+			  zhu_pay.pay_order t,
+			  zhu_user.user_info a
+			WHERE  t.srcuid=a.uid AND  t.flag=1
+		  <if test="status != null" >
+		  	and t.status =  #{status}
+		  </if>
+		  <if test="dataType != null and dataType!=0" >
+		  	and t.data_type =  #{dataType}
+		  </if>
+		  <if test="srcuid != null and srcuid!=0" >
+		  	and t.srcuid =  #{srcuid}
+		  </if>
+		  <if test="agentUserId != null and agentUserId != 0" >
+		  	and a.agent_user_id = #{agentUserId}
+		  </if>
+		  <if test="strategicPartnerId != null and strategicPartnerId != 0" >
+		  	and a.strategic_partner_id = #{strategicPartnerId}
+		  </if>
+		  <if test="extensionCenterId != null and extensionCenterId != 0" >
+		  	and a.extension_center_id = #{extensionCenterId}
+		  </if>
+		  <if test="promotersId != null and promotersId !=0" >
+		  	and a.promoters_id = #{promotersId}
+		  </if>
+		  <if test="salesmanId != null and salesmanId !=0" >
+		  	and a.salesman_id = #{salesmanId}
+		  </if>
+		   <if test="paytype and paytype !=''">
+		  	and t.paytype =  #{paytype} 
+		  </if>
+		  <if test="startTime and startTime !=''">
+			<![CDATA[ and t.paytime >=UNIX_TIMESTAMP(#{startTime})]]>     
+		  </if> 
+		  <if test="endTime and endTime !=''">
+			<![CDATA[ and t.paytime <=UNIX_TIMESTAMP(#{endTime})]]>     
+		  </if>
+	</select>
+	<select id="getPayOrderTotalAmount" resultType="java.lang.Double" parameterType="com.tinypig.newadmin.web.entity.PayOrderStaParam">
+		SELECT 
+			  IFNULL(sum(t.amount),0.00) totalAmount
+			FROM
+			  zhu_pay.pay_order t,
+			  zhu_user.user_info a
+			WHERE  t.srcuid=a.uid AND  t.flag=1
+		  <if test="status != null" >
+		  	and t.status =  #{status}
+		  </if>
+		  <if test="dataType != null and dataType!=0" >
+		  	and t.data_type =  #{dataType}
+		  </if>
+		  <if test="srcuid != null and srcuid!=0" >
+		  	and t.srcuid =  #{srcuid}
+		  </if>
+		  <if test="agentUserId != null and agentUserId != 0" >
+		  	and a.agent_user_id = #{agentUserId}
+		  </if>
+		  <if test="strategicPartnerId != null and strategicPartnerId != 0" >
+		  	and a.strategic_partner_id = #{strategicPartnerId}
+		  </if>
+		  <if test="extensionCenterId != null and extensionCenterId != 0" >
+		  	and a.extension_center_id = #{extensionCenterId}
+		  </if>
+		  <if test="promotersId != null and promotersId !=0" >
+		  	and a.promoters_id = #{promotersId}
+		  </if>
+		  <if test="salesmanId != null and salesmanId !=0" >
+		  	and a.salesman_id = #{salesmanId}
+		  </if>
+		   <if test="paytype and paytype !=''">
+		  	and t.paytype =  #{paytype} 
+		  </if>
+		  <if test="startTime and startTime !=''">
+			<![CDATA[ and t.paytime >=UNIX_TIMESTAMP(#{startTime})]]>     
+		  </if> 
+		  <if test="endTime and endTime !=''">
+			<![CDATA[ and t.paytime <=UNIX_TIMESTAMP(#{endTime})]]>     
+		  </if>
+	</select>
+	<select id="getPayOrderList" resultType="com.tinypig.newadmin.web.entity.PayOrderSta" parameterType="com.tinypig.newadmin.web.entity.PayOrderStaParam">
+		SELECT 
+			  t.order_id orderId,
+			  t.srcuid,
+			  t.amount,
+			  t.zhutou,
+			  t.creatAt,
+			   CASE WHEN t.creatAt = 0 THEN '' ELSE 
+			  FROM_UNIXTIME(t.creatAt,'%Y-%m-%d %H:%i:%s') END creatAtStr,
+			  t.paytime,
+			  CASE WHEN t.paytime = 0 THEN '' ELSE 
+			  FROM_UNIXTIME(t.paytime,'%Y-%m-%d %H:%i:%s') END paytimeStr,
+			  t.paytype,
+			  t.status,	  
+			  CASE WHEN t.status = 0 THEN '生成订单'
+			  WHEN t.status = 1 THEN '等待支付'
+			  WHEN t.status = 2 THEN '已支付'
+			  WHEN t.status = 3 THEN '取消'
+			  ELSE '' END statusStr,
+			  t.inpour_no inpourNo,
+			  t.data_type dataType,
+			  CASE WHEN t.data_type=1 THEN '真实数据'
+			  WHEN t.data_type=2 THEN '虚拟数据' 
+			  ELSE '' END  dataTypeStr,
+			  t.registtime,
+			  CASE WHEN t.registtime = 0 THEN '' ELSE 
+			  FROM_UNIXTIME(t.registtime,'%Y-%m-%d %H:%i:%s') END registtimeStr,
+			  a.nickname srcnickname,
+			  a.salesman_id salesmanId,
+			  a.salesman_name salesmanName,
+			  a.salesman_contacts_phone salesmanContactsPhone,
+			  a.agent_user_id agentUserId,
+			  a.agent_user_name agentUserName,
+			  a.agent_user_contacts_name agentUserContactsName,
+			  a.agent_user_contacts_phone agentUserContactsPhone,
+			  a.promoters_id promotersId,
+			  a.promoters_name promotersName,
+			  a.promoters_contacts_name promotersContactsName,
+			  a.promoters_contacts_phone promotersContactsPhone,
+			  a.extension_center_id extensionCenterId,
+			  a.extension_center_name extensionCenterName,
+			  a.extension_center_contacts_name extensionCenterContactsName,
+			  a.extension_center_contacts_phone extensionCenterContactsPhone,
+			  a.strategic_partner_id strategicPartnerId,
+			  a.strategic_partner_name strategicPartnerName,
+			  a.strategic_partner_contacts_name strategicPartnerContactsName,
+			  a.strategic_partner_contacts_phone strategicPartnerContactsPhone   
+			FROM
+			  zhu_pay.pay_order t,
+			  zhu_user.user_info a
+			WHERE  t.srcuid=a.uid AND  t.flag=1
+		  <if test="status != null" >
+		  	and t.status =  #{status}
+		  </if>
+		  <if test="dataType != null and dataType!=0" >
+		  	and t.data_type =  #{dataType}
+		  </if>
+		  <if test="srcuid != null and srcuid!=0" >
+		  	and t.srcuid =  #{srcuid}
+		  </if>
+		  <if test="agentUserId != null and agentUserId != 0" >
+		  	and a.agent_user_id = #{agentUserId}
+		  </if>
+		  <if test="strategicPartnerId != null and strategicPartnerId != 0" >
+		  	and a.strategic_partner_id = #{strategicPartnerId}
+		  </if>
+		  <if test="extensionCenterId != null and extensionCenterId != 0" >
+		  	and a.extension_center_id = #{extensionCenterId}
+		  </if>
+		  <if test="promotersId != null and promotersId !=0" >
+		  	and a.promoters_id = #{promotersId}
+		  </if>
+		  <if test="salesmanId != null and salesmanId !=0" >
+		  	and a.salesman_id = #{salesmanId}
+		  </if>
+		   <if test="paytype and paytype !=''">
+		  	and t.paytype =  #{paytype} 
+		  </if>
+		  <if test="startTime and startTime !=''">
+			<![CDATA[ and t.paytime >=UNIX_TIMESTAMP(#{startTime})]]>     
+		  </if> 
+		  <if test="endTime and endTime !=''">
+			<![CDATA[ and t.paytime <=UNIX_TIMESTAMP(#{endTime})]]>     
+		  </if>
+<!-- 		  <if test="sort != null and sort !=''" > -->
+<!-- 		  	 order by ${sort}  -->
+<!-- 			  <if test="order != null and order !=''" > -->
+<!-- 			  	 ${order} -->
+<!-- 			  </if> -->
+<!-- 		  </if> -->
+		order by t.paytime desc
+	</select>
+</mapper>

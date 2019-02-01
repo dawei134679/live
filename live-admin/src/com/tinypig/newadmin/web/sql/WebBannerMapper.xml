@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.WebBannerDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.WebBanner" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="picUrl" property="picurl" jdbcType="VARCHAR" />
+    <result column="jumpUrl" property="jumpurl" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="startShow" property="startshow" jdbcType="INTEGER" />
+    <result column="endShow" property="endshow" jdbcType="INTEGER" />
+    <result column="switch" property="swi" jdbcType="INTEGER" />
+    <result column="createAT" property="createat" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="platform" property="platform" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapVo" type="com.tinypig.newadmin.web.vo.WebBannerVo" extends="BaseResultMap">
+    <result column="startDate" property="startDate" jdbcType="VARCHAR" />
+    <result column="endDate" property="endDate" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, picUrl,webPicUrl,jumpUrl,anchorUid, sort, 
+    if(startShow>0,from_unixtime(startShow),'') AS startDate, 
+    if(endShow>0,from_unixtime(endShow),'') AS endDate, 
+    switch, createAT, name, type, platform,roomId
+  </sql>
+  <sql id="Base_Where_List">
+		<where>
+			<if test="name != null">AND name = #{name}</if>
+			<if test="type != null">AND type = #{type}</if>
+			<if test="swi != null and swi!=-1">AND switch = #{swi}</if>
+			<if test="startshow != null and endshow != null">
+		    <![CDATA[
+		    AND 
+		    (startShow >= #{startshow} AND endShow <= #{endshow})
+		    ]]>
+			
+			</if>
+		</where>
+	</sql>
+  <select id="selectCount" resultType="java.lang.Integer">
+        select 
+        	count(1) 
+        from 
+        	zhu_web.web_banner
+        <include refid="Base_Where_List" />
+    </select>
+  <select id="selectList" parameterType="com.tinypig.newadmin.web.vo.WebBannerVo" resultMap="BaseResultMapVo">
+    	select 
+    		<include refid="Base_Column_List" />
+    	from
+    		zhu_web.web_banner
+    	<include refid="Base_Where_List" />
+    	ORDER BY switch DESC,sort DESC	
+    	<if test="rowNumStart != null">
+    		<if test="pageSize != null">
+    			limit #{rowNumStart,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    		</if>
+    	</if>
+    </select>
+  <select id="selectADVList" parameterType="com.tinypig.newadmin.web.entity.WebBanner" resultMap="BaseResultMapVo">
+    	select 
+    		<include refid="Base_Column_List" />
+    	from
+    		zhu_web.web_banner
+    	where type = 0
+    	<if test="platform == 1" >
+        and platform in (1,3)
+      	</if>
+      	<if test="platform == 2" >
+        and platform in (2,3)
+      	</if>
+      	<if test="platform == 3" >
+        and platform in (1,2,3)
+      	</if>
+    	<![CDATA[
+    	and startShow <= #{startshow}
+		and endShow >= #{startshow}
+		]]>
+		<if test="id != null" >
+        and id != #{id}
+      	</if>
+      	UNION
+      	select 
+    		<include refid="Base_Column_List" />
+    	from
+    		zhu_web.web_banner
+    	where type = 0
+    	<if test="platform == 1" >
+        and platform in (1,3)
+      	</if>
+      	<if test="platform == 2" >
+        and platform in (2,3)
+      	</if>
+      	<if test="platform == 3" >
+        and platform in (1,2,3)
+      	</if>
+    	<![CDATA[
+    	and startShow <= #{endshow}
+		and endShow >= #{endshow}
+		]]>
+		<if test="id != null" >
+        and id != #{id}
+      	</if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMapVo" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_web.web_banner
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zhu_web.web_banner
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.vo.WebBannerVo"  useGeneratedKeys="true" keyProperty="id">
+    insert into zhu_web.web_banner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="picurl != null" >
+        picUrl,
+      </if>
+      <if test="jumpurl != null" >
+        jumpUrl,
+      </if>
+      <if test="roomId != null" >
+        roomId,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="startshow != null" >
+        startShow,
+      </if>
+      <if test="endshow != null" >
+        endShow,
+      </if>
+      <if test="swi != null" >
+        switch,
+      </if>
+      <if test="createat != null" >
+        createAT,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="platform != null" >
+        platform,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="picurl != null" >
+        #{picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="jumpurl != null" >
+        #{jumpurl,jdbcType=VARCHAR},
+      </if>
+      <if test="roomId != null" >
+        #{roomId,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="startshow != null" >
+        #{startshow},
+      </if>
+      <if test="endshow != null" >
+        #{endshow},
+      </if>
+      <if test="swi != null" >
+        #{swi,jdbcType=INTEGER},
+      </if>
+      <if test="createat != null" >
+        #{createat,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="platform != null" >
+        #{platform,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.vo.WebBannerVo" >
+    update zhu_web.web_banner
+    <set >
+      <if test="picurl != null" >
+        picUrl = #{picurl,jdbcType=VARCHAR},
+      </if>
+      <if test="webPicUrl != null" >
+        webPicUrl = #{webPicUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="jumpurl != null" >
+        jumpUrl = #{jumpurl,jdbcType=VARCHAR},
+      </if>
+      <if test="anchorUid != null" >
+        anchorUid = #{anchorUid,jdbcType=INTEGER},
+      </if>
+      <if test="roomId != null" >
+        roomId = #{roomId,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="startshow != null" >
+        startShow = #{startshow},
+      </if>
+      <if test="endshow != null" >
+        endShow = #{endshow},
+      </if>
+      <if test="swi != null" >
+        switch = #{swi,jdbcType=INTEGER},
+      </if>
+      <if test="createat != null" >
+        createAT = #{createat,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="platform != null" >
+        platform = #{platform,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

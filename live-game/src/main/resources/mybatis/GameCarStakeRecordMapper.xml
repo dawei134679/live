@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hkzb.game.dao.GameCarStakeRecordMapper">
+  <resultMap id="BaseResultMap" type="com.hkzb.game.model.GameCarStakeRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="room_id" jdbcType="BIGINT" property="roomId" />
+    <result column="anchor_id" jdbcType="BIGINT" property="anchorId" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="car_id" jdbcType="BIGINT" property="carId" />
+    <result column="money" jdbcType="BIGINT" property="money" />
+    <result column="stake_time" jdbcType="BIGINT" property="stakeTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="ref_id" jdbcType="BIGINT" property="refId" />
+    <result column="awarded_money" jdbcType="BIGINT" property="awardedMoney" />
+    <result column="deserved_money" jdbcType="BIGINT" property="deservedMoney" />
+    <result column="commission" jdbcType="BIGINT" property="commission" />
+    <result column="commission_rate" jdbcType="DOUBLE" property="commissionRate" />
+     <result column="multiple" jdbcType="DOUBLE" property="multiple" />
+  </resultMap>
+  <resultMap id="BaseResultMap1" type="com.hkzb.game.dto.GameCarStakeRecordDto">
+		<result column="car_id" property="carId" jdbcType="VARCHAR" />
+		<result column="img" property="img" jdbcType="VARCHAR" />
+		<result column="money" property="money" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="periods" property="periods" jdbcType="BIGINT" />
+	</resultMap>
+   <sql id="Base_Column_List" >
+    id, room_id, anchor_id, uid, car_id, money, stake_time, status, ref_id, awarded_money, 
+    deserved_money, commission, commission_rate,multiple
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from game_car_stake_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from game_car_stake_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hkzb.game.model.GameCarStakeRecord" >
+    insert into game_car_stake_record (id, room_id, anchor_id, 
+      uid, car_id, money, stake_time, 
+      status, ref_id, awarded_money, 
+      deserved_money, commission, commission_rate,multiple
+      )
+    values (#{id,jdbcType=BIGINT}, #{roomId,jdbcType=BIGINT}, #{anchorId,jdbcType=BIGINT}, 
+      #{uid,jdbcType=BIGINT}, #{carId,jdbcType=BIGINT}, #{money,jdbcType=BIGINT}, #{stakeTime,jdbcType=BIGINT}, 
+      #{status,jdbcType=TINYINT}, #{refId,jdbcType=BIGINT}, #{awardedMoney,jdbcType=BIGINT}, 
+      #{deservedMoney,jdbcType=BIGINT}, #{commission,jdbcType=BIGINT}, #{commissionRate,jdbcType=DOUBLE},
+      #{multiple,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hkzb.game.model.GameCarStakeRecord" 
+  			useGeneratedKeys="true" keyProperty="id">
+    insert into game_car_stake_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roomId != null" >
+        room_id,
+      </if>
+      <if test="anchorId != null" >
+        anchor_id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="carId != null" >
+        car_id,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="stakeTime != null" >
+        stake_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="refId != null" >
+        ref_id,
+      </if>
+      <if test="awardedMoney != null" >
+        awarded_money,
+      </if>
+      <if test="deservedMoney != null" >
+        deserved_money,
+      </if>
+      <if test="commission != null" >
+        commission,
+      </if>
+      <if test="commissionRate != null" >
+        commission_rate,
+      </if>
+      <if test="multiple != null" >
+        multiple,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="roomId != null" >
+        #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="anchorId != null" >
+        #{anchorId,jdbcType=BIGINT},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="carId != null" >
+        #{carId,jdbcType=BIGINT},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=BIGINT},
+      </if>
+      <if test="stakeTime != null" >
+        #{stakeTime,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="refId != null" >
+        #{refId,jdbcType=BIGINT},
+      </if>
+      <if test="awardedMoney != null" >
+        #{awardedMoney,jdbcType=BIGINT},
+      </if>
+      <if test="deservedMoney != null" >
+        #{deservedMoney,jdbcType=BIGINT},
+      </if>
+      <if test="commission != null" >
+        #{commission,jdbcType=BIGINT},
+      </if>
+      <if test="commissionRate != null" >
+        #{commissionRate,jdbcType=DOUBLE},
+      </if>
+      <if test="multiple != null" >
+        #{multiple,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hkzb.game.model.GameCarStakeRecord" >
+    update game_car_stake_record
+    <set >
+      <if test="roomId != null" >
+        room_id = #{roomId,jdbcType=BIGINT},
+      </if>
+      <if test="anchorId != null" >
+        anchor_id = #{anchorId,jdbcType=BIGINT},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="carId != null" >
+        car_id = #{carId,jdbcType=BIGINT},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=BIGINT},
+      </if>
+      <if test="stakeTime != null" >
+        stake_time = #{stakeTime,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="refId != null" >
+        ref_id = #{refId,jdbcType=BIGINT},
+      </if>
+      <if test="awardedMoney != null" >
+        awarded_money = #{awardedMoney,jdbcType=BIGINT},
+      </if>
+      <if test="deservedMoney != null" >
+        deserved_money = #{deservedMoney,jdbcType=BIGINT},
+      </if>
+      <if test="commission != null" >
+        commission = #{commission,jdbcType=BIGINT},
+      </if>
+      <if test="commissionRate != null" >
+        commission_rate = #{commissionRate,jdbcType=DOUBLE},
+      </if>
+      <if test="multiple != null" >
+        multiple = #{multiple,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+   <update id="updateByPrimaryKeyAndStakeTimeSelective">
+    update game_car_stake_record
+    <set >
+      <if test="record.roomId != null" >
+        room_id = #{record.roomId,jdbcType=BIGINT},
+      </if>
+      <if test="record.anchorId != null" >
+        anchor_id = #{record.anchorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.carId != null" >
+        car_id = #{record.carId,jdbcType=BIGINT},
+      </if>
+      <if test="record.money != null" >
+        money = #{record.money,jdbcType=BIGINT},
+      </if>
+      <if test="record.stakeTime != null" >
+        stake_time = #{record.stakeTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.refId != null" >
+        ref_id = #{record.refId,jdbcType=BIGINT},
+      </if>
+      <if test="record.awardedMoney != null" >
+        awarded_money = #{record.awardedMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.deservedMoney != null" >
+        deserved_money = #{record.deservedMoney,jdbcType=BIGINT},
+      </if>
+      <if test="record.commission != null" >
+        commission = #{record.commission,jdbcType=BIGINT},
+      </if>
+      <if test="record.commissionRate != null" >
+        commission_rate = #{record.commissionRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.multiple != null" >
+        multiple = #{record.multiple,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{record.id,jdbcType=BIGINT} and stake_time = #{oldStakeTime,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.hkzb.game.model.GameCarStakeRecord" >
+    update game_car_stake_record
+    set room_id = #{roomId,jdbcType=BIGINT},
+      anchor_id = #{anchorId,jdbcType=BIGINT},
+      uid = #{uid,jdbcType=BIGINT},
+      car_id = #{carId,jdbcType=BIGINT},
+      money = #{money,jdbcType=BIGINT},
+      stake_time = #{stakeTime,jdbcType=BIGINT},
+      status = #{status,jdbcType=TINYINT},
+      ref_id = #{refId,jdbcType=BIGINT},
+      awarded_money = #{awardedMoney,jdbcType=BIGINT},
+      deserved_money = #{deservedMoney,jdbcType=BIGINT},
+      commission = #{commission,jdbcType=BIGINT},
+      commission_rate = #{commissionRate,jdbcType=DOUBLE},
+      multiple = #{multiple,jdbcType=DOUBLE},
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateBatchByPrimaryKey" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			update game_car_stake_record
+			<set>
+				status = ${item.status},
+				awarded_money = ${item.awardedMoney},
+			    deserved_money = ${item.deservedMoney},
+			    commission = ${item.commission},
+			    commission_rate = ${item.commissionRate},
+			    multiple = ${item.multiple}
+			</set>
+			where id = ${item.id}
+		</foreach>
+	</update>
+	
+	<select id="getStakeRecord" resultMap="BaseResultMap1" parameterType="com.hkzb.game.dto.StakeRecordParamDto">
+		select 
+		 GROUP_CONCAT(s.car_id) car_id,GROUP_CONCAT(img) img, 
+		 GROUP_CONCAT(money) money, GROUP_CONCAT(s.status) status, periods 
+		FROM game_car_stake_record s,game_car_config c,game_car_record r 
+		WHERE s.ref_id=r.id AND s.car_id=c.id
+		AND uid = #{uid,jdbcType=BIGINT}
+		GROUP BY periods
+		ORDER BY periods DESC
+		limit  ${(pageNo-1)*pageSize}, ${pageSize}
+	</select>
+	
+	<select id="getStakeRecordByParam" resultMap="BaseResultMap" parameterType="com.hkzb.game.model.GameCarStakeRecord">
+		select 
+			<include refid="Base_Column_List" />
+		from game_car_stake_record
+		where anchor_id = #{anchorId,jdbcType=BIGINT}
+		and uid = #{uid,jdbcType=BIGINT} and car_id = #{carId,jdbcType=BIGINT} 
+		and ref_id = #{refId,jdbcType=BIGINT} and status=1
+	</select>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hkzb.game.dao.UserTransactionHisMapper" >
+  <resultMap id="BaseResultMap" type="com.hkzb.game.model.UserTransactionHis" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="trans_type" property="transType" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DOUBLE" />
+    <result column="money" property="money" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="ref_id" property="refId" jdbcType="VARCHAR" />
+    <result column="data_type" property="dataType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, trans_type, uid, amount, money, create_time, ref_id, data_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_bill.user_transaction_his
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from zhu_bill.user_transaction_his
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hkzb.game.model.UserTransactionHis" >
+    insert into zhu_bill.user_transaction_his (id, trans_type, uid, 
+      amount, money, create_time, 
+      ref_id, data_type)
+    values (#{id,jdbcType=BIGINT}, #{transType,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
+      #{amount,jdbcType=DOUBLE}, #{money,jdbcType=BIGINT}, #{createTime,jdbcType=BIGINT}, 
+      #{refId,jdbcType=VARCHAR}, #{dataType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hkzb.game.model.UserTransactionHis" >
+    insert into zhu_bill.user_transaction_his
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="transType != null" >
+        trans_type,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="refId != null" >
+        ref_id,
+      </if>
+      <if test="dataType != null" >
+        data_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="transType != null" >
+        #{transType,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="refId != null" >
+        #{refId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        #{dataType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hkzb.game.model.UserTransactionHis" >
+    update zhu_bill.user_transaction_his
+    <set >
+      <if test="transType != null" >
+        trans_type = #{transType,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="refId != null" >
+        ref_id = #{refId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        data_type = #{dataType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hkzb.game.model.UserTransactionHis" >
+    update zhu_bill.user_transaction_his
+    set trans_type = #{transType,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DOUBLE},
+      money = #{money,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      ref_id = #{refId,jdbcType=VARCHAR},
+      data_type = #{dataType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

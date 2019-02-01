@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tinypig.newadmin.web.dao.ReportFeedDao" >
+  <resultMap id="BaseResultMap" type="com.tinypig.newadmin.web.entity.ReportFeed" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="report_uid" property="reportUid" jdbcType="INTEGER" />
+    <result column="report_fid" property="reportFid" jdbcType="INTEGER" />
+    <result column="report_num" property="reportNum" jdbcType="INTEGER" />
+    <result column="createAt" property="createAt" jdbcType="INTEGER" />
+    <result column="updateAt" property="updateAt" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, report_uid, report_fid, report_num, createAt, updateAt, status
+  </sql>
+  <select id="pageList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from zhu_admin.report_feed t
+		<where>
+			<if test="status!=null and status!=-1">
+				t.status=#{status}
+			</if>
+			<if test="startDate!=null and startDate!=''">
+				<![CDATA[ and t.createAt >=UNIX_TIMESTAMP(#{startDate})]]>     
+			</if> 
+			<if test="endDate!=null and endDate!=''">
+				<![CDATA[ and t.createAt <=UNIX_TIMESTAMP(CONCAT(#{endDate},' 23:59:59'))]]>     
+			</if>
+		</where>
+		order by t.createAt limit #{startIndex},#{pageSize}
+	</select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zhu_admin.report_feed
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zhu_admin.report_feed
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.tinypig.newadmin.web.entity.ReportFeed" >
+    insert into zhu_admin.report_feed (id, report_uid, report_fid, 
+      report_num, createAt, updateAt, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{reportUid,jdbcType=INTEGER}, #{reportFid,jdbcType=INTEGER}, 
+      #{reportNum,jdbcType=INTEGER}, #{createAt,jdbcType=INTEGER}, #{updateAt,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tinypig.newadmin.web.entity.ReportFeed" >
+    insert into zhu_admin.report_feed
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reportUid != null" >
+        report_uid,
+      </if>
+      <if test="reportFid != null" >
+        report_fid,
+      </if>
+      <if test="reportNum != null" >
+        report_num,
+      </if>
+      <if test="createAt != null" >
+        createAt,
+      </if>
+      <if test="updateAt != null" >
+        updateAt,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="reportUid != null" >
+        #{reportUid,jdbcType=INTEGER},
+      </if>
+      <if test="reportFid != null" >
+        #{reportFid,jdbcType=INTEGER},
+      </if>
+      <if test="reportNum != null" >
+        #{reportNum,jdbcType=INTEGER},
+      </if>
+      <if test="createAt != null" >
+        #{createAt,jdbcType=INTEGER},
+      </if>
+      <if test="updateAt != null" >
+        #{updateAt,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tinypig.newadmin.web.entity.ReportFeed" >
+    update zhu_admin.report_feed
+    <set >
+      <if test="reportUid != null" >
+        report_uid = #{reportUid,jdbcType=INTEGER},
+      </if>
+      <if test="reportFid != null" >
+        report_fid = #{reportFid,jdbcType=INTEGER},
+      </if>
+      <if test="reportNum != null" >
+        report_num = #{reportNum,jdbcType=INTEGER},
+      </if>
+      <if test="createAt != null" >
+        createAt = #{createAt,jdbcType=INTEGER},
+      </if>
+      <if test="updateAt != null" >
+        updateAt = #{updateAt,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tinypig.newadmin.web.entity.ReportFeed" >
+    update zhu_admin.report_feed
+    set report_uid = #{reportUid,jdbcType=INTEGER},
+      report_fid = #{reportFid,jdbcType=INTEGER},
+      report_num = #{reportNum,jdbcType=INTEGER},
+      createAt = #{createAt,jdbcType=INTEGER},
+      updateAt = #{updateAt,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
